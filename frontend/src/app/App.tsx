@@ -1,48 +1,159 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { DecisionSandbox } from './components/DecisionSandbox';
 import { ImpactPanel } from './components/ImpactPanel';
 import { SuccessTwinPanel } from './components/SuccessTwinPanel';
+import {
+  fetchCrises,
+  simulate,
+  fetchTwin,
+  createMemo,
+  type Crisis,
+  type SimulationResult,
+  type TwinResult,
+  type MemoResponse,
+  type ScenarioPayload,
+} from '../lib/api';
+
+// Default project ID for Success Twin (from projects.parquet)
+const DEFAULT_PROJECT_ID = 'PRJ001';
 
 export default function App() {
-  const [crisisRegion, setCrisisRegion] = useState('somalia-drought-2024');
-  const [healthFunding, setHealthFunding] = useState(5000000);
-  const [washFunding, setWashFunding] = useState(3000000);
+  const [crises, setCrises] = useState<Crisis[]>([]);
+  const [selectedCrisisId, setSelectedCrisisId] = useState<string | null>(null);
+  const [healthDelta, setHealthDelta] = useState(0);
+  const [washDelta, setWashDelta] = useState(0);
   const [inflationShock, setInflationShock] = useState(8);
   const [droughtShock, setDroughtShock] = useState(false);
   const [conflictIntensity, setConflictIntensity] = useState(0.3);
   const [whatIfText, setWhatIfText] = useState('');
-  const [scenarioRun, setScenarioRun] = useState(false);
 
-  const handleRunScenario = () => {
-    setScenarioRun(true);
-    // In a real app, this would trigger API calls and data updates
+  const [simulationResult, setSimulationResult] = useState<SimulationResult | null>(null);
+  const [simulationLoading, setSimulationLoading] = useState(false);
+  const [simulationError, setSimulationError] = useState<string | null>(null);
+
+  const [twinResult, setTwinResult] = useState<TwinResult | null>(null);
+  const [twinLoading, setTwinLoading] = useState(false);
+  const [twinError, setTwinError] = useState<string | null>(null);
+
+  const [memoResult, setMemoResult] = useState<MemoResponse | null>(null);
+  const [memoLoading, setMemoLoading] = useState(false);
+  const [memoError, setMemoError] = useState<string | null>(null);
+
+  // Fetch crises on mount
+  useEffect(() => {
+    fetchCrises()
+      .then((data) => {
+        setCrises(data);
+        if (data.length > 0 && !selectedCrisisId) {
+          setSelectedCrisisId(data[0].id);
+        }
+      })
+      .catch((err) => {
+        console.error('Failed to fetch crises:', err);
+        setCrises([]);
+      });
+  }, []);
+
+  const selectedCrisis = crises.find((c) => c.id === selectedCrisisId);
+
+  const handleRunScenario = async () => {
+    if (!selectedCrisisId) return;
+    setSimulationLoading(true);
+    setSimulationError(null);
+    try {
+      const payload: ScenarioPayload = {
+        crisis_id: selectedCrisisId,
+        funding_changes: [
+          { sector: 'Health', delta_usd: healthDelta },
+          { sector: 'WASH', delta_usd: washDelta },
+        ],
+        shock: {
+          inflation_pct: inflationShock,
+          drought: droughtShock,
+          conflict_intensity: conflictIntensity,
+        },
+        what_if_text: whatIfText || undefined,
+      };
+      const result = await simulate(selectedCrisisId, payload);
+      setSimulationResult(result);
+    } catch (err) {
+      setSimulationError(err instanceof Error ? err.message : 'Simulation failed');
+      setSimulationResult(null);
+    } finally {
+      setSimulationLoading(false);
+    }
+  };
+
+  const handleFindTwin = async () => {
+    setTwinLoading(true);
+    setTwinError(null);
+    try {
+      const result = await fetchTwin(DEFAULT_PROJECT_ID);
+      setTwinResult(result);
+    } catch (err) {
+      setTwinError(err instanceof Error ? err.message : 'Failed to find twin');
+      setTwinResult(null);
+    } finally {
+      setTwinLoading(false);
+    }
+  };
+
+  const handleGenerateMemo = async () => {
+    if (!selectedCrisisId || !simulationResult) return;
+    setMemoLoading(true);
+    setMemoError(null);
+    try {
+      const payload = {
+        crisis_id: selectedCrisisId,
+        simulation: simulationResult,
+        scenario: {
+          crisis_id: selectedCrisisId,
+          funding_changes: [
+            { sector: 'Health', delta_usd: healthDelta },
+            { sector: 'WASH', delta_usd: washDelta },
+          ],
+          shock: {
+            inflation_pct: inflationShock,
+            drought: droughtShock,
+            conflict_intensity: conflictIntensity,
+          },
+          what_if_text: whatIfText || undefined,
+        },
+        twin: twinResult || undefined,
+      };
+      const result = await createMemo(payload);
+      setMemoResult(result);
+    } catch (err) {
+      setMemoError(err instanceof Error ? err.message : 'Failed to generate memo');
+      setMemoResult(null);
+    } finally {
+      setMemoLoading(false);
+    }
   };
 
   return (
     <div className="size-full bg-[#0a0e1a] text-gray-100 flex flex-col overflow-hidden">
       {/* Top Navigation */}
-      <nav className="h-14 bg-[#0f1421] border-b border-gray-800 flex items-center justify-between px-6">
+      <nav className="h-14 bg-[#0f1421] border-b border-gray-800 flex items-center justify-between px-6 shrink-0">
         <div className="text-xl tracking-tight">
           <span className="text-teal-400">Aid</span>
           <span className="text-gray-100">Sight</span>
           <span className="text-gray-500 ml-2 text-sm">Strategy Sandbox</span>
         </div>
-        <button className="text-sm text-gray-400 hover:text-gray-200 transition-colors">
-          Scenario History
-        </button>
       </nav>
 
       {/* Main Content - Three Panels */}
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex-1 flex overflow-hidden min-h-0">
         {/* Left Panel - Decision Sandbox */}
-        <div className="w-[25%] bg-[#0f1421] border-r border-gray-800 overflow-y-auto">
+        <div className="w-[25%] bg-[#0f1421] border-r border-gray-800 overflow-y-auto shrink-0">
           <DecisionSandbox
-            crisisRegion={crisisRegion}
-            setCrisisRegion={setCrisisRegion}
-            healthFunding={healthFunding}
-            setHealthFunding={setHealthFunding}
-            washFunding={washFunding}
-            setWashFunding={setWashFunding}
+            crises={crises}
+            selectedCrisisId={selectedCrisisId}
+            setSelectedCrisisId={setSelectedCrisisId}
+            healthDelta={healthDelta}
+            setHealthDelta={setHealthDelta}
+            washDelta={washDelta}
+            setWashDelta={setWashDelta}
             inflationShock={inflationShock}
             setInflationShock={setInflationShock}
             droughtShock={droughtShock}
@@ -52,27 +163,32 @@ export default function App() {
             whatIfText={whatIfText}
             setWhatIfText={setWhatIfText}
             onRunScenario={handleRunScenario}
+            simulationLoading={simulationLoading}
+            simulationError={simulationError}
           />
         </div>
 
         {/* Center Panel - Impact & Fragility */}
-        <div className="w-[45%] bg-[#0a0e1a] overflow-y-auto">
+        <div className="w-[45%] bg-[#0a0e1a] overflow-y-auto shrink-0">
           <ImpactPanel
-            scenarioRun={scenarioRun}
-            healthFunding={healthFunding}
-            washFunding={washFunding}
-            inflationShock={inflationShock}
-            droughtShock={droughtShock}
-            conflictIntensity={conflictIntensity}
+            selectedCrisis={selectedCrisis}
+            simulationResult={simulationResult}
+            simulationLoading={simulationLoading}
           />
         </div>
 
         {/* Right Panel - Success Twin & Contrarian Memo */}
-        <div className="w-[30%] bg-[#0f1421] border-l border-gray-800 overflow-y-auto">
+        <div className="w-[30%] bg-[#0f1421] border-l border-gray-800 overflow-y-auto shrink-0">
           <SuccessTwinPanel
-            scenarioRun={scenarioRun}
-            inflationShock={inflationShock}
-            droughtShock={droughtShock}
+            twinResult={twinResult}
+            twinLoading={twinLoading}
+            twinError={twinError}
+            onFindTwin={handleFindTwin}
+            memoResult={memoResult}
+            memoLoading={memoLoading}
+            memoError={memoError}
+            onGenerateMemo={handleGenerateMemo}
+            canGenerateMemo={!!simulationResult}
           />
         </div>
       </div>

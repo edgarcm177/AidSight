@@ -36,7 +36,6 @@ def build_contrarian_memo(
 ) -> Dict[str, Any]:
     """
     Build contrarian memo with TTC, equity, and data-driven key_risks.
-
     Expects simulation with metrics: baseline_ttc_days, scenario_ttc_days,
     baseline_equity_shift_pct, scenario_equity_shift_pct.
     Optional scenario for inflation check; optional twin for Success Twin reference.

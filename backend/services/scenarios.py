@@ -4,7 +4,7 @@ import pandas as pd
 
 
 def _safe_coverage(val: float) -> float:
-    """Ensure coverage in [0, 1]; NaN/Inf → 0."""
+    """Ensure coverage is in [0, 1]; NaN/Inf → 0."""
     if val is None or (isinstance(val, float) and (math.isnan(val) or math.isinf(val))):
         return 0.0
     v = float(val)
@@ -19,22 +19,18 @@ def apply_scenario_to_crisis(
     Apply funding changes and shocks to a single crisis row.
     Returns a modified copy with updated funding_received, coverage, and severity.
 
-    Expects row with: funding_required, funding_received, coverage, severity.
-    Transforms:
-      1. funding_received += sum(delta_usd) from funding_changes
-      2. coverage = funding_received / funding_required (0 if denom ≤ 0), clipped
-      3. Inflation: coverage -= inflation_pct/200
-      4. Drought: severity *= 1.1 (cap at 5.0)
-      5. Conflict: coverage -= 0.2 * conflict_intensity
+    Order: 1) Apply funding deltas, 2) Recompute coverage from funding,
+    3) Apply inflation/conflict/drought to coverage.
     """
     row = crisis_row.copy()
 
     shock = scenario_input.get("shock", {})
     funding_changes = scenario_input.get("funding_changes", [])
 
-    # 1. Apply funding deltas (funding_required unchanged)
+    # 1. Apply funding deltas to funding_received
     delta_total = sum(fc.get("delta_usd", 0.0) for fc in funding_changes)
     row["funding_received"] = float(row.get("funding_received", 0.0)) + delta_total
+    row["funding_received"] = max(0.0, row["funding_received"])
 
     # 2. Recompute coverage from funding_received / funding_required
     funding_required = float(row.get("funding_required", 0.0))

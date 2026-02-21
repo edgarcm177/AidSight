@@ -1,12 +1,14 @@
 import { ChevronDown } from 'lucide-react';
+import type { Crisis } from '../../lib/api';
 
 interface DecisionSandboxProps {
-  crisisRegion: string;
-  setCrisisRegion: (value: string) => void;
-  healthFunding: number;
-  setHealthFunding: (value: number) => void;
-  washFunding: number;
-  setWashFunding: (value: number) => void;
+  crises: Crisis[];
+  selectedCrisisId: string | null;
+  setSelectedCrisisId: (id: string) => void;
+  healthDelta: number;
+  setHealthDelta: (value: number) => void;
+  washDelta: number;
+  setWashDelta: (value: number) => void;
   inflationShock: number;
   setInflationShock: (value: number) => void;
   droughtShock: boolean;
@@ -16,15 +18,18 @@ interface DecisionSandboxProps {
   whatIfText: string;
   setWhatIfText: (value: string) => void;
   onRunScenario: () => void;
+  simulationLoading: boolean;
+  simulationError: string | null;
 }
 
 export function DecisionSandbox({
-  crisisRegion,
-  setCrisisRegion,
-  healthFunding,
-  setHealthFunding,
-  washFunding,
-  setWashFunding,
+  crises,
+  selectedCrisisId,
+  setSelectedCrisisId,
+  healthDelta,
+  setHealthDelta,
+  washDelta,
+  setWashDelta,
   inflationShock,
   setInflationShock,
   droughtShock,
@@ -34,6 +39,8 @@ export function DecisionSandbox({
   whatIfText,
   setWhatIfText,
   onRunScenario,
+  simulationLoading,
+  simulationError,
 }: DecisionSandboxProps) {
   return (
     <div className="p-6">
@@ -44,52 +51,61 @@ export function DecisionSandbox({
         <h2 className="text-xs uppercase tracking-wider text-gray-500 mb-3">Crisis Selection</h2>
         <div className="relative">
           <select
-            value={crisisRegion}
-            onChange={(e) => setCrisisRegion(e.target.value)}
-            className="w-full bg-[#1a1f2e] border border-gray-700 rounded px-3 py-2.5 text-sm text-gray-200 appearance-none cursor-pointer hover:border-gray-600 transition-colors focus:outline-none focus:border-teal-500"
+            value={selectedCrisisId ?? ''}
+            onChange={(e) => setSelectedCrisisId(e.target.value)}
+            disabled={crises.length === 0}
+            className="w-full bg-[#1a1f2e] border border-gray-700 rounded px-3 py-2.5 text-sm text-gray-200 appearance-none cursor-pointer hover:border-gray-600 transition-colors focus:outline-none focus:border-teal-500 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <option value="somalia-drought-2024">Somalia Drought Crisis 2024</option>
-            <option value="sudan-conflict-2024">Sudan Conflict Zone 2024</option>
-            <option value="afghanistan-winter-2024">Afghanistan Winter Emergency 2024</option>
-            <option value="yemen-cholera-2024">Yemen Cholera Outbreak 2024</option>
-            <option value="ethiopia-tigray-2024">Ethiopia Tigray Region 2024</option>
+            {crises.length === 0 ? (
+              <option value="">Loading crises...</option>
+            ) : (
+              crises.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name} ({c.country} {c.year})
+                </option>
+              ))
+            )}
           </select>
           <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
         </div>
       </section>
 
-      {/* Funding Changes */}
+      {/* Funding Changes (deltas in USD) */}
       <section className="mb-8">
-        <h2 className="text-xs uppercase tracking-wider text-gray-500 mb-4">Funding Changes</h2>
-        
+        <h2 className="text-xs uppercase tracking-wider text-gray-500 mb-4">Funding Changes (Δ USD)</h2>
         <div className="mb-5">
           <div className="flex justify-between items-center mb-2">
-            <label className="text-sm text-gray-300">Health funding Δ (USD)</label>
-            <span className="text-sm text-teal-400 font-mono">${(healthFunding / 1000000).toFixed(1)}M</span>
+            <label className="text-sm text-gray-300">Health Δ (USD)</label>
+            <span className="text-sm text-teal-400 font-mono">
+              {healthDelta >= 0 ? '+' : ''}
+              {(healthDelta / 1_000_000).toFixed(1)}M
+            </span>
           </div>
           <input
             type="range"
-            min="0"
-            max="20000000"
-            step="500000"
-            value={healthFunding}
-            onChange={(e) => setHealthFunding(Number(e.target.value))}
+            min="-10000000"
+            max="10000000"
+            step="250000"
+            value={healthDelta}
+            onChange={(e) => setHealthDelta(Number(e.target.value))}
             className="w-full h-1.5 bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
           />
         </div>
-
         <div>
           <div className="flex justify-between items-center mb-2">
-            <label className="text-sm text-gray-300">WASH funding Δ (USD)</label>
-            <span className="text-sm text-teal-400 font-mono">${(washFunding / 1000000).toFixed(1)}M</span>
+            <label className="text-sm text-gray-300">WASH Δ (USD)</label>
+            <span className="text-sm text-teal-400 font-mono">
+              {washDelta >= 0 ? '+' : ''}
+              {(washDelta / 1_000_000).toFixed(1)}M
+            </span>
           </div>
           <input
             type="range"
-            min="0"
-            max="15000000"
-            step="500000"
-            value={washFunding}
-            onChange={(e) => setWashFunding(Number(e.target.value))}
+            min="-10000000"
+            max="10000000"
+            step="250000"
+            value={washDelta}
+            onChange={(e) => setWashDelta(Number(e.target.value))}
             className="w-full h-1.5 bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
           />
         </div>
@@ -98,7 +114,6 @@ export function DecisionSandbox({
       {/* Shocks */}
       <section className="mb-8">
         <h2 className="text-xs uppercase tracking-wider text-gray-500 mb-4">Shocks</h2>
-        
         <div className="mb-5">
           <div className="flex justify-between items-center mb-2">
             <label className="text-sm text-gray-300">Inflation shock (%)</label>
@@ -114,7 +129,6 @@ export function DecisionSandbox({
             className="w-full h-1.5 bg-gray-700 rounded-lg appearance-none cursor-pointer slider"
           />
         </div>
-
         <div className="mb-5">
           <div className="flex justify-between items-center">
             <label className="text-sm text-gray-300">Drought shock</label>
@@ -132,7 +146,6 @@ export function DecisionSandbox({
             </button>
           </div>
         </div>
-
         <div>
           <div className="flex justify-between items-center mb-2">
             <label className="text-sm text-gray-300">Conflict intensity</label>
@@ -161,12 +174,20 @@ export function DecisionSandbox({
         />
       </section>
 
+      {/* Error */}
+      {simulationError && (
+        <div className="mb-4 p-3 bg-red-900/30 border border-red-700 rounded text-sm text-red-300">
+          {simulationError}
+        </div>
+      )}
+
       {/* Run Scenario Button */}
       <button
         onClick={onRunScenario}
-        className="w-full bg-teal-600 hover:bg-teal-500 text-white py-3 rounded text-sm tracking-wide transition-colors"
+        disabled={!selectedCrisisId || simulationLoading}
+        className="w-full bg-teal-600 hover:bg-teal-500 disabled:opacity-50 disabled:cursor-not-allowed text-white py-3 rounded text-sm tracking-wide transition-colors"
       >
-        Run Scenario
+        {simulationLoading ? 'Running...' : 'Run Scenario'}
       </button>
 
       <style>{`

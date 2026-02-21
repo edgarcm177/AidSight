@@ -8,16 +8,10 @@ Raw crisis input:
 
 Output (crises.parquet) key fields:
   - id, name, country, region, severity, people_in_need, funding_required, funding_received,
-    coverage, year, population, is_overlooked, funding_missing, population_missing
-
-Imputation philosophy:
-  - Minimal but explicit: we prefer 0 with boolean flags over dropping rows.
-  - funding_received: 0 when funding_per_capita missing (flag: funding_missing).
-  - population: median impute when missing (flag: population_missing).
-  - coverage: always in [0, 1]; 0 when funding_required <= 0; never NaN in output.
-  - Drop only clearly unusable rows: no ID, no country, no people_in_need.
+    coverage, year, population, is_overlooked
 
 Run from repo root: python scripts/preprocess.py
+
 """
 
 import logging
@@ -41,11 +35,6 @@ PROJECTS_SAMPLE_CSV = RAW_DIR / "projects_sample.csv"
 CRISES_PARQUET = DATA_DIR / "crises.parquet"
 PROJECTS_PARQUET = DATA_DIR / "projects.parquet"
 
-# Columns core for TTC/Equity: must have no nulls after cleaning
-CORE_COLUMNS = ["people_in_need", "funding_required", "funding_received", "coverage"]
-# Columns desirable: may be imputed; track with _missing flags
-OPTIONAL_COLUMNS = ["population"]
-
 logging.basicConfig(level=logging.INFO, stream=sys.stdout, format="%(message)s")
 log = logging.getLogger(__name__)
 
@@ -58,49 +47,13 @@ def _coerce_numeric(series: pd.Series) -> pd.Series:
     )
 
 
-def _print_null_profile(df: pd.DataFrame, label: str = "Raw CSV") -> None:
-    """Print null rates for key columns. Used for inspection."""
-    key_cols = [
-        "Country_ISO3",
-        "Description",
-        "code",
-        "In_Need",
-        "Population",
-        "origRequirements",
-        "revisedRequirements",
-        "funding_per_capita",
-    ]
-    year_col = "years" if "years" in df.columns else "year"
-    if year_col in df.columns:
-        key_cols.append(year_col)
-    available = [c for c in key_cols if c in df.columns]
-    if not available:
-        return
-    rates = df[available].isna().mean()
-    log.info(f"Null profile ({label}, n={len(df)}):")
-    for c in available:
-        log.info(f"  {c}: {rates[c]:.1%}")
-    # Summary comment: core vs incomplete
-    # Core for TTC/Equity: In_Need, funding (orig/revised), funding_per_capita, Population
-    # Most incomplete: Population (sometimes null), origRequirements/revisedRequirements (0 or null)
-    log.info("  Core for TTC/Equity: In_Need, orig/revisedRequirements, funding_per_capita, Population")
-
-
 def build_crises() -> pd.DataFrame:
     """
     Build crisis-level table from misfit_final_analysis.csv.
 
     Output schema (matches Crisis Pydantic model):
       id, name, country, region, severity, people_in_need, funding_required,
-      funding_received, coverage, year, population, is_overlooked,
-      funding_missing, population_missing (flags when imputed)
-
-    Imputation rules (documented for engineers):
-      - people_in_need: DROP rows with null or <= 0 (core field)
-      - funding_required: revisedRequirements if not null else origRequirements; 0 if both null
-      - funding_received: funding_per_capita * In_Need; 0 if funding_per_capita missing (flag funding_missing)
-      - coverage: funding_received / funding_required; 0 when denom <= 0; clip to [0, 1]
-      - population: impute with median of non-null when missing (flag population_missing)
+      funding_received, coverage, year, population, is_overlooked
       - name: if empty, use "Crisis {id} {year}"
       - country/region: "Unknown" if missing (keep ISO3 when available)
     """
@@ -113,9 +66,6 @@ def build_crises() -> pd.DataFrame:
         keep_default_na=True,
         low_memory=False,
     )
-
-    # --- Null profile (before cleaning) ---
-    _print_null_profile(df, "misfit_final_analysis.csv (before cleaning)")
 
     # --- Standardize IDs and keys ---
     id_col = "code" if "code" in df.columns else "id"
@@ -154,7 +104,6 @@ def build_crises() -> pd.DataFrame:
     # funding_received: funding_per_capita * In_Need; 0 if funding_per_capita missing
     df["funding_received"] = df["funding_per_capita"].fillna(0) * df["In_Need"]
     df["funding_received"] = df["funding_received"].clip(lower=0)
-    funding_missing = df["funding_per_capita"].isna()
 
     # coverage: funding_received / funding_required; 0 when denom <= 0, clip to [0, 1]
     with pd.option_context("mode.chained_assignment", None):
@@ -167,11 +116,10 @@ def build_crises() -> pd.DataFrame:
     # Replace any remaining NaN (shouldn't happen) with 0
     df["coverage"] = df["coverage"].fillna(0.0)
 
-    # population: impute with median when missing (after all filtering, so df is final)
+    # population: impute with median when missing (after all filtering)
     pop_median = df["Population"].dropna().median()
     if pd.isna(pop_median) or pop_median <= 0:
         pop_median = df["In_Need"].median() * 2  # fallback
-    population_missing = df["Population"].isna()
     df["population"] = df["Population"].fillna(pop_median).clip(lower=0)
 
     # severity: people_in_need/population rescaled 1-5; default 3.0 if ratio invalid
@@ -191,7 +139,9 @@ def build_crises() -> pd.DataFrame:
     desc = df["Description"].fillna("").astype(str).str.strip()
     df["name"] = desc.where(desc.str.len() > 0, df["_id_raw"] + " " + df["year"].astype(str))
 
-    # is_overlooked
+    # is_overlooked: create with default False if column missing
+    if "is_overlooked" not in df.columns:
+        df["is_overlooked"] = False
     iso = df["is_overlooked"]
     if iso.dtype == object or (hasattr(iso.dtype, "name") and iso.dtype.name == "string"):
         df["is_overlooked"] = iso.astype(str).str.lower().isin(["true", "1", "yes"])
@@ -213,8 +163,6 @@ def build_crises() -> pd.DataFrame:
             "year": df["year"].astype("int64"),
             "population": df["population"].astype("float64"),
             "is_overlooked": df["is_overlooked"],
-            "funding_missing": funding_missing.values,
-            "population_missing": population_missing.values,
         }
     )
 
@@ -278,32 +226,6 @@ def build_projects() -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
-def _print_status_summary(crises: pd.DataFrame) -> None:
-    """Print structured status: total count, imputation rates, per-column null rates (sorted)."""
-    log.info("\n--- Preprocess status summary ---")
-    log.info(f"Total crises count: {len(crises)}")
-
-    # Imputation rates (share of rows with funding_missing or population_missing)
-    pct_funding_imputed = 0.0
-    pct_pop_imputed = 0.0
-    if "funding_missing" in crises.columns:
-        pct_funding_imputed = crises["funding_missing"].mean() * 100.0
-    if "population_missing" in crises.columns:
-        pct_pop_imputed = crises["population_missing"].mean() * 100.0
-    log.info(f"Percentage with imputed funding_received: {pct_funding_imputed:.3f}%")
-    log.info(f"Percentage with imputed population: {pct_pop_imputed:.3f}%")
-
-    # Per-column null rates, sorted by null rate (desc), 3 decimal places
-    key_cols = ["people_in_need", "funding_required", "funding_received", "coverage", "population"]
-    available = [c for c in key_cols if c in crises.columns]
-    if available:
-        rates = {c: crises[c].isna().mean() * 100.0 for c in available}
-        sorted_cols = sorted(rates.keys(), key=lambda x: rates[x], reverse=True)
-        log.info("Null rates (column: pct):")
-        for c in sorted_cols:
-            log.info(f"  {c}: {rates[c]:.3f}%")
-
-
 def main() -> None:
     crises = build_crises()
     projects = build_projects()
@@ -329,8 +251,6 @@ def main() -> None:
     print(crises.head().to_string())
     log.info("\nProjects (first 5):")
     print(projects.head().to_string())
-
-    _print_status_summary(crises)
 
 
 if __name__ == "__main__":

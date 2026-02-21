@@ -28,6 +28,17 @@ def load_embedding_model():
     return _embedding_model
 
 
+def embed_projects(df: pd.DataFrame, model=None) -> np.ndarray:
+    """
+    Return embedding matrix for project descriptions.
+    Uses cached model if model is None; otherwise uses provided model.
+    """
+    if model is None:
+        model = load_embedding_model()
+    descriptions = df["description"].fillna("").astype(str).tolist()
+    return model.encode(descriptions, convert_to_numpy=True)
+
+
 def _ensure_embeddings_initialized(projects_df: pd.DataFrame) -> None:
     """Lazy-initialize embeddings from projects_df if cache is empty."""
     global _project_embeddings, _project_ids, _project_rows
@@ -41,17 +52,6 @@ def _ensure_embeddings_initialized(projects_df: pd.DataFrame) -> None:
     _project_embeddings = model.encode(descriptions, convert_to_numpy=True)
     _project_ids = ids
     _project_rows = {str(r["id"]): r for _, r in projects_df.iterrows()}
-
-
-def embed_projects(df: pd.DataFrame, model=None) -> np.ndarray:
-    """
-    Return embedding matrix for project descriptions.
-    Uses cached model if model is None; otherwise uses provided model.
-    """
-    if model is None:
-        model = load_embedding_model()
-    descriptions = df["description"].fillna("").astype(str).tolist()
-    return model.encode(descriptions, convert_to_numpy=True)
 
 
 def _build_bullets_from_row(row: pd.Series) -> List[str]:
@@ -83,7 +83,7 @@ def _build_bullets_from_row(row: pd.Series) -> List[str]:
             bullets.append("Tagged as robust under shock in historical data.")
 
     if len(bullets) < 2:
-        bullets.append(f"Similar intervention profile for Success Twin matching.")
+        bullets.append("Similar intervention profile for Success Twin matching.")
 
     return bullets[:3]
 
@@ -94,7 +94,6 @@ def find_success_twin(
 ) -> Dict[str, Any]:
     """
     Find a Success Twin project semantically similar to the target.
-
     Uses sentence-transformers embeddings and cosine similarity.
     Returns TwinResult-compatible dict with target_project_id, twin_project_id,
     similarity_score (0-1, 3 decimals), and bullets derived from twin row.
