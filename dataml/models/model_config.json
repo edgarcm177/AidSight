@@ -1,0 +1,28 @@
+{
+  "nodes": [
+    "BFA",
+    "CAF",
+    "CMR",
+    "MLI",
+    "NER",
+    "NGA",
+    "SDN",
+    "SSD",
+    "TCD"
+  ],
+  "node_to_idx": {
+    "BFA": 0,
+    "CAF": 1,
+    "CMR": 2,
+    "MLI": 3,
+    "NER": 4,
+    "NGA": 5,
+    "SDN": 6,
+    "SSD": 7,
+    "TCD": 8
+  },
+  "in_dim": 5,
+  "hidden_dim": 32,
+  "out_dim": 2,
+  "horizon_max": 5
+}

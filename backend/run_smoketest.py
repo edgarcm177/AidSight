@@ -3,9 +3,9 @@
 Data & ML smoke test: loads crises/projects, runs simulate/memo/twins in-process.
 
 Run before hacking, after pulling, and before demos to confirm the backend stack is healthy.
-Usage: python run_smoketest.py
+Usage: python -m backend.run_smoketest  (from repo root)
 """
-from backend.services.healthcheck import run_data_ml_smoketest
+from .services.healthcheck import run_data_ml_smoketest
 
 if __name__ == "__main__":
     r = run_data_ml_smoketest()

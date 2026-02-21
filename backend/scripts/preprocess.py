@@ -10,7 +10,7 @@ Output (crises.parquet) key fields:
   - id, name, country, region, severity, people_in_need, funding_required, funding_received,
     coverage, year, population, is_overlooked
 
-Run from repo root: python scripts/preprocess.py
+Run from repo root: python -m backend.scripts.preprocess
 
 """
 
@@ -20,8 +20,8 @@ from pathlib import Path
 
 import pandas as pd
 
-# Paths relative to repo root
-REPO_ROOT = Path(__file__).resolve().parent.parent
+# Paths relative to repo root (parent.parent.parent from backend/scripts/)
+REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 RAW_DIR = REPO_ROOT / "backend" / "data" / "raw"
 DATA_DIR = REPO_ROOT / "backend" / "data"
 

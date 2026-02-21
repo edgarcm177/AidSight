@@ -1,0 +1,10 @@
+# Aftershock Data/ML dependencies
+# Install: pip install -r dataml/requirements.txt
+# Run from repo root after base requirements (pandas, pyarrow) are installed.
+
+pandas>=2.0.0
+pyarrow>=14.0.0
+numpy>=1.24.0
+
+# PyTorch – spillover GNN model
+torch>=2.0.0
