@@ -67,3 +67,6 @@ with col_main:
 st.divider()
 st.subheader("Quick /crises check")
 st.table(crises[:5])
+
+
+

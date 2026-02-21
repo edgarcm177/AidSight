@@ -1,0 +1,12 @@
+[
+  {"region_id": "R1", "region_name": "Sahel Central", "risk_score": 0.72, "coverage_pct": 0.42, "funding_gap": 58000000, "volatility": 0.18, "runway_months": 4.2, "required_funding": 100000000, "funding_received": 42000000, "monthly_burn": 8333333},
+  {"region_id": "R2", "region_name": "Horn of Africa", "risk_score": 0.68, "coverage_pct": 0.55, "funding_gap": 36000000, "volatility": 0.22, "runway_months": 6.1, "required_funding": 80000000, "funding_received": 44000000, "monthly_burn": 6666667},
+  {"region_id": "R3", "region_name": "Yemen", "risk_score": 0.85, "coverage_pct": 0.28, "funding_gap": 72000000, "volatility": 0.35, "runway_months": 2.8, "required_funding": 100000000, "funding_received": 28000000, "monthly_burn": 8333333},
+  {"region_id": "R4", "region_name": "Afghanistan", "risk_score": 0.78, "coverage_pct": 0.38, "funding_gap": 62000000, "volatility": 0.28, "runway_months": 3.6, "required_funding": 100000000, "funding_received": 38000000, "monthly_burn": 8333333},
+  {"region_id": "R5", "region_name": "Syria Response", "risk_score": 0.65, "coverage_pct": 0.52, "funding_gap": 38400000, "volatility": 0.20, "runway_months": 5.5, "required_funding": 80000000, "funding_received": 41600000, "monthly_burn": 6666667},
+  {"region_id": "R6", "region_name": "Ukraine", "risk_score": 0.45, "coverage_pct": 0.68, "funding_gap": 19200000, "volatility": 0.12, "runway_months": 7.8, "required_funding": 60000000, "funding_received": 40800000, "monthly_burn": 5000000},
+  {"region_id": "R7", "region_name": "Sudan", "risk_score": 0.82, "coverage_pct": 0.25, "funding_gap": 75000000, "volatility": 0.40, "runway_months": 2.4, "required_funding": 100000000, "funding_received": 25000000, "monthly_burn": 8333333},
+  {"region_id": "R8", "region_name": "DRC East", "risk_score": 0.70, "coverage_pct": 0.48, "funding_gap": 41600000, "volatility": 0.25, "runway_months": 5.2, "required_funding": 80000000, "funding_received": 38400000, "monthly_burn": 6666667},
+  {"region_id": "R9", "region_name": "Bangladesh Cox's Bazar", "risk_score": 0.58, "coverage_pct": 0.60, "funding_gap": 28000000, "volatility": 0.15, "runway_months": 6.8, "required_funding": 70000000, "funding_received": 42000000, "monthly_burn": 5833333},
+  {"region_id": "R10", "region_name": "Somalia", "risk_score": 0.88, "coverage_pct": 0.22, "funding_gap": 78000000, "volatility": 0.42, "runway_months": 2.1, "required_funding": 100000000, "funding_received": 22000000, "monthly_burn": 8333333}
+]
