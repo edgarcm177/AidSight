@@ -1,6 +1,18 @@
 import { ExternalLink } from 'lucide-react';
 import type { TwinResult, MemoResponse } from '../../lib/api';
 
+const DEFAULT_PROJECT_ID = 'PRJ001';
+
+function humanizeKeyRisk(key: string): string {
+  const map: Record<string, string> = {
+    fragility_increase: 'Fragility increase',
+    equity_regression: 'Equity regression',
+    inflation_risk: 'Inflation risk',
+    model_uncertainty: 'Model uncertainty',
+  };
+  return map[key] || key.replace(/_/g, ' ');
+}
+
 interface SuccessTwinPanelProps {
   twinResult: TwinResult | null;
   twinLoading: boolean;
@@ -28,19 +40,23 @@ export function SuccessTwinPanel({
     <div className="p-6 flex flex-col h-full">
       {/* Success Twin Card */}
       <div className="bg-[#0a0e1a] border border-gray-800 rounded-lg p-5 mb-6">
-        <h2 className="text-sm uppercase tracking-wider text-gray-500 mb-4">Success Twin</h2>
+        <h2 className="text-sm uppercase tracking-wider text-gray-500 mb-2">Success Twin</h2>
+        <p className="text-xs text-gray-600 mb-4">
+          Sample project: <span className="font-mono text-teal-400">{DEFAULT_PROJECT_ID}</span> (representative for demo)
+        </p>
 
         {twinResult ? (
           <>
-            <h3 className="text-base text-teal-400 mb-3">
+            <h3 className="text-base text-teal-400 mb-2">
               Twin: {twinResult.twin_project_id}
             </h3>
-            <div className="mb-4">
+            <div className="mb-3">
               <span className="text-xs text-gray-500">Similarity: </span>
               <span className="text-sm font-mono text-teal-400">
                 {(twinResult.similarity_score * 100).toFixed(1)}%
               </span>
             </div>
+            <p className="text-xs text-gray-500 mb-2">This project is similar to {DEFAULT_PROJECT_ID} because:</p>
             <ul className="space-y-2 mb-4">
               {twinResult.bullets.map((b, i) => (
                 <li key={i} className="text-sm text-gray-300 flex items-start">
@@ -52,7 +68,7 @@ export function SuccessTwinPanel({
           </>
         ) : (
           <div className="text-sm text-gray-500 mb-4">
-            Click to find a Success Twin for sample project PRJ001.
+            Click below to find a Success Twin for sample project {DEFAULT_PROJECT_ID}.
           </div>
         )}
 
@@ -65,9 +81,10 @@ export function SuccessTwinPanel({
         <button
           onClick={onFindTwin}
           disabled={twinLoading}
-          className="flex items-center gap-1.5 text-sm text-teal-400 hover:text-teal-300 disabled:opacity-50 transition-colors"
+          aria-label="Find Success Twin"
+          className="flex items-center gap-1.5 text-sm text-teal-400 hover:text-teal-300 disabled:opacity-50 transition-colors focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-[#0a0e1a] rounded px-2 py-1"
         >
-          {twinLoading ? 'Loading...' : (
+          {twinLoading ? 'Loading…' : (
             <>
               <span>Find Success Twin</span>
               <ExternalLink className="w-3.5 h-3.5" />
@@ -86,7 +103,7 @@ export function SuccessTwinPanel({
         {memoResult ? (
           <>
             <div className="px-5 py-3 border-b border-gray-800">
-              <h3 className="text-base text-gray-200 font-medium">{memoResult.title}</h3>
+              <h3 className="text-base font-medium text-gray-100">{memoResult.title}</h3>
             </div>
             <div className="px-5 py-3 border-b border-gray-800 flex flex-wrap gap-2">
               {memoResult.key_risks.map((tag) => (
@@ -94,7 +111,7 @@ export function SuccessTwinPanel({
                   key={tag}
                   className="px-2.5 py-1 bg-[#1a1f2e] border border-gray-700 rounded-full text-xs text-amber-400"
                 >
-                  {tag}
+                  {humanizeKeyRisk(tag)}
                 </span>
               ))}
             </div>
@@ -109,6 +126,11 @@ export function SuccessTwinPanel({
             <div className="text-sm text-gray-500 mb-4">
               Run a scenario first, then generate the memo.
             </div>
+            {!canGenerateMemo && (
+              <p className="text-xs text-gray-600 mb-2">
+                The Generate Memo button is disabled until you run a scenario.
+              </p>
+            )}
             {memoError && (
               <div className="mb-4 p-2 bg-red-900/30 border border-red-700 rounded text-xs text-red-300">
                 {memoError}
@@ -121,9 +143,11 @@ export function SuccessTwinPanel({
           <button
             onClick={onGenerateMemo}
             disabled={!canGenerateMemo || memoLoading}
-            className="w-full py-2 rounded text-sm font-medium bg-teal-600 hover:bg-teal-500 disabled:opacity-50 disabled:cursor-not-allowed text-white transition-colors"
+            aria-label={!canGenerateMemo ? 'Run a scenario first' : 'Generate memo'}
+            title={!canGenerateMemo ? 'Run a scenario first' : undefined}
+            className="w-full py-2 rounded text-sm font-medium bg-teal-600 hover:bg-teal-500 disabled:opacity-50 disabled:cursor-not-allowed text-white transition-colors focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-[#0a0e1a]"
           >
-            {memoLoading ? 'Generating...' : 'Generate Memo'}
+            {memoLoading ? 'Generating…' : 'Generate Memo'}
           </button>
         </div>
       </div>

@@ -19,6 +19,8 @@ const DEFAULT_PROJECT_ID = 'PRJ001';
 
 export default function App() {
   const [crises, setCrises] = useState<Crisis[]>([]);
+  const [crisesLoading, setCrisesLoading] = useState(true);
+  const [crisesError, setCrisesError] = useState<string | null>(null);
   const [selectedCrisisId, setSelectedCrisisId] = useState<string | null>(null);
   const [healthDelta, setHealthDelta] = useState(0);
   const [washDelta, setWashDelta] = useState(0);
@@ -39,19 +41,24 @@ export default function App() {
   const [memoLoading, setMemoLoading] = useState(false);
   const [memoError, setMemoError] = useState<string | null>(null);
 
-  // Fetch crises on mount
-  useEffect(() => {
+  const loadCrises = () => {
+    setCrisesLoading(true);
+    setCrisesError(null);
     fetchCrises()
       .then((data) => {
         setCrises(data);
-        if (data.length > 0 && !selectedCrisisId) {
-          setSelectedCrisisId(data[0].id);
-        }
+        if (data.length > 0 && !selectedCrisisId) setSelectedCrisisId(data[0].id);
+        setCrisesError(null);
       })
       .catch((err) => {
-        console.error('Failed to fetch crises:', err);
+        setCrisesError(err instanceof Error ? err.message : 'Failed to load crises');
         setCrises([]);
-      });
+      })
+      .finally(() => setCrisesLoading(false));
+  };
+
+  useEffect(() => {
+    loadCrises();
   }, []);
 
   const selectedCrisis = crises.find((c) => c.id === selectedCrisisId);
@@ -144,8 +151,13 @@ export default function App() {
 
       {/* Main Content - Three Panels */}
       <div className="flex-1 flex overflow-hidden min-h-0">
-        {/* Left Panel - Decision Sandbox */}
-        <div className="w-[25%] bg-[#0f1421] border-r border-gray-800 overflow-y-auto shrink-0">
+        {/* Left: Configure Scenario */}
+        <div className="w-[25%] bg-[#0f1421] border-r border-gray-800 overflow-y-auto shrink-0 flex flex-col">
+          <div className="px-6 py-4 border-b border-gray-800 shrink-0">
+            <h2 className="text-base font-medium text-gray-100">Configure Scenario</h2>
+            <p className="text-xs text-gray-500 mt-1">Pick a crisis, adjust funding and shocks, then run.</p>
+          </div>
+          <div className="flex-1 overflow-y-auto">
           <DecisionSandbox
             crises={crises}
             selectedCrisisId={selectedCrisisId}
@@ -165,20 +177,35 @@ export default function App() {
             onRunScenario={handleRunScenario}
             simulationLoading={simulationLoading}
             simulationError={simulationError}
+            crisesLoading={crisesLoading}
+            crisesError={crisesError}
+            onRetryCrises={loadCrises}
           />
+          </div>
         </div>
 
-        {/* Center Panel - Impact & Fragility */}
-        <div className="w-[45%] bg-[#0a0e1a] overflow-y-auto shrink-0">
+        {/* Center: Impact */}
+        <div className="w-[45%] bg-[#0a0e1a] overflow-y-auto shrink-0 flex flex-col">
+          <div className="px-6 py-4 border-b border-gray-800 shrink-0">
+            <h2 className="text-base font-medium text-gray-100">Impact</h2>
+            <p className="text-xs text-gray-500 mt-1">See baseline vs scenario TTC, Equity Shift, and regional impact.</p>
+          </div>
+          <div className="flex-1 overflow-y-auto">
           <ImpactPanel
             selectedCrisis={selectedCrisis}
             simulationResult={simulationResult}
             simulationLoading={simulationLoading}
           />
+          </div>
         </div>
 
-        {/* Right Panel - Success Twin & Contrarian Memo */}
-        <div className="w-[30%] bg-[#0f1421] border-l border-gray-800 overflow-y-auto shrink-0">
+        {/* Right: Success Twin & Memo */}
+        <div className="w-[30%] bg-[#0f1421] border-l border-gray-800 overflow-y-auto shrink-0 flex flex-col">
+          <div className="px-6 py-4 border-b border-gray-800 shrink-0">
+            <h2 className="text-base font-medium text-gray-100">Success Twin & Memo</h2>
+            <p className="text-xs text-gray-500 mt-1">Find a similar project and generate AI analyst feedback.</p>
+          </div>
+          <div className="flex-1 overflow-y-auto min-h-0">
           <SuccessTwinPanel
             twinResult={twinResult}
             twinLoading={twinLoading}
@@ -190,6 +217,7 @@ export default function App() {
             onGenerateMemo={handleGenerateMemo}
             canGenerateMemo={!!simulationResult}
           />
+          </div>
         </div>
       </div>
     </div>

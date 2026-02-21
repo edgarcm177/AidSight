@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Run the Data & ML smoke test. Usage: python run_smoketest.py"""
+"""
+Data & ML smoke test: loads crises/projects, runs simulate/memo/twins in-process.
+
+Run before hacking, after pulling, and before demos to confirm the backend stack is healthy.
+Usage: python run_smoketest.py
+"""
 from backend.services.healthcheck import run_data_ml_smoketest
 
 if __name__ == "__main__":
@@ -14,3 +19,4 @@ if __name__ == "__main__":
         and r.get("twins_ok")
     )
     print("\n  All *_ok flags True:", all_ok)
+    exit(0 if all_ok else 1)
