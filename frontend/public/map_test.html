@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AidSight Heat Map</title>
+    <title>Ripplect Map</title>
     <style>
         body { margin: 0; padding: 0; background: #0a0e1a; }
         #map { position: absolute; top: 0; bottom: 0; width: 100%; background: #0a0e1a; }
@@ -382,7 +382,7 @@
                     var gl = geojsonLayerRef.current;
 
                     if (event.data.type === 'AFTERSHOCK_AFFECTED') {
-                        console.log('[AidSight Map] Received AFTERSHOCK_AFFECTED:', { epicenter: event.data.epicenter, affected: event.data.affected });
+                        console.log('[Ripplect Map] Received AFTERSHOCK_AFFECTED:', { epicenter: event.data.epicenter, affected: event.data.affected });
                         if (!geojsonReady || !gl) {
                             pendingAftershockMessages.push(event.data);
                             return;

@@ -11,7 +11,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from .routers import crises, memos, simulate, twins, status, project_benchmarking, projects, vectorai_routes, explain, debug
 
-app = FastAPI(title="AidSight Strategy Sandbox")
+app = FastAPI(title="Ripplect")
 
 app.add_middleware(
     CORSMiddleware,
@@ -35,4 +35,4 @@ app.include_router(debug.router, prefix="/debug", tags=["debug"])
 
 @app.get("/")
 def root():
-    return {"status": "ok", "app": "AidSight Strategy Sandbox"}
+    return {"status": "ok", "app": "Ripplect"}

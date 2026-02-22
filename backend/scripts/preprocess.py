@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Preprocess raw CSV data into Parquet tables for AidSight.
+Preprocess raw CSV data into Parquet tables for Ripplect.
 
 Raw crisis input:
   - backend/data/raw/misfit_final_analysis.csv (HNO/HRP-style data with code, Country_ISO3,

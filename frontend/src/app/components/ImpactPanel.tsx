@@ -95,7 +95,7 @@ export function ImpactPanel({
 
   return (
     <div className="p-6">
-      <div className="bg-[#0f1421] border border-gray-800 rounded-lg mb-6 h-[400px] relative overflow-hidden">
+      <div className="bg-[#0f1421] border border-gray-800 rounded-lg mb-6 h-[min(72vh,720px)] min-h-[420px] relative overflow-hidden">
         <iframe
           ref={iframeRef}
           src={`/map_test.html?data=${encodeURIComponent(csvDataUrl)}`}

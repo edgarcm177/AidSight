@@ -1,6 +1,6 @@
-# How to Run AidSight
+# How to Run Ripplect
 
-Run all commands from the **project root**: `c:\Users\wgq19\Downloads\AidSight`
+Run all commands from the **project root** (e.g. the folder containing `backend/` and `frontend/`).
 
 ---
 
@@ -8,13 +8,13 @@ Run all commands from the **project root**: `c:\Users\wgq19\Downloads\AidSight`
 
 **Install Python dependencies (do this once):**
 ```powershell
-cd c:\Users\wgq19\Downloads\AidSight
+cd <project-root>
 pip install -r backend\requirements.txt
 ```
 
 **Start the API server:**
 ```powershell
-cd c:\Users\wgq19\Downloads\AidSight
+cd <project-root>
 uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
@@ -30,13 +30,13 @@ If you see `ModuleNotFoundError: No module named 'sklearn'` (or similar), run `p
 
 **Install Node dependencies (do this once):**
 ```powershell
-cd c:\Users\wgq19\Downloads\AidSight\frontend
+cd frontend
 npm install
 ```
 
 **Start the dev server:**
 ```powershell
-cd c:\Users\wgq19\Downloads\AidSight\frontend
+cd frontend
 npm run dev
 ```
 

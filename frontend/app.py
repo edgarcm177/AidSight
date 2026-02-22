@@ -4,8 +4,8 @@ import streamlit as st
 
 API_BASE = "http://localhost:8000"  # FastAPI URL
 
-st.set_page_config(page_title="AidSight Dev Panel", layout="wide")
-st.title("AidSight Dev Panel (Backend Smoke Test)")
+st.set_page_config(page_title="Ripplect Dev Panel", layout="wide")
+st.title("Ripplect Dev Panel (Backend Smoke Test)")
 
 @st.cache_data
 def fetch_crises():

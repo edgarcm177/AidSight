@@ -1,5 +1,5 @@
 """
-Load preprocessed Parquet tables for AidSight.
+Load preprocessed Parquet tables for Ripplect.
 
 Use load_crises() and load_projects() in FastAPI routers/services to get
 DataFrames with the expected schemas for TTC/Equity calculations and Success Twin embeddings.

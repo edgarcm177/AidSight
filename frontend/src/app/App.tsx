@@ -210,8 +210,7 @@ export default function App() {
       {/* Top Navigation */}
       <nav className="h-14 bg-[#0f1421] border-b border-gray-800 flex items-center justify-between px-6 shrink-0">
         <div className="text-xl tracking-tight">
-          <span className="text-teal-400">Aid</span>
-          <span className="text-gray-100">Sight</span>
+          <span className="text-teal-400">Ripplect</span>
           <span className="text-gray-500 ml-2 text-sm">Aftershock Sandbox</span>
         </div>
       </nav>

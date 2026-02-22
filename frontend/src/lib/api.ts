@@ -1,5 +1,5 @@
 /**
- * Typed client for AidSight FastAPI backend.
+ * Typed client for Ripplect FastAPI backend.
  * Uses VITE_API_BASE_URL, defaulting to http://localhost:8000.
  */
 
@@ -184,7 +184,7 @@ export async function simulateAftershock(params: {
   delta_funding_pct: number;
   horizon_steps: number;
 }): Promise<AftershockResult> {
-  console.log("[AidSight] simulateAftershock request:", JSON.stringify(params));
+  console.log("[Ripplect] simulateAftershock request:", JSON.stringify(params));
   const url = getUrl("/simulate/aftershock");
   const res = await fetch(url, {
     method: "POST",
@@ -201,7 +201,7 @@ export async function simulateAftershock(params: {
   }
 
   const data = await res.json();
-  console.log("[AidSight] simulateAftershock response:", {
+  console.log("[Ripplect] simulateAftershock response:", {
     epicenter: data.epicenter,
     delta_funding_pct: data.delta_funding_pct,
     horizon_steps: data.horizon_steps,

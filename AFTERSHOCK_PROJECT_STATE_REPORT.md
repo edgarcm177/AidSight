@@ -1,13 +1,13 @@
 # AFTERSHOCK PROJECT STATE REPORT
 
 **Analysis Date:** 2025-02-21  
-**Repository:** AidSight (Hacklytics humanitarian crisis prediction platform)
+**Repository:** Ripplect (humanitarian crisis prediction / spillover simulation platform)
 
 ---
 
 ## EXECUTIVE SUMMARY
 
-AidSight/Aftershock is a portfolio stress-testing and spillover simulation tool for humanitarian funding. The backend (FastAPI), DataML pipeline (PyTorch GNN, preprocess, simulate_aftershock), and frontend (Vite + React) are largely implemented. **The primary blocker is that the frontend never calls the aftershock simulation API**—"Run Aftershock" uses a mock 1.5s timeout and fake success. The backend `/simulate/aftershock` endpoint exists and works; the DataML `simulate_aftershock()` function is callable and returns the expected schema.
+Ripplect is a portfolio stress-testing and spillover simulation tool for humanitarian funding. The backend (FastAPI), DataML pipeline (PyTorch GNN, preprocess, simulate_aftershock), and frontend (Vite + React) are largely implemented. **The primary blocker is that the frontend never calls the aftershock simulation API**—"Run Aftershock" uses a mock 1.5s timeout and fake success. The backend `/simulate/aftershock` endpoint exists and works; the DataML `simulate_aftershock()` function is callable and returns the expected schema.
 
 **Completion Estimate:** ~70% complete  
 **Critical Blockers:** (1) Frontend not wired to aftershock API; (2) Data path inconsistencies; (3) Model weights (spillover_model.pt) gitignored—requires local training.  

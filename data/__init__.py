@@ -1,4 +1,4 @@
-"""AidSight data package. Provides load_crises() and load_projects() via data_loader."""
+"""Ripplect data package. Provides load_crises() and load_projects() via data_loader."""
 
 from . import data_loader
 

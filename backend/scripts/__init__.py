@@ -1,1 +1,1 @@
-"""Backend scripts (AidSight preprocessing, etc.)."""
+"""Backend scripts (Ripplect preprocessing, etc.)."""

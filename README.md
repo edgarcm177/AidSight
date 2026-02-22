@@ -1,4 +1,4 @@
-# AidSight Strategy Sandbox
+# Ripplect
 
 Humanitarian strategy sandbox: crisis data, fragility simulation (TTC, Equity Shift), Success Twins (semantic project matching), and contrarian memos.
 

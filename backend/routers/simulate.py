@@ -162,6 +162,15 @@ def simulate_aftershock_route(payload: AftershockParams):
         if "projected_coverage" not in a or a["projected_coverage"] is None:
             proj_cov = base_cov + (delta if country_iso == epicenter else 0.0)
             a["projected_coverage"] = round(max(0.0, min(3.0, proj_cov)), 4)
+        if delta > 0:
+            proj_sev = float(a.get("projected_severity", base_sev))
+            proj_cov = float(a.get("projected_coverage", base_cov))
+            if country_iso == epicenter:
+                a["projected_coverage"] = round(max(proj_cov, base_cov + delta * 0.8), 4)
+                a["projected_severity"] = round(min(proj_sev, base_sev * 0.92), 4)
+            else:
+                a["projected_severity"] = round(min(proj_sev, base_sev * 0.88), 4)
+                a["projected_coverage"] = round(min(3.0, max(proj_cov, base_cov + 0.06)), 4)
 
     affected = [AffectedCountryImpact(**a) for a in affected_raw]
     totals = TotalsImpact(**result_dict["totals"])

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Data & ML smoke test: Aftershock endpoints (POST /simulate/shock, GET /crises/*, GET /projects/*)
-plus legacy AidSight flows (crises, projects, fragility simulate, memo, twins).
+plus legacy Ripplect flows (crises, projects, fragility simulate, memo, twins).
 
 Run before hacking, after pulling, and before demos to confirm the backend stack is healthy.
 Usage: python run_smoketest.py
@@ -14,7 +14,7 @@ if __name__ == "__main__":
     for k, v in r_aft.items():
         print(f"  {k}: {v}")
 
-    print("\n--- Legacy AidSight flows ---")
+    print("\n--- Legacy Ripplect flows ---")
     r_leg = run_data_ml_smoketest()
     for k, v in r_leg.items():
         print(f"  {k}: {v}")

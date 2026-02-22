@@ -1,4 +1,4 @@
-# AidSight / Aftershock – Project Context
+# Ripplect – Project Context
 
 *This doc captures project structure, tech choices, implementation status, and open work. Use it to restore context after a session reset.*
 
@@ -6,7 +6,7 @@
 
 ## Project Overview
 
-**AidSight** (pivoted to **Aftershock**) is a portfolio stress-testing / spillover simulation tool for humanitarian funding. Core flow:
+**Ripplect** is a portfolio stress-testing / spillover simulation tool for humanitarian funding. Core flow:
 
 1. User selects epicenter country from heatmap
 2. User adjusts funding slider (`delta_funding_pct`)
@@ -32,7 +32,7 @@
 ## Repo Structure
 
 ```
-AidSight/
+Ripplect/
 ├── backend/                 # FastAPI app
 │   ├── main.py              # App entry; routers: crises, simulate, twins, memos, status
 │   ├── models.py            # Pydantic models (Crisis, ScenarioInput, AftershockParams, etc.)
@@ -84,7 +84,7 @@ AidSight/
 From **project root** (required for package imports):
 
 ```bash
-cd AidSight
+cd Ripplect
 pip install -r backend/requirements.txt   # once
 uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000
 ```
