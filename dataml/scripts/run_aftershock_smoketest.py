@@ -13,6 +13,8 @@ import json
 import sys
 from pathlib import Path
 
+import pandas as pd
+
 # Ensure repo root is on path so "dataml" package resolves
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(REPO_ROOT))
@@ -34,6 +36,12 @@ def main() -> int:
     try:
         from dataml.src.preprocess import main as preprocess_main
         preprocess_main()
+        # Optional: assert underfunding columns exist for baseline year
+        panel_path = Path(__file__).resolve().parent.parent / "data" / "processed" / "sahel_panel.parquet"
+        if panel_path.exists():
+            df = pd.read_parquet(panel_path)
+            assert "underfunding_score" in df.columns, "panel missing underfunding_score"
+            assert "chronic_underfunded_flag" in df.columns, "panel missing chronic_underfunded_flag"
         results["preprocess_ok"] = True
     except Exception as e:
         results["preprocess_ok"] = False

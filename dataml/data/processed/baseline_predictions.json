@@ -1,0 +1,56 @@
+[
+  {
+    "country": "BFA",
+    "baseline_year": 2026,
+    "severity_pred_baseline": 1.0,
+    "displacement_in_pred_baseline": 24805668
+  },
+  {
+    "country": "CAF",
+    "baseline_year": 2026,
+    "severity_pred_baseline": 1.0,
+    "displacement_in_pred_baseline": 24020691
+  },
+  {
+    "country": "CMR",
+    "baseline_year": 2026,
+    "severity_pred_baseline": 0.82,
+    "displacement_in_pred_baseline": 24551299
+  },
+  {
+    "country": "MLI",
+    "baseline_year": 2026,
+    "severity_pred_baseline": 0.82,
+    "displacement_in_pred_baseline": 20755762
+  },
+  {
+    "country": "NER",
+    "baseline_year": 2026,
+    "severity_pred_baseline": 0.88,
+    "displacement_in_pred_baseline": 24494229
+  },
+  {
+    "country": "NGA",
+    "baseline_year": 2026,
+    "severity_pred_baseline": 0.11,
+    "displacement_in_pred_baseline": 24977967
+  },
+  {
+    "country": "SDN",
+    "baseline_year": 2026,
+    "severity_pred_baseline": 0.5,
+    "displacement_in_pred_baseline": 25952446
+  },
+  {
+    "country": "SSD",
+    "baseline_year": 2026,
+    "severity_pred_baseline": 1.0,
+    "displacement_in_pred_baseline": 30957997
+  },
+  {
+    "country": "TCD",
+    "baseline_year": 2026,
+    "severity_pred_baseline": 1.0,
+    "displacement_in_pred_baseline": 24821798
+  }
+]
