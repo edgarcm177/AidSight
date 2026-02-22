@@ -46,3 +46,38 @@ def get_neighbors_by_project(project_id: str):
         if str(item.get("project_id", "")) == str(project_id):
             return {"project_id": item["project_id"], "neighbors": item.get("neighbors", [])}
     raise HTTPException(status_code=404, detail=f"Project {project_id} not found")
+
+
+def _normalize_neighbors(raw: list) -> list:
+    """Ensure neighbors have id, similarity_score, ratio, country, cluster."""
+    out = []
+    for r in raw:
+        m = r.get("metadata", r)
+        out.append({
+            "id": r.get("id", r.get("project_id", "")),
+            "similarity_score": r.get("similarity_score", r.get("score", 0)),
+            "ratio": m.get("ratio_reached", m.get("ratio", 0)),
+            "country": m.get("country_iso3", m.get("country", "")),
+            "cluster": m.get("cluster", ""),
+        })
+    return out
+
+
+@router.get("/{project_id}/vector_neighbors")
+def get_vector_neighbors(project_id: str, top_k: int = 5):
+    """
+    Return similar projects. Uses Actian VectorAI DB when configured; falls back to local KNN otherwise.
+    Schema: project_id, neighbors: [{id, similarity_score, ratio, country, cluster}]
+    """
+    try:
+        from ..clients.vectorai_client import VectorAIDisabled, query_similar_projects
+
+        results = query_similar_projects(project_id, top_k)
+        return {"project_id": project_id, "neighbors": _normalize_neighbors(results)}
+    except VectorAIDisabled:
+        from ..services.vectorai import search_similar_projects
+
+        results = search_similar_projects(project_id, top_k)
+        return {"project_id": project_id, "neighbors": _normalize_neighbors(results)}
+    except Exception as e:
+        raise HTTPException(status_code=503, detail=str(e))

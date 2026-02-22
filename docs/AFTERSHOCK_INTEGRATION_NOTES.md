@@ -79,6 +79,64 @@ simulateAftershock(epicenter: string, deltaFundingPercent: number, horizonMonths
 
 ---
 
+## Data Pipeline (run in order from repo root)
+
+```bash
+python -m dataml.scripts.fetch_cbpf
+python -m dataml.scripts.fetch_inform_severity
+python -m dataml.scripts.fetch_displacement_flows
+python -m dataml.scripts.build_nodes_edges
+```
+
+**Region**: Sahel (2020–2024). Real CBPF/INFORM/DTM when files present; misfit/stub mode when missing (logged).
+
+**Artifacts** (all under `dataml/data/processed/`):
+
+- `nodes.json`, `edges.json` — used by `GET /status` (map)
+- `sahel_panel.parquet`, `spillover_graph.parquet` — used by `simulate_aftershock`
+
+---
+
+## Data Sources & Integrations
+
+### GET /status (map data)
+
+**Order**: 1) Databricks → 2) DataML (nodes.json, edges.json) → 3) backend mock.
+
+- **Databricks enabled**: Reads `aftershock.crisis_metrics`; returns country nodes. On env missing or SQL failure, falls back to DataML.
+- **Databricks disabled**: Uses `dataml/data/processed/nodes.json` and `edges.json`; if missing, backend mock.
+
+**Databricks setup:**
+- Table expected: `aftershock.crisis_metrics` with columns: country_iso3, year, severity_score, requirements_usd, funding_usd, coverage_pct, pooled_fund_coverage_usd, underfunding_score
+- Create from sahel_panel.parquet via Databricks notebook: `spark.read.parquet("path/to/sahel_panel.parquet").write.saveAsTable("aftershock.crisis_metrics")`
+- Env vars: `DATABRICKS_HOST`, `DATABRICKS_TOKEN`, `DATABRICKS_HTTP_PATH`
+
+### POST /explain/crisis (Sphinx)
+
+- **Enabled**: POST to `SPHINX_BASE_URL` with `{query, context}`; expects `{answer}` or `{explanation}`. No API key required (optional `SPHINX_API_KEY` for auth).
+- **Disabled**: Returns static fallback explanation.
+
+### GET /projects/{id}/vector_neighbors (VectorAI)
+
+- **Enabled**: Queries Actian VectorAI DB when `ACTIAN_VECTORAI_CONNECTION_STRING` and `ACTIAN_PROJECTS_COLLECTION` set; returns `{id, similarity_score, ratio, country, cluster}`.
+- **Disabled**: In-memory KNN from `project_embeddings.parquet`; same schema.
+
+---
+
+## Env Vars (Backend)
+
+| Variable | Purpose |
+|----------|---------|
+| `DATABRICKS_HOST` | Databricks workspace host (e.g. `xxx.azuredatabricks.net`) |
+| `DATABRICKS_TOKEN` | Personal access token |
+| `DATABRICKS_HTTP_PATH` | SQL warehouse HTTP path |
+| `SPHINX_BASE_URL` | Sphinx API base URL (required for Sphinx; no API key needed) |
+| `SPHINX_API_KEY` | Optional auth header for Sphinx |
+| `ACTIAN_VECTORAI_CONNECTION_STRING` | Actian VectorAI connection |
+| `ACTIAN_PROJECTS_COLLECTION` | Collection name for projects |
+
+---
+
 ## Known Intentional Limitations
 
 - **Heuristic fallback**: When `spillover_model.pt` is missing (gitignored), DataML uses a graph-based heuristic; simulation still returns valid schema

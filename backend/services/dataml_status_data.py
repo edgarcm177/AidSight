@@ -77,11 +77,62 @@ def load_status_from_dataml() -> Optional[Tuple[int, List[Dict[str, Any]], List[
     return (baseline_year, countries, edges, [baseline_year], notes)
 
 
+def _load_from_databricks() -> Optional[Tuple[int, List[Dict[str, Any]], List[Dict[str, Any]], List[int], List[str]]]:
+    """
+    Load crisis nodes from Databricks if configured.
+    Maps crisis_metrics rows to (baseline_year, countries, edges, available_years, notes).
+    """
+    try:
+        from ..clients.databricks_client import DatabricksDisabled, fetch_crisis_metrics
+    except ImportError:
+        return None
+
+    try:
+        rows = fetch_crisis_metrics(limit=500)
+    except DatabricksDisabled:
+        return None
+    except Exception as e:
+        logger.warning("Databricks fetch failed: %s", e)
+        return None
+
+    if not rows:
+        return None
+
+    countries = []
+    for r in rows:
+        iso3 = str(r.get("country_iso3", "")).upper()
+        if len(iso3) != 3:
+            continue
+        severity = float(r.get("severity_score", 0.5))
+        funding = float(r.get("funding_usd", r.get("pooled_fund_coverage_usd", 0)))
+        underfund = float(r.get("underfunding_score", 0.5))
+        risk_score = severity * underfund
+        countries.append({
+            "country": iso3,
+            "severity": round(severity, 4),
+            "funding_usd": funding,
+            "displaced_in": 0.0,
+            "displaced_out": 0.0,
+            "risk_score": round(risk_score, 4),
+        })
+
+    years = list({int(r.get("year", 2026)) for r in rows if r.get("year")})
+    years = years or [2026]
+    baseline_year = max(years)
+    edges: List[Dict[str, Any]] = []
+    notes = ["Databricks: crisis_metrics"]
+    return (baseline_year, countries, edges, years, notes)
+
+
 def get_status_data() -> Tuple[int, List[Dict[str, Any]], List[Dict[str, Any]], List[int], List[str]]:
     """
-    Get status data. Uses DataML if available; else backend aftershock provider.
+    Get status data. Uses Databricks if configured; else DataML; else backend aftershock provider.
     Returns (baseline_year, countries, edges, available_years, notes).
     """
+    db_result = _load_from_databricks()
+    if db_result is not None:
+        return db_result
+
     dataml_result = load_status_from_dataml()
     if dataml_result is not None:
         return dataml_result

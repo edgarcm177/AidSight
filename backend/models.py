@@ -1,5 +1,5 @@
 from typing import List, Optional
-from pydantic import BaseModel
+from pydantic import BaseModel, computed_field
 
 
 class Crisis(BaseModel):
@@ -69,6 +69,12 @@ class TwinResult(BaseModel):
     similarity_score: float
     bullets: List[str]
 
+    @computed_field
+    @property
+    def project_id(self) -> str:
+        """Alias for twin_project_id for frontend compatibility."""
+        return self.twin_project_id
+
 
 class MemoRequest(BaseModel):
     crisis_id: Optional[str] = None
@@ -82,6 +88,12 @@ class MemoResponse(BaseModel):
     title: str
     body: str
     key_risks: List[str]
+
+    @computed_field
+    @property
+    def memo(self) -> str:
+        """Alias for body for frontend compatibility (SuccessTwinPanel expects memoResult.memo)."""
+        return self.body
 
 
 # --- Aftershock Simulation (DataML contract) ---
