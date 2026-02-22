@@ -46,7 +46,9 @@ def build_sahel_panel(raw_path: Optional[Path] = None) -> pd.DataFrame:
     Build Sahel panel from misfit_final_analysis.csv (or sahel_*.csv).
 
     Output schema: country_iso3, year, people_in_need, funding_required,
-    funding_received, coverage, population, conflict, drought (placeholders).
+    funding_received, coverage, population, conflict, drought, plus underfunding
+    metrics: funding_total_usd, beneficiaries_total, severity, funding_per_beneficiary,
+    needs_index, funding_per_need_unit, underfunding_score, chronic_underfunded_flag.
     """
     path = raw_path or MISFIT_CSV
     if not path.exists():
@@ -95,6 +97,32 @@ def build_sahel_panel(raw_path: Optional[Path] = None) -> pd.DataFrame:
     # Dedupe: one row per (country_iso3, year)
     df = df.drop_duplicates(subset=["country_iso3", "year"], keep="first")
 
+    # --- Underfunding metrics (per country-year) ---
+    # funding_total_usd: total humanitarian funding received in USD.
+    df["funding_total_usd"] = df["funding_received"].astype("float64")
+    # beneficiaries_total: people in need (proxy for beneficiaries when not present).
+    df["beneficiaries_total"] = df["In_Need"].astype("int64")
+    # severity: need_ratio (people_in_need / population) capped [0,1]; higher = more severe.
+    df["severity"] = (df["In_Need"] / df["population"].replace(0, 1)).clip(0.0, 1.0).astype("float64")
+    # funding_per_beneficiary: funding_total_usd per beneficiary (people in need).
+    df["funding_per_beneficiary"] = (
+        df["funding_total_usd"] / df["beneficiaries_total"].clip(lower=1)
+    ).astype("float64")
+    # needs_index: severity * population (need-weighted population metric).
+    df["needs_index"] = (df["severity"] * df["population"]).clip(lower=0).astype("float64")
+    # funding_per_need_unit: funding per needs_index unit.
+    df["funding_per_need_unit"] = (
+        df["funding_total_usd"] / df["needs_index"].clip(lower=1)
+    ).astype("float64")
+    # underfunding_score: 1 minus normalized funding_per_need_unit (higher = more underfunded).
+    fpu = df["funding_per_need_unit"]
+    fpu_min, fpu_max = fpu.min(), fpu.max()
+    fpu_range = max(fpu_max - fpu_min, 1e-9)
+    df["underfunding_score"] = (1.0 - (fpu - fpu_min) / fpu_range).astype("float64")
+    # chronic_underfunded_flag: 1 if underfunding_score in worst tercile, else 0.
+    threshold = df["underfunding_score"].quantile(2.0 / 3.0)
+    df["chronic_underfunded_flag"] = (df["underfunding_score"] >= threshold).astype("int64")
+
     result = pd.DataFrame(
         {
             "country_iso3": df["country_iso3"],
@@ -106,6 +134,14 @@ def build_sahel_panel(raw_path: Optional[Path] = None) -> pd.DataFrame:
             "population": df["population"].astype("float64"),
             "conflict": df["conflict"].astype("float64"),
             "drought": df["drought"].astype("float64"),
+            "funding_total_usd": df["funding_total_usd"],
+            "beneficiaries_total": df["beneficiaries_total"],
+            "severity": df["severity"],
+            "funding_per_beneficiary": df["funding_per_beneficiary"],
+            "needs_index": df["needs_index"],
+            "funding_per_need_unit": df["funding_per_need_unit"],
+            "underfunding_score": df["underfunding_score"],
+            "chronic_underfunded_flag": df["chronic_underfunded_flag"],
         }
     )
 

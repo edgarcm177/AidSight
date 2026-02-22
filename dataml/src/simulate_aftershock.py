@@ -69,6 +69,64 @@ def _load_model_and_config():
     return model, config, node_to_idx
 
 
+def _get_baseline_predictions(
+    panel_df: pd.DataFrame,
+    graph_df: pd.DataFrame,
+    model: "torch.nn.Module | None",
+    config: Dict[str, Any] | None,
+    node_to_idx: Dict[str, int] | None,
+) -> List[Dict[str, Any]]:
+    """
+    Run no-shock (baseline) forward pass; return per-country severity and displacement.
+    Used by export_baseline_structures for baseline_predictions.json.
+    If model missing, uses latest panel values (severity=need_ratio, displacement=people_in_need).
+    """
+    from .graph import get_edge_index
+
+    latest = panel_df.loc[panel_df.groupby("country_iso3")["year"].idxmax()].set_index("country_iso3")
+    baseline_year = int(panel_df["year"].max()) if len(panel_df) else 2024
+    nodes = sorted(panel_df["country_iso3"].unique().tolist())
+    node_to_idx_local = node_to_idx if node_to_idx else get_node_to_idx(nodes)
+    n = len(nodes)
+    population = latest["population"].reindex(nodes).fillna(1e6).values.astype("float64")
+
+    if model is not None and config is not None:
+        cov = latest["coverage"].reindex(nodes).fillna(0.5).values.astype("float32")
+        need = latest["people_in_need"].reindex(nodes).fillna(1_000_000).values.astype("float64")
+        gap = (latest["funding_required"] - latest["funding_received"]).reindex(nodes).fillna(0).values
+        conflict = latest["conflict"].reindex(nodes).fillna(0.2).values.astype("float32")
+        drought = latest["drought"].reindex(nodes).fillna(0.1).values.astype("float32")
+        need_max = max(1.0, need.max())
+        need_norm = (need / need_max).astype("float32")
+        gap_norm = (gap / (gap.max() + 1e-6)).astype("float32")
+        x = torch.tensor(
+            np.column_stack([cov, need_norm, gap_norm, conflict, drought]),
+            dtype=torch.float32,
+        )
+        src_idx, tgt_idx = get_edge_index(graph_df, node_to_idx_local)
+        edge_index = torch.tensor([src_idx, tgt_idx], dtype=torch.long)
+        delta_funding = torch.zeros(n, dtype=torch.float32)
+        with torch.no_grad():
+            out = model(x, edge_index, delta_funding)
+        need_pred = out[:, 1].numpy() * need_max
+        need_pred = np.maximum(need_pred, 0)
+    else:
+        need_pred = latest["people_in_need"].reindex(nodes).fillna(1_000_000).values.astype("float64")
+
+    out_list: List[Dict[str, Any]] = []
+    for i, iso3 in enumerate(nodes):
+        pop = float(population[i]) if i < len(population) else 1e6
+        disp = int(round(need_pred[i])) if i < len(need_pred) else int(latest.loc[iso3]["people_in_need"])
+        sev = min(1.0, disp / max(pop, 1)) if pop > 0 else 0.0
+        out_list.append({
+            "country": iso3,
+            "baseline_year": baseline_year,
+            "severity_pred_baseline": round(float(sev), 2),
+            "displacement_in_pred_baseline": disp,
+        })
+    return out_list
+
+
 def _neighbors_of(graph_df: pd.DataFrame, node_iso3: str) -> List[str]:
     """Return list of neighbor ISO3 codes for node_iso3 (undirected edges)."""
     neighbors = set()

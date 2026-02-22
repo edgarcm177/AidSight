@@ -1,0 +1,2052 @@
+[
+  {
+    "project_id": "P00000",
+    "country_iso3": "MLI",
+    "year": 2026,
+    "cluster": "Education",
+    "budget_usd": 36420779.0,
+    "beneficiaries": 225050,
+    "ratio_reached": 0.006179,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00001",
+    "country_iso3": "MLI",
+    "year": 2026,
+    "cluster": "Shelter",
+    "budget_usd": 47429703.0,
+    "beneficiaries": 52113,
+    "ratio_reached": 0.001099,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00002",
+    "country_iso3": "NER",
+    "year": 2026,
+    "cluster": "WASH",
+    "budget_usd": 5876306.0,
+    "beneficiaries": 267975,
+    "ratio_reached": 0.045603,
+    "outlier_flag": "high"
+  },
+  {
+    "project_id": "P00003",
+    "country_iso3": "NER",
+    "year": 2026,
+    "cluster": "NFI",
+    "budget_usd": 38778297.0,
+    "beneficiaries": 382959,
+    "ratio_reached": 0.009876,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00004",
+    "country_iso3": "NER",
+    "year": 2026,
+    "cluster": "Education",
+    "budget_usd": 41358452.0,
+    "beneficiaries": 261481,
+    "ratio_reached": 0.006322,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00005",
+    "country_iso3": "NER",
+    "year": 2026,
+    "cluster": "Health",
+    "budget_usd": 44111534.0,
+    "beneficiaries": 230689,
+    "ratio_reached": 0.00523,
+    "outlier_flag": "low"
+  },
+  {
+    "project_id": "P00006",
+    "country_iso3": "NGA",
+    "year": 2026,
+    "cluster": "Food",
+    "budget_usd": 10068459.0,
+    "beneficiaries": 464115,
+    "ratio_reached": 0.046096,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00007",
+    "country_iso3": "NGA",
+    "year": 2026,
+    "cluster": "Education",
+    "budget_usd": 32953689.0,
+    "beneficiaries": 207183,
+    "ratio_reached": 0.006287,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00008",
+    "country_iso3": "NGA",
+    "year": 2026,
+    "cluster": "Education",
+    "budget_usd": 28070413.0,
+    "beneficiaries": 227273,
+    "ratio_reached": 0.008097,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00009",
+    "country_iso3": "NGA",
+    "year": 2026,
+    "cluster": "Shelter",
+    "budget_usd": 12285423.0,
+    "beneficiaries": 55146,
+    "ratio_reached": 0.004489,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00010",
+    "country_iso3": "SDN",
+    "year": 2026,
+    "cluster": "NFI",
+    "budget_usd": 5472117.0,
+    "beneficiaries": 430563,
+    "ratio_reached": 0.078683,
+    "outlier_flag": "high"
+  },
+  {
+    "project_id": "P00011",
+    "country_iso3": "SDN",
+    "year": 2026,
+    "cluster": "Education",
+    "budget_usd": 19306969.0,
+    "beneficiaries": 319516,
+    "ratio_reached": 0.016549,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00012",
+    "country_iso3": "SDN",
+    "year": 2026,
+    "cluster": "WASH",
+    "budget_usd": 50578810.0,
+    "beneficiaries": 353256,
+    "ratio_reached": 0.006984,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00013",
+    "country_iso3": "SDN",
+    "year": 2026,
+    "cluster": "Food",
+    "budget_usd": 5738673.0,
+    "beneficiaries": 485643,
+    "ratio_reached": 0.084626,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00014",
+    "country_iso3": "BFA",
+    "year": 2026,
+    "cluster": "NFI",
+    "budget_usd": 37341670.0,
+    "beneficiaries": 391408,
+    "ratio_reached": 0.010482,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00015",
+    "country_iso3": "BFA",
+    "year": 2026,
+    "cluster": "Education",
+    "budget_usd": 11499207.0,
+    "beneficiaries": 188314,
+    "ratio_reached": 0.016376,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00016",
+    "country_iso3": "BFA",
+    "year": 2026,
+    "cluster": "Shelter",
+    "budget_usd": 27709708.0,
+    "beneficiaries": 31463,
+    "ratio_reached": 0.001135,
+    "outlier_flag": "low"
+  },
+  {
+    "project_id": "P00017",
+    "country_iso3": "SSD",
+    "year": 2026,
+    "cluster": "WASH",
+    "budget_usd": 50341284.0,
+    "beneficiaries": 344694,
+    "ratio_reached": 0.006847,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00018",
+    "country_iso3": "SSD",
+    "year": 2026,
+    "cluster": "NFI",
+    "budget_usd": 50432652.0,
+    "beneficiaries": 189655,
+    "ratio_reached": 0.003761,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00019",
+    "country_iso3": "SSD",
+    "year": 2026,
+    "cluster": "NFI",
+    "budget_usd": 28424404.0,
+    "beneficiaries": 169654,
+    "ratio_reached": 0.005969,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00020",
+    "country_iso3": "SSD",
+    "year": 2026,
+    "cluster": "NFI",
+    "budget_usd": 25762241.0,
+    "beneficiaries": 47408,
+    "ratio_reached": 0.00184,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00021",
+    "country_iso3": "TCD",
+    "year": 2026,
+    "cluster": "Education",
+    "budget_usd": 11388171.0,
+    "beneficiaries": 236841,
+    "ratio_reached": 0.020797,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00022",
+    "country_iso3": "TCD",
+    "year": 2026,
+    "cluster": "Health",
+    "budget_usd": 38356020.0,
+    "beneficiaries": 243095,
+    "ratio_reached": 0.006338,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00023",
+    "country_iso3": "TCD",
+    "year": 2026,
+    "cluster": "Food",
+    "budget_usd": 13419576.0,
+    "beneficiaries": 286605,
+    "ratio_reached": 0.021357,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00024",
+    "country_iso3": "CMR",
+    "year": 2026,
+    "cluster": "NFI",
+    "budget_usd": 23507723.0,
+    "beneficiaries": 88737,
+    "ratio_reached": 0.003775,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00025",
+    "country_iso3": "CMR",
+    "year": 2026,
+    "cluster": "Education",
+    "budget_usd": 33403426.0,
+    "beneficiaries": 353130,
+    "ratio_reached": 0.010572,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00026",
+    "country_iso3": "CMR",
+    "year": 2026,
+    "cluster": "Health",
+    "budget_usd": 17096722.0,
+    "beneficiaries": 386244,
+    "ratio_reached": 0.022592,
+    "outlier_flag": "high"
+  },
+  {
+    "project_id": "P00027",
+    "country_iso3": "CMR",
+    "year": 2026,
+    "cluster": "Education",
+    "budget_usd": 23408297.0,
+    "beneficiaries": 404335,
+    "ratio_reached": 0.017273,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00028",
+    "country_iso3": "CAF",
+    "year": 2026,
+    "cluster": "Food",
+    "budget_usd": 52842563.0,
+    "beneficiaries": 151281,
+    "ratio_reached": 0.002863,
+    "outlier_flag": "low"
+  },
+  {
+    "project_id": "P00029",
+    "country_iso3": "CAF",
+    "year": 2026,
+    "cluster": "WASH",
+    "budget_usd": 40439196.0,
+    "beneficiaries": 322013,
+    "ratio_reached": 0.007963,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00030",
+    "country_iso3": "CAF",
+    "year": 2026,
+    "cluster": "Health",
+    "budget_usd": 49082821.0,
+    "beneficiaries": 107955,
+    "ratio_reached": 0.002199,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00031",
+    "country_iso3": "CAF",
+    "year": 2026,
+    "cluster": "Education",
+    "budget_usd": 1597678.0,
+    "beneficiaries": 400453,
+    "ratio_reached": 0.250647,
+    "outlier_flag": "high"
+  },
+  {
+    "project_id": "P00032",
+    "country_iso3": "CAF",
+    "year": 2026,
+    "cluster": "Education",
+    "budget_usd": 46069749.0,
+    "beneficiaries": 335777,
+    "ratio_reached": 0.007288,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00033",
+    "country_iso3": "CAF",
+    "year": 2025,
+    "cluster": "Protection",
+    "budget_usd": 17117374.0,
+    "beneficiaries": 392558,
+    "ratio_reached": 0.022933,
+    "outlier_flag": "high"
+  },
+  {
+    "project_id": "P00034",
+    "country_iso3": "CAF",
+    "year": 2025,
+    "cluster": "Shelter",
+    "budget_usd": 27576289.0,
+    "beneficiaries": 257747,
+    "ratio_reached": 0.009347,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00035",
+    "country_iso3": "CAF",
+    "year": 2025,
+    "cluster": "Shelter",
+    "budget_usd": 3317876.0,
+    "beneficiaries": 78500,
+    "ratio_reached": 0.02366,
+    "outlier_flag": "high"
+  },
+  {
+    "project_id": "P00036",
+    "country_iso3": "NER",
+    "year": 2025,
+    "cluster": "Health",
+    "budget_usd": 23591366.0,
+    "beneficiaries": 337518,
+    "ratio_reached": 0.014307,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00037",
+    "country_iso3": "NER",
+    "year": 2025,
+    "cluster": "Protection",
+    "budget_usd": 25205894.0,
+    "beneficiaries": 428990,
+    "ratio_reached": 0.017019,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00038",
+    "country_iso3": "CMR",
+    "year": 2025,
+    "cluster": "Health",
+    "budget_usd": 40351271.0,
+    "beneficiaries": 291554,
+    "ratio_reached": 0.007225,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00039",
+    "country_iso3": "CMR",
+    "year": 2025,
+    "cluster": "Protection",
+    "budget_usd": 30095259.0,
+    "beneficiaries": 281254,
+    "ratio_reached": 0.009345,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00040",
+    "country_iso3": "CMR",
+    "year": 2025,
+    "cluster": "Health",
+    "budget_usd": 29778464.0,
+    "beneficiaries": 399507,
+    "ratio_reached": 0.013416,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00041",
+    "country_iso3": "CMR",
+    "year": 2025,
+    "cluster": "Food",
+    "budget_usd": 32020066.0,
+    "beneficiaries": 25100,
+    "ratio_reached": 0.000784,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00042",
+    "country_iso3": "MLI",
+    "year": 2025,
+    "cluster": "Shelter",
+    "budget_usd": 54128117.0,
+    "beneficiaries": 115146,
+    "ratio_reached": 0.002127,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00043",
+    "country_iso3": "MLI",
+    "year": 2025,
+    "cluster": "WASH",
+    "budget_usd": 23144715.0,
+    "beneficiaries": 496407,
+    "ratio_reached": 0.021448,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00044",
+    "country_iso3": "MLI",
+    "year": 2025,
+    "cluster": "Education",
+    "budget_usd": 2973165.0,
+    "beneficiaries": 124630,
+    "ratio_reached": 0.041918,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00045",
+    "country_iso3": "BFA",
+    "year": 2025,
+    "cluster": "Health",
+    "budget_usd": 46846599.0,
+    "beneficiaries": 147878,
+    "ratio_reached": 0.003157,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00046",
+    "country_iso3": "BFA",
+    "year": 2025,
+    "cluster": "NFI",
+    "budget_usd": 16790634.0,
+    "beneficiaries": 222815,
+    "ratio_reached": 0.01327,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00047",
+    "country_iso3": "BFA",
+    "year": 2025,
+    "cluster": "Protection",
+    "budget_usd": 7843900.0,
+    "beneficiaries": 282946,
+    "ratio_reached": 0.036072,
+    "outlier_flag": "high"
+  },
+  {
+    "project_id": "P00048",
+    "country_iso3": "BFA",
+    "year": 2025,
+    "cluster": "Shelter",
+    "budget_usd": 43008699.0,
+    "beneficiaries": 498093,
+    "ratio_reached": 0.011581,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00049",
+    "country_iso3": "BFA",
+    "year": 2025,
+    "cluster": "Protection",
+    "budget_usd": 22971725.0,
+    "beneficiaries": 209129,
+    "ratio_reached": 0.009104,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00050",
+    "country_iso3": "NGA",
+    "year": 2025,
+    "cluster": "Education",
+    "budget_usd": 16947494.0,
+    "beneficiaries": 91816,
+    "ratio_reached": 0.005418,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00051",
+    "country_iso3": "NGA",
+    "year": 2025,
+    "cluster": "Food",
+    "budget_usd": 2139135.0,
+    "beneficiaries": 62009,
+    "ratio_reached": 0.028988,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00052",
+    "country_iso3": "NGA",
+    "year": 2025,
+    "cluster": "Health",
+    "budget_usd": 39288081.0,
+    "beneficiaries": 363956,
+    "ratio_reached": 0.009264,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00053",
+    "country_iso3": "TCD",
+    "year": 2025,
+    "cluster": "Shelter",
+    "budget_usd": 40015322.0,
+    "beneficiaries": 89023,
+    "ratio_reached": 0.002225,
+    "outlier_flag": "low"
+  },
+  {
+    "project_id": "P00054",
+    "country_iso3": "TCD",
+    "year": 2025,
+    "cluster": "NFI",
+    "budget_usd": 28294306.0,
+    "beneficiaries": 469646,
+    "ratio_reached": 0.016599,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00055",
+    "country_iso3": "TCD",
+    "year": 2025,
+    "cluster": "WASH",
+    "budget_usd": 28092744.0,
+    "beneficiaries": 351197,
+    "ratio_reached": 0.012501,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00056",
+    "country_iso3": "TCD",
+    "year": 2025,
+    "cluster": "Shelter",
+    "budget_usd": 25316027.0,
+    "beneficiaries": 91445,
+    "ratio_reached": 0.003612,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00057",
+    "country_iso3": "SDN",
+    "year": 2025,
+    "cluster": "WASH",
+    "budget_usd": 20915129.0,
+    "beneficiaries": 345014,
+    "ratio_reached": 0.016496,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00058",
+    "country_iso3": "SDN",
+    "year": 2025,
+    "cluster": "Protection",
+    "budget_usd": 40775414.0,
+    "beneficiaries": 187288,
+    "ratio_reached": 0.004593,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00059",
+    "country_iso3": "SDN",
+    "year": 2025,
+    "cluster": "NFI",
+    "budget_usd": 7020524.0,
+    "beneficiaries": 177869,
+    "ratio_reached": 0.025336,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00060",
+    "country_iso3": "SSD",
+    "year": 2025,
+    "cluster": "Food",
+    "budget_usd": 64744132.0,
+    "beneficiaries": 189469,
+    "ratio_reached": 0.002926,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00061",
+    "country_iso3": "SSD",
+    "year": 2025,
+    "cluster": "NFI",
+    "budget_usd": 33975065.0,
+    "beneficiaries": 352857,
+    "ratio_reached": 0.010386,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00062",
+    "country_iso3": "TCD",
+    "year": 2024,
+    "cluster": "WASH",
+    "budget_usd": 42574842.0,
+    "beneficiaries": 484897,
+    "ratio_reached": 0.011389,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00063",
+    "country_iso3": "TCD",
+    "year": 2024,
+    "cluster": "WASH",
+    "budget_usd": 43362784.0,
+    "beneficiaries": 137958,
+    "ratio_reached": 0.003181,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00064",
+    "country_iso3": "TCD",
+    "year": 2024,
+    "cluster": "Education",
+    "budget_usd": 43919261.0,
+    "beneficiaries": 230187,
+    "ratio_reached": 0.005241,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00065",
+    "country_iso3": "NER",
+    "year": 2024,
+    "cluster": "WASH",
+    "budget_usd": 5110965.0,
+    "beneficiaries": 57231,
+    "ratio_reached": 0.011198,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00066",
+    "country_iso3": "NER",
+    "year": 2024,
+    "cluster": "Shelter",
+    "budget_usd": 47334893.0,
+    "beneficiaries": 72512,
+    "ratio_reached": 0.001532,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00067",
+    "country_iso3": "NER",
+    "year": 2024,
+    "cluster": "Shelter",
+    "budget_usd": 37151580.0,
+    "beneficiaries": 109158,
+    "ratio_reached": 0.002938,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00068",
+    "country_iso3": "NER",
+    "year": 2024,
+    "cluster": "Education",
+    "budget_usd": 16737015.0,
+    "beneficiaries": 406244,
+    "ratio_reached": 0.024272,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00069",
+    "country_iso3": "CMR",
+    "year": 2024,
+    "cluster": "Shelter",
+    "budget_usd": 10130418.0,
+    "beneficiaries": 236971,
+    "ratio_reached": 0.023392,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00070",
+    "country_iso3": "CMR",
+    "year": 2024,
+    "cluster": "Education",
+    "budget_usd": 2051564.0,
+    "beneficiaries": 381675,
+    "ratio_reached": 0.186041,
+    "outlier_flag": "high"
+  },
+  {
+    "project_id": "P00071",
+    "country_iso3": "CMR",
+    "year": 2024,
+    "cluster": "Shelter",
+    "budget_usd": 38011807.0,
+    "beneficiaries": 335016,
+    "ratio_reached": 0.008813,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00072",
+    "country_iso3": "CMR",
+    "year": 2024,
+    "cluster": "Shelter",
+    "budget_usd": 16906660.0,
+    "beneficiaries": 317381,
+    "ratio_reached": 0.018773,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00073",
+    "country_iso3": "MLI",
+    "year": 2024,
+    "cluster": "Protection",
+    "budget_usd": 6210758.0,
+    "beneficiaries": 328425,
+    "ratio_reached": 0.05288,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00074",
+    "country_iso3": "MLI",
+    "year": 2024,
+    "cluster": "Protection",
+    "budget_usd": 5657664.0,
+    "beneficiaries": 381169,
+    "ratio_reached": 0.067372,
+    "outlier_flag": "high"
+  },
+  {
+    "project_id": "P00075",
+    "country_iso3": "NGA",
+    "year": 2024,
+    "cluster": "Education",
+    "budget_usd": 3076843.0,
+    "beneficiaries": 97933,
+    "ratio_reached": 0.031829,
+    "outlier_flag": "high"
+  },
+  {
+    "project_id": "P00076",
+    "country_iso3": "NGA",
+    "year": 2024,
+    "cluster": "Shelter",
+    "budget_usd": 10350014.0,
+    "beneficiaries": 171632,
+    "ratio_reached": 0.016583,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00077",
+    "country_iso3": "NGA",
+    "year": 2024,
+    "cluster": "Protection",
+    "budget_usd": 8182068.0,
+    "beneficiaries": 342075,
+    "ratio_reached": 0.041808,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00078",
+    "country_iso3": "SSD",
+    "year": 2024,
+    "cluster": "WASH",
+    "budget_usd": 40076975.0,
+    "beneficiaries": 398807,
+    "ratio_reached": 0.009951,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00079",
+    "country_iso3": "SSD",
+    "year": 2024,
+    "cluster": "WASH",
+    "budget_usd": 21117743.0,
+    "beneficiaries": 463309,
+    "ratio_reached": 0.021939,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00080",
+    "country_iso3": "BFA",
+    "year": 2024,
+    "cluster": "Protection",
+    "budget_usd": 24995770.0,
+    "beneficiaries": 179966,
+    "ratio_reached": 0.0072,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00081",
+    "country_iso3": "BFA",
+    "year": 2024,
+    "cluster": "Protection",
+    "budget_usd": 32689327.0,
+    "beneficiaries": 154429,
+    "ratio_reached": 0.004724,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00082",
+    "country_iso3": "BFA",
+    "year": 2024,
+    "cluster": "Health",
+    "budget_usd": 9192360.0,
+    "beneficiaries": 479694,
+    "ratio_reached": 0.052184,
+    "outlier_flag": "high"
+  },
+  {
+    "project_id": "P00083",
+    "country_iso3": "BFA",
+    "year": 2024,
+    "cluster": "Food",
+    "budget_usd": 26881512.0,
+    "beneficiaries": 238883,
+    "ratio_reached": 0.008887,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00084",
+    "country_iso3": "BFA",
+    "year": 2024,
+    "cluster": "Education",
+    "budget_usd": 4564710.0,
+    "beneficiaries": 50537,
+    "ratio_reached": 0.011071,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00085",
+    "country_iso3": "CAF",
+    "year": 2024,
+    "cluster": "Shelter",
+    "budget_usd": 39784977.0,
+    "beneficiaries": 250446,
+    "ratio_reached": 0.006295,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00086",
+    "country_iso3": "CAF",
+    "year": 2024,
+    "cluster": "Shelter",
+    "budget_usd": 55128804.0,
+    "beneficiaries": 88899,
+    "ratio_reached": 0.001613,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00087",
+    "country_iso3": "CAF",
+    "year": 2024,
+    "cluster": "Protection",
+    "budget_usd": 32370337.0,
+    "beneficiaries": 242010,
+    "ratio_reached": 0.007476,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00088",
+    "country_iso3": "SDN",
+    "year": 2024,
+    "cluster": "WASH",
+    "budget_usd": 63292455.0,
+    "beneficiaries": 172469,
+    "ratio_reached": 0.002725,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00089",
+    "country_iso3": "SDN",
+    "year": 2024,
+    "cluster": "Shelter",
+    "budget_usd": 35153956.0,
+    "beneficiaries": 426392,
+    "ratio_reached": 0.012129,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00090",
+    "country_iso3": "SDN",
+    "year": 2024,
+    "cluster": "Shelter",
+    "budget_usd": 19813687.0,
+    "beneficiaries": 20589,
+    "ratio_reached": 0.001039,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00091",
+    "country_iso3": "SDN",
+    "year": 2024,
+    "cluster": "Food",
+    "budget_usd": 55010030.0,
+    "beneficiaries": 14858,
+    "ratio_reached": 0.00027,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00092",
+    "country_iso3": "SDN",
+    "year": 2024,
+    "cluster": "NFI",
+    "budget_usd": 36593345.0,
+    "beneficiaries": 78722,
+    "ratio_reached": 0.002151,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00093",
+    "country_iso3": "TCD",
+    "year": 2023,
+    "cluster": "Shelter",
+    "budget_usd": 18236977.0,
+    "beneficiaries": 63202,
+    "ratio_reached": 0.003466,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00094",
+    "country_iso3": "TCD",
+    "year": 2023,
+    "cluster": "Protection",
+    "budget_usd": 37583453.0,
+    "beneficiaries": 68248,
+    "ratio_reached": 0.001816,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00095",
+    "country_iso3": "TCD",
+    "year": 2023,
+    "cluster": "WASH",
+    "budget_usd": 14340046.0,
+    "beneficiaries": 333117,
+    "ratio_reached": 0.02323,
+    "outlier_flag": "high"
+  },
+  {
+    "project_id": "P00096",
+    "country_iso3": "SDN",
+    "year": 2023,
+    "cluster": "Education",
+    "budget_usd": 62317150.0,
+    "beneficiaries": 386638,
+    "ratio_reached": 0.006204,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00097",
+    "country_iso3": "SDN",
+    "year": 2023,
+    "cluster": "Food",
+    "budget_usd": 8325836.0,
+    "beneficiaries": 311175,
+    "ratio_reached": 0.037375,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00098",
+    "country_iso3": "SDN",
+    "year": 2023,
+    "cluster": "NFI",
+    "budget_usd": 64681671.0,
+    "beneficiaries": 122805,
+    "ratio_reached": 0.001899,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00099",
+    "country_iso3": "SDN",
+    "year": 2023,
+    "cluster": "WASH",
+    "budget_usd": 3756607.0,
+    "beneficiaries": 79218,
+    "ratio_reached": 0.021088,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00100",
+    "country_iso3": "CMR",
+    "year": 2023,
+    "cluster": "Shelter",
+    "budget_usd": 20105093.0,
+    "beneficiaries": 161878,
+    "ratio_reached": 0.008052,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00101",
+    "country_iso3": "CMR",
+    "year": 2023,
+    "cluster": "Education",
+    "budget_usd": 24683316.0,
+    "beneficiaries": 406044,
+    "ratio_reached": 0.01645,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00102",
+    "country_iso3": "CMR",
+    "year": 2023,
+    "cluster": "NFI",
+    "budget_usd": 17341904.0,
+    "beneficiaries": 109341,
+    "ratio_reached": 0.006305,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00103",
+    "country_iso3": "CMR",
+    "year": 2023,
+    "cluster": "NFI",
+    "budget_usd": 33663738.0,
+    "beneficiaries": 152550,
+    "ratio_reached": 0.004532,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00104",
+    "country_iso3": "NER",
+    "year": 2023,
+    "cluster": "Shelter",
+    "budget_usd": 47485143.0,
+    "beneficiaries": 135423,
+    "ratio_reached": 0.002852,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00105",
+    "country_iso3": "NER",
+    "year": 2023,
+    "cluster": "NFI",
+    "budget_usd": 49049862.0,
+    "beneficiaries": 98544,
+    "ratio_reached": 0.002009,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00106",
+    "country_iso3": "NER",
+    "year": 2023,
+    "cluster": "WASH",
+    "budget_usd": 28388559.0,
+    "beneficiaries": 32006,
+    "ratio_reached": 0.001127,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00107",
+    "country_iso3": "NER",
+    "year": 2023,
+    "cluster": "Food",
+    "budget_usd": 23359745.0,
+    "beneficiaries": 484993,
+    "ratio_reached": 0.020762,
+    "outlier_flag": "high"
+  },
+  {
+    "project_id": "P00108",
+    "country_iso3": "CAF",
+    "year": 2023,
+    "cluster": "WASH",
+    "budget_usd": 52473764.0,
+    "beneficiaries": 54555,
+    "ratio_reached": 0.00104,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00109",
+    "country_iso3": "CAF",
+    "year": 2023,
+    "cluster": "Education",
+    "budget_usd": 49825322.0,
+    "beneficiaries": 446489,
+    "ratio_reached": 0.008961,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00110",
+    "country_iso3": "CAF",
+    "year": 2023,
+    "cluster": "WASH",
+    "budget_usd": 52575560.0,
+    "beneficiaries": 66830,
+    "ratio_reached": 0.001271,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00111",
+    "country_iso3": "CAF",
+    "year": 2023,
+    "cluster": "Shelter",
+    "budget_usd": 28187823.0,
+    "beneficiaries": 164805,
+    "ratio_reached": 0.005847,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00112",
+    "country_iso3": "CAF",
+    "year": 2023,
+    "cluster": "Health",
+    "budget_usd": 45589251.0,
+    "beneficiaries": 174436,
+    "ratio_reached": 0.003826,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00113",
+    "country_iso3": "BFA",
+    "year": 2023,
+    "cluster": "Food",
+    "budget_usd": 21071897.0,
+    "beneficiaries": 444285,
+    "ratio_reached": 0.021084,
+    "outlier_flag": "high"
+  },
+  {
+    "project_id": "P00114",
+    "country_iso3": "BFA",
+    "year": 2023,
+    "cluster": "Health",
+    "budget_usd": 40480448.0,
+    "beneficiaries": 375927,
+    "ratio_reached": 0.009287,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00115",
+    "country_iso3": "BFA",
+    "year": 2023,
+    "cluster": "Food",
+    "budget_usd": 15125845.0,
+    "beneficiaries": 12600,
+    "ratio_reached": 0.000833,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00116",
+    "country_iso3": "BFA",
+    "year": 2023,
+    "cluster": "NFI",
+    "budget_usd": 51769359.0,
+    "beneficiaries": 128075,
+    "ratio_reached": 0.002474,
+    "outlier_flag": "low"
+  },
+  {
+    "project_id": "P00117",
+    "country_iso3": "SSD",
+    "year": 2023,
+    "cluster": "Health",
+    "budget_usd": 5803474.0,
+    "beneficiaries": 417246,
+    "ratio_reached": 0.071896,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00118",
+    "country_iso3": "SSD",
+    "year": 2023,
+    "cluster": "NFI",
+    "budget_usd": 11448133.0,
+    "beneficiaries": 375903,
+    "ratio_reached": 0.032835,
+    "outlier_flag": "high"
+  },
+  {
+    "project_id": "P00119",
+    "country_iso3": "MLI",
+    "year": 2023,
+    "cluster": "Food",
+    "budget_usd": 33442887.0,
+    "beneficiaries": 362764,
+    "ratio_reached": 0.010847,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00120",
+    "country_iso3": "MLI",
+    "year": 2023,
+    "cluster": "NFI",
+    "budget_usd": 3517706.0,
+    "beneficiaries": 106253,
+    "ratio_reached": 0.030205,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00121",
+    "country_iso3": "NER",
+    "year": 2022,
+    "cluster": "Food",
+    "budget_usd": 52228612.0,
+    "beneficiaries": 390929,
+    "ratio_reached": 0.007485,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00122",
+    "country_iso3": "NER",
+    "year": 2022,
+    "cluster": "Food",
+    "budget_usd": 50884919.0,
+    "beneficiaries": 254660,
+    "ratio_reached": 0.005005,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00123",
+    "country_iso3": "NER",
+    "year": 2022,
+    "cluster": "Shelter",
+    "budget_usd": 23288039.0,
+    "beneficiaries": 80509,
+    "ratio_reached": 0.003457,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00124",
+    "country_iso3": "CMR",
+    "year": 2022,
+    "cluster": "Health",
+    "budget_usd": 10002273.0,
+    "beneficiaries": 122531,
+    "ratio_reached": 0.01225,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00125",
+    "country_iso3": "CMR",
+    "year": 2022,
+    "cluster": "WASH",
+    "budget_usd": 7821026.0,
+    "beneficiaries": 18801,
+    "ratio_reached": 0.002404,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00126",
+    "country_iso3": "CMR",
+    "year": 2022,
+    "cluster": "Protection",
+    "budget_usd": 50848008.0,
+    "beneficiaries": 69698,
+    "ratio_reached": 0.001371,
+    "outlier_flag": "low"
+  },
+  {
+    "project_id": "P00127",
+    "country_iso3": "CMR",
+    "year": 2022,
+    "cluster": "Food",
+    "budget_usd": 27061831.0,
+    "beneficiaries": 464477,
+    "ratio_reached": 0.017164,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00128",
+    "country_iso3": "CMR",
+    "year": 2022,
+    "cluster": "Protection",
+    "budget_usd": 40412371.0,
+    "beneficiaries": 294747,
+    "ratio_reached": 0.007293,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00129",
+    "country_iso3": "CAF",
+    "year": 2022,
+    "cluster": "WASH",
+    "budget_usd": 50899533.0,
+    "beneficiaries": 404021,
+    "ratio_reached": 0.007938,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00130",
+    "country_iso3": "CAF",
+    "year": 2022,
+    "cluster": "Health",
+    "budget_usd": 42332656.0,
+    "beneficiaries": 51350,
+    "ratio_reached": 0.001213,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00131",
+    "country_iso3": "CAF",
+    "year": 2022,
+    "cluster": "Education",
+    "budget_usd": 48692589.0,
+    "beneficiaries": 74218,
+    "ratio_reached": 0.001524,
+    "outlier_flag": "low"
+  },
+  {
+    "project_id": "P00132",
+    "country_iso3": "TCD",
+    "year": 2022,
+    "cluster": "Health",
+    "budget_usd": 31888384.0,
+    "beneficiaries": 464506,
+    "ratio_reached": 0.014567,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00133",
+    "country_iso3": "TCD",
+    "year": 2022,
+    "cluster": "Health",
+    "budget_usd": 22680155.0,
+    "beneficiaries": 486830,
+    "ratio_reached": 0.021465,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00134",
+    "country_iso3": "TCD",
+    "year": 2022,
+    "cluster": "Food",
+    "budget_usd": 8281504.0,
+    "beneficiaries": 249406,
+    "ratio_reached": 0.030116,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00135",
+    "country_iso3": "MLI",
+    "year": 2022,
+    "cluster": "Protection",
+    "budget_usd": 18029946.0,
+    "beneficiaries": 478256,
+    "ratio_reached": 0.026526,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00136",
+    "country_iso3": "MLI",
+    "year": 2022,
+    "cluster": "Shelter",
+    "budget_usd": 16557351.0,
+    "beneficiaries": 480540,
+    "ratio_reached": 0.029023,
+    "outlier_flag": "high"
+  },
+  {
+    "project_id": "P00137",
+    "country_iso3": "MLI",
+    "year": 2022,
+    "cluster": "NFI",
+    "budget_usd": 28035290.0,
+    "beneficiaries": 22181,
+    "ratio_reached": 0.000791,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00138",
+    "country_iso3": "MLI",
+    "year": 2022,
+    "cluster": "Protection",
+    "budget_usd": 31058751.0,
+    "beneficiaries": 82622,
+    "ratio_reached": 0.00266,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00139",
+    "country_iso3": "SDN",
+    "year": 2022,
+    "cluster": "Education",
+    "budget_usd": 8206060.0,
+    "beneficiaries": 364428,
+    "ratio_reached": 0.04441,
+    "outlier_flag": "high"
+  },
+  {
+    "project_id": "P00140",
+    "country_iso3": "SDN",
+    "year": 2022,
+    "cluster": "Health",
+    "budget_usd": 49977092.0,
+    "beneficiaries": 215366,
+    "ratio_reached": 0.004309,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00141",
+    "country_iso3": "SDN",
+    "year": 2022,
+    "cluster": "Health",
+    "budget_usd": 64101918.0,
+    "beneficiaries": 91325,
+    "ratio_reached": 0.001425,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00142",
+    "country_iso3": "SDN",
+    "year": 2022,
+    "cluster": "Protection",
+    "budget_usd": 13115891.0,
+    "beneficiaries": 467182,
+    "ratio_reached": 0.03562,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00143",
+    "country_iso3": "BFA",
+    "year": 2022,
+    "cluster": "Education",
+    "budget_usd": 24195907.0,
+    "beneficiaries": 239017,
+    "ratio_reached": 0.009878,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00144",
+    "country_iso3": "BFA",
+    "year": 2022,
+    "cluster": "Protection",
+    "budget_usd": 43054965.0,
+    "beneficiaries": 425020,
+    "ratio_reached": 0.009872,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00145",
+    "country_iso3": "BFA",
+    "year": 2022,
+    "cluster": "Health",
+    "budget_usd": 36573923.0,
+    "beneficiaries": 63480,
+    "ratio_reached": 0.001736,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00146",
+    "country_iso3": "BFA",
+    "year": 2022,
+    "cluster": "Food",
+    "budget_usd": 45443347.0,
+    "beneficiaries": 132751,
+    "ratio_reached": 0.002921,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00147",
+    "country_iso3": "SSD",
+    "year": 2022,
+    "cluster": "Shelter",
+    "budget_usd": 16678544.0,
+    "beneficiaries": 173779,
+    "ratio_reached": 0.010419,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00148",
+    "country_iso3": "SSD",
+    "year": 2022,
+    "cluster": "Shelter",
+    "budget_usd": 51776236.0,
+    "beneficiaries": 306948,
+    "ratio_reached": 0.005928,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00149",
+    "country_iso3": "SSD",
+    "year": 2022,
+    "cluster": "NFI",
+    "budget_usd": 58538097.0,
+    "beneficiaries": 379143,
+    "ratio_reached": 0.006477,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00150",
+    "country_iso3": "SSD",
+    "year": 2022,
+    "cluster": "Protection",
+    "budget_usd": 20449611.0,
+    "beneficiaries": 212160,
+    "ratio_reached": 0.010375,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00151",
+    "country_iso3": "SSD",
+    "year": 2022,
+    "cluster": "Health",
+    "budget_usd": 26007714.0,
+    "beneficiaries": 463972,
+    "ratio_reached": 0.01784,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00152",
+    "country_iso3": "NER",
+    "year": 2021,
+    "cluster": "Health",
+    "budget_usd": 34479674.0,
+    "beneficiaries": 481682,
+    "ratio_reached": 0.01397,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00153",
+    "country_iso3": "NER",
+    "year": 2021,
+    "cluster": "NFI",
+    "budget_usd": 15102100.0,
+    "beneficiaries": 232409,
+    "ratio_reached": 0.015389,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00154",
+    "country_iso3": "NER",
+    "year": 2021,
+    "cluster": "Shelter",
+    "budget_usd": 13756589.0,
+    "beneficiaries": 141659,
+    "ratio_reached": 0.010298,
+    "outlier_flag": "high"
+  },
+  {
+    "project_id": "P00155",
+    "country_iso3": "BFA",
+    "year": 2021,
+    "cluster": "NFI",
+    "budget_usd": 40982930.0,
+    "beneficiaries": 422020,
+    "ratio_reached": 0.010297,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00156",
+    "country_iso3": "BFA",
+    "year": 2021,
+    "cluster": "Education",
+    "budget_usd": 52379593.0,
+    "beneficiaries": 61586,
+    "ratio_reached": 0.001176,
+    "outlier_flag": "low"
+  },
+  {
+    "project_id": "P00157",
+    "country_iso3": "SDN",
+    "year": 2021,
+    "cluster": "Health",
+    "budget_usd": 32213978.0,
+    "beneficiaries": 301273,
+    "ratio_reached": 0.009352,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00158",
+    "country_iso3": "SDN",
+    "year": 2021,
+    "cluster": "Food",
+    "budget_usd": 10822779.0,
+    "beneficiaries": 104227,
+    "ratio_reached": 0.00963,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00159",
+    "country_iso3": "SDN",
+    "year": 2021,
+    "cluster": "Education",
+    "budget_usd": 22033380.0,
+    "beneficiaries": 162064,
+    "ratio_reached": 0.007355,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00160",
+    "country_iso3": "SDN",
+    "year": 2021,
+    "cluster": "NFI",
+    "budget_usd": 10673262.0,
+    "beneficiaries": 458481,
+    "ratio_reached": 0.042956,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00161",
+    "country_iso3": "SDN",
+    "year": 2021,
+    "cluster": "NFI",
+    "budget_usd": 40214284.0,
+    "beneficiaries": 91110,
+    "ratio_reached": 0.002266,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00162",
+    "country_iso3": "CMR",
+    "year": 2021,
+    "cluster": "WASH",
+    "budget_usd": 30713948.0,
+    "beneficiaries": 85270,
+    "ratio_reached": 0.002776,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00163",
+    "country_iso3": "CMR",
+    "year": 2021,
+    "cluster": "Shelter",
+    "budget_usd": 6981942.0,
+    "beneficiaries": 274739,
+    "ratio_reached": 0.03935,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00164",
+    "country_iso3": "MLI",
+    "year": 2021,
+    "cluster": "Protection",
+    "budget_usd": 4090234.0,
+    "beneficiaries": 105462,
+    "ratio_reached": 0.025784,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00165",
+    "country_iso3": "MLI",
+    "year": 2021,
+    "cluster": "WASH",
+    "budget_usd": 45940247.0,
+    "beneficiaries": 36157,
+    "ratio_reached": 0.000787,
+    "outlier_flag": "low"
+  },
+  {
+    "project_id": "P00166",
+    "country_iso3": "TCD",
+    "year": 2021,
+    "cluster": "Protection",
+    "budget_usd": 29105543.0,
+    "beneficiaries": 343550,
+    "ratio_reached": 0.011804,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00167",
+    "country_iso3": "TCD",
+    "year": 2021,
+    "cluster": "Education",
+    "budget_usd": 22465949.0,
+    "beneficiaries": 415827,
+    "ratio_reached": 0.018509,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00168",
+    "country_iso3": "TCD",
+    "year": 2021,
+    "cluster": "Food",
+    "budget_usd": 54522642.0,
+    "beneficiaries": 257218,
+    "ratio_reached": 0.004718,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00169",
+    "country_iso3": "SSD",
+    "year": 2021,
+    "cluster": "NFI",
+    "budget_usd": 53589039.0,
+    "beneficiaries": 427055,
+    "ratio_reached": 0.007969,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00170",
+    "country_iso3": "SSD",
+    "year": 2021,
+    "cluster": "Shelter",
+    "budget_usd": 4210566.0,
+    "beneficiaries": 251611,
+    "ratio_reached": 0.059757,
+    "outlier_flag": "high"
+  },
+  {
+    "project_id": "P00171",
+    "country_iso3": "SSD",
+    "year": 2021,
+    "cluster": "WASH",
+    "budget_usd": 59947104.0,
+    "beneficiaries": 126005,
+    "ratio_reached": 0.002102,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00172",
+    "country_iso3": "SSD",
+    "year": 2021,
+    "cluster": "WASH",
+    "budget_usd": 17782334.0,
+    "beneficiaries": 324858,
+    "ratio_reached": 0.018269,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00173",
+    "country_iso3": "NGA",
+    "year": 2021,
+    "cluster": "NFI",
+    "budget_usd": 21662631.0,
+    "beneficiaries": 148316,
+    "ratio_reached": 0.006847,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00174",
+    "country_iso3": "NGA",
+    "year": 2021,
+    "cluster": "Health",
+    "budget_usd": 1363447.0,
+    "beneficiaries": 193071,
+    "ratio_reached": 0.141605,
+    "outlier_flag": "high"
+  },
+  {
+    "project_id": "P00175",
+    "country_iso3": "NGA",
+    "year": 2021,
+    "cluster": "NFI",
+    "budget_usd": 45340096.0,
+    "beneficiaries": 59819,
+    "ratio_reached": 0.001319,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00176",
+    "country_iso3": "NGA",
+    "year": 2021,
+    "cluster": "Health",
+    "budget_usd": 42359159.0,
+    "beneficiaries": 62303,
+    "ratio_reached": 0.001471,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00177",
+    "country_iso3": "CAF",
+    "year": 2021,
+    "cluster": "Food",
+    "budget_usd": 54381779.0,
+    "beneficiaries": 347798,
+    "ratio_reached": 0.006395,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00178",
+    "country_iso3": "CAF",
+    "year": 2021,
+    "cluster": "Health",
+    "budget_usd": 49335631.0,
+    "beneficiaries": 423352,
+    "ratio_reached": 0.008581,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00179",
+    "country_iso3": "CAF",
+    "year": 2020,
+    "cluster": "NFI",
+    "budget_usd": 14974689.0,
+    "beneficiaries": 489990,
+    "ratio_reached": 0.032721,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00180",
+    "country_iso3": "CAF",
+    "year": 2020,
+    "cluster": "Food",
+    "budget_usd": 47315974.0,
+    "beneficiaries": 293889,
+    "ratio_reached": 0.006211,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00181",
+    "country_iso3": "CAF",
+    "year": 2020,
+    "cluster": "Education",
+    "budget_usd": 37293592.0,
+    "beneficiaries": 324817,
+    "ratio_reached": 0.00871,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00182",
+    "country_iso3": "CAF",
+    "year": 2020,
+    "cluster": "Protection",
+    "budget_usd": 45991048.0,
+    "beneficiaries": 372131,
+    "ratio_reached": 0.008091,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00183",
+    "country_iso3": "CAF",
+    "year": 2020,
+    "cluster": "Health",
+    "budget_usd": 48698401.0,
+    "beneficiaries": 272673,
+    "ratio_reached": 0.005599,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00184",
+    "country_iso3": "NER",
+    "year": 2020,
+    "cluster": "Shelter",
+    "budget_usd": 50636558.0,
+    "beneficiaries": 430211,
+    "ratio_reached": 0.008496,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00185",
+    "country_iso3": "NER",
+    "year": 2020,
+    "cluster": "Education",
+    "budget_usd": 24780406.0,
+    "beneficiaries": 394228,
+    "ratio_reached": 0.015909,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00186",
+    "country_iso3": "NER",
+    "year": 2020,
+    "cluster": "Food",
+    "budget_usd": 36235326.0,
+    "beneficiaries": 323386,
+    "ratio_reached": 0.008925,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00187",
+    "country_iso3": "MLI",
+    "year": 2020,
+    "cluster": "WASH",
+    "budget_usd": 4399833.0,
+    "beneficiaries": 78486,
+    "ratio_reached": 0.017838,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00188",
+    "country_iso3": "MLI",
+    "year": 2020,
+    "cluster": "Shelter",
+    "budget_usd": 26886651.0,
+    "beneficiaries": 90909,
+    "ratio_reached": 0.003381,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00189",
+    "country_iso3": "SSD",
+    "year": 2020,
+    "cluster": "Protection",
+    "budget_usd": 16673878.0,
+    "beneficiaries": 175736,
+    "ratio_reached": 0.01054,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00190",
+    "country_iso3": "SSD",
+    "year": 2020,
+    "cluster": "Food",
+    "budget_usd": 34633394.0,
+    "beneficiaries": 189532,
+    "ratio_reached": 0.005473,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00191",
+    "country_iso3": "SSD",
+    "year": 2020,
+    "cluster": "Education",
+    "budget_usd": 22930459.0,
+    "beneficiaries": 222609,
+    "ratio_reached": 0.009708,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00192",
+    "country_iso3": "CMR",
+    "year": 2020,
+    "cluster": "WASH",
+    "budget_usd": 36279419.0,
+    "beneficiaries": 125368,
+    "ratio_reached": 0.003456,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00193",
+    "country_iso3": "CMR",
+    "year": 2020,
+    "cluster": "Food",
+    "budget_usd": 41777121.0,
+    "beneficiaries": 474941,
+    "ratio_reached": 0.011368,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00194",
+    "country_iso3": "CMR",
+    "year": 2020,
+    "cluster": "Protection",
+    "budget_usd": 48127024.0,
+    "beneficiaries": 428554,
+    "ratio_reached": 0.008905,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00195",
+    "country_iso3": "TCD",
+    "year": 2020,
+    "cluster": "Education",
+    "budget_usd": 18924406.0,
+    "beneficiaries": 235644,
+    "ratio_reached": 0.012452,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00196",
+    "country_iso3": "TCD",
+    "year": 2020,
+    "cluster": "Shelter",
+    "budget_usd": 53224205.0,
+    "beneficiaries": 425795,
+    "ratio_reached": 0.008,
+    "outlier_flag": "high"
+  },
+  {
+    "project_id": "P00197",
+    "country_iso3": "TCD",
+    "year": 2020,
+    "cluster": "Shelter",
+    "budget_usd": 36517084.0,
+    "beneficiaries": 109154,
+    "ratio_reached": 0.002989,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00198",
+    "country_iso3": "BFA",
+    "year": 2020,
+    "cluster": "Shelter",
+    "budget_usd": 29577561.0,
+    "beneficiaries": 385479,
+    "ratio_reached": 0.013033,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00199",
+    "country_iso3": "BFA",
+    "year": 2020,
+    "cluster": "Protection",
+    "budget_usd": 4966320.0,
+    "beneficiaries": 151196,
+    "ratio_reached": 0.030444,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00200",
+    "country_iso3": "BFA",
+    "year": 2020,
+    "cluster": "WASH",
+    "budget_usd": 40388250.0,
+    "beneficiaries": 27222,
+    "ratio_reached": 0.000674,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00201",
+    "country_iso3": "BFA",
+    "year": 2020,
+    "cluster": "WASH",
+    "budget_usd": 33038482.0,
+    "beneficiaries": 350451,
+    "ratio_reached": 0.010607,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00202",
+    "country_iso3": "BFA",
+    "year": 2020,
+    "cluster": "Shelter",
+    "budget_usd": 47116543.0,
+    "beneficiaries": 460281,
+    "ratio_reached": 0.009769,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00203",
+    "country_iso3": "SDN",
+    "year": 2020,
+    "cluster": "NFI",
+    "budget_usd": 41242113.0,
+    "beneficiaries": 321748,
+    "ratio_reached": 0.007801,
+    "outlier_flag": "normal"
+  },
+  {
+    "project_id": "P00204",
+    "country_iso3": "SDN",
+    "year": 2020,
+    "cluster": "Health",
+    "budget_usd": 41728877.0,
+    "beneficiaries": 365601,
+    "ratio_reached": 0.008761,
+    "outlier_flag": "normal"
+  }
+]
