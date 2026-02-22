@@ -33,6 +33,7 @@ def build_contrarian_memo(
     simulation: Any,
     twin: Dict[str, Any] | None = None,
     scenario: Any = None,
+    aftershock: Any = None,
 ) -> Dict[str, Any]:
     """
     Build contrarian memo with TTC, equity, and data-driven key_risks.
@@ -83,6 +84,19 @@ def build_contrarian_memo(
         lines.append(
             f"Equity Shift changes by {equity_change:+.1f} percentage points, "
             "with minimal impact."
+        )
+
+    # Aftershock spillover paragraph (if provided)
+    if aftershock is not None:
+        aft = aftershock if isinstance(aftershock, dict) else getattr(aftershock, "model_dump", lambda: {})()
+        ep = aft.get("epicenter", "unknown")
+        tot = aft.get("totals", {})
+        disp = tot.get("total_delta_displaced", 0)
+        cost = tot.get("total_extra_cost_usd", 0)
+        n = tot.get("affected_countries", 0)
+        lines.append(
+            f"Spillover impact from epicenter {ep}: {n} affected countries, "
+            f"~{disp:,.0f} additional displaced, ~${cost:,.0f} extra cost estimated."
         )
 
     # Twin paragraph
