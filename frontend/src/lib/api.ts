@@ -144,6 +144,11 @@ export async function fetchTwin(projectId: string): Promise<TwinResult> {
   return fetchJson<TwinResult>(getUrl(`/twins/${encodeURIComponent(projectId)}`));
 }
 
+/** Find Success Twin for the selected crisis (epicenter). Uses crisis-matched projects and seeks a twin within that set. */
+export async function fetchTwinByEpicenter(epicenter: string): Promise<TwinResult> {
+  return fetchJson<TwinResult>(getUrl(`/twins/by_epicenter/${encodeURIComponent(epicenter)}`));
+}
+
 export async function createMemo(payload: MemoPayload): Promise<MemoResponse> {
   return fetchJson<MemoResponse>(getUrl("/memos/"), {
     method: "POST",
@@ -206,6 +211,30 @@ export async function simulateAftershock(params: {
   return data as AftershockResult;
 }
 
+export interface NeighborSituation {
+  country: string;
+  severity: number;
+  coverage_proxy: number;
+  /** 0–1 criticality for spectrum coloring (same scale as epicenter). */
+  criticality: number;
+}
+
+export interface EpicenterNeighborsResponse {
+  epicenter: string;
+  /** 0–1, so epicenter is colored on same spectrum as neighbors. */
+  epicenter_criticality: number;
+  neighbors: NeighborSituation[];
+}
+
+/**
+ * Fetch 1-hop graph neighbors of an epicenter with baseline situation per neighbor
+ * (stable / at_risk / critical) for pre-spillover map coloring.
+ */
+export async function fetchEpicenterNeighbors(epicenter: string): Promise<EpicenterNeighborsResponse> {
+  const url = getUrl(`/simulate/neighbors?epicenter=${encodeURIComponent(epicenter)}`);
+  return fetchJson<EpicenterNeighborsResponse>(url);
+}
+
 // --- Explain (Sphinx) ---
 
 export interface ExplainResponse {
@@ -234,6 +263,10 @@ export interface VectorNeighbor {
   country?: string;
   cluster?: string;
   ratio?: number;
+  name?: string;
+  sector?: string;
+  year?: number;
+  insight_bullets?: string[];
   [key: string]: unknown;
 }
 

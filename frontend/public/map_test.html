@@ -123,6 +123,11 @@
             font-weight: 500;
             padding: 2px 4px;
         }
+        /* No focus/click border on country shapes */
+        .leaflet-interactive:focus,
+        .leaflet-interactive:focus-visible {
+            outline: none !important;
+        }
     </style>
 </head>
 <body>
@@ -167,41 +172,107 @@
 
                 var darkBaselineStyle = { fillColor: '#1e293b', weight: 0.8, opacity: 1, color: '#334155', fillOpacity: 0.7 };
 
+                // Spectrum: criticality 0 (best) -> green; 1 (worst) -> red. Continuous shades; same scale for epicenter and neighbors.
+                function hex2rgb(h) {
+                    var m = h.replace(/^#/, '').match(/.{2}/g);
+                    return m ? m.map(function(x) { return parseInt(x, 16); }) : [0,0,0];
+                }
+                function rgb2hex(r, g, b) {
+                    return '#' + [r,g,b].map(function(x) { return ('0' + Math.round(x).toString(16)).slice(-2); }).join('');
+                }
+                function lerpColor(hexA, hexB, t) {
+                    var a = hex2rgb(hexA), b = hex2rgb(hexB);
+                    return rgb2hex(a[0] + (b[0]-a[0])*t, a[1] + (b[1]-a[1])*t, a[2] + (b[2]-a[2])*t);
+                }
+                var spectrumStops = [
+                    { t: 0,   fill: '#14532d', border: '#166534' },
+                    { t: 0.33, fill: '#4d7c0f', border: '#65a30d' },
+                    { t: 0.55, fill: '#a16207', border: '#ca8a04' },
+                    { t: 0.78, fill: '#c2410c', border: '#ea580c' },
+                    { t: 1,   fill: '#7f1d1d', border: '#dc2626' }
+                ];
+                function criticalityToColor(c) {
+                    var t = Math.max(0, Math.min(1, c));
+                    var i = 0;
+                    while (i + 1 < spectrumStops.length && spectrumStops[i + 1].t <= t) i++;
+                    var low = spectrumStops[i], high = spectrumStops[i + 1] || low;
+                    var u = (high.t === low.t) ? 1 : (t - low.t) / (high.t - low.t);
+                    return {
+                        fill: lerpColor(low.fill, high.fill, u),
+                        border: lerpColor(low.border, high.border, u)
+                    };
+                }
+
                 function applyAftershockStyling(layer, data) {
                     if (!layer) return;
                     var affected = data.affected || [];
+                    var neighbors = data.neighbors || [];
                     var epicenterIso = (data.epicenter || '').toUpperCase();
+                    var epicenterCriticality = typeof data.epicenter_criticality === 'number' ? data.epicenter_criticality : 0.7;
+                    var criticalityByIso = {};
+                    if (epicenterIso) criticalityByIso[epicenterIso] = epicenterCriticality;
+                    neighbors.forEach(function(n) {
+                        var iso = (typeof n === 'string' ? n : (n && n.country)) ? (typeof n === 'string' ? n : n.country).toUpperCase() : '';
+                        var crit = (typeof n === 'object' && n && typeof n.criticality === 'number') ? n.criticality : 0.5;
+                        if (iso) criticalityByIso[iso] = crit;
+                    });
+                    var postCriticalityByIso = {};
+                    var deltaDisplacedByIso = {};
+                    affected.forEach(function(a) {
+                        var iso = (a.country || '').toUpperCase();
+                        if (typeof a.post_criticality === 'number') postCriticalityByIso[iso] = a.post_criticality;
+                        if (iso) deltaDisplacedByIso[iso] = a.delta_displaced ?? a.impact ?? 0;
+                    });
+                    Object.keys(postCriticalityByIso).forEach(function(iso) { criticalityByIso[iso] = postCriticalityByIso[iso]; });
                     // 1. Reset ALL layers to dark baseline
                     layer.eachLayer(function(l) {
                         l.setStyle(darkBaselineStyle);
                     });
-                    if (!epicenterIso && affected.length === 0) return;
+                    if (!epicenterIso && affected.length === 0 && neighbors.length === 0) return;
                     var impacts = affected.map(function(a) { return Math.abs(a.delta_displaced ?? a.impact ?? 0); });
                     var maxImpact = Math.max(1, Math.max.apply(null, impacts));
-                    function bucket(impact) {
-                        var r = impact / maxImpact;
-                        if (r <= 0.33) return { weight: 2, opacity: 0.4 };
-                        if (r <= 0.66) return { weight: 3, opacity: 0.6 };
-                        return { weight: 4, opacity: 0.85 };
+                    function impactWeight(absImpact) {
+                        var r = maxImpact > 0 ? absImpact / maxImpact : 0;
+                        if (r <= 0.33) return 2;
+                        if (r <= 0.66) return 3;
+                        return 4;
                     }
                     layer.eachLayer(function(l) {
                         var p = l.feature.properties || {};
                         var iso = (p['ISO3166-1-Alpha-3'] || p.ISO_A3 || p.ADM0_A3 || p.iso_a3 || '').toString().toUpperCase();
                         var hit = affected.find(function(a) { return (a.country || '').toUpperCase() === iso; });
                         var isEpicenter = iso && epicenterIso && (iso.indexOf(epicenterIso) !== -1 || epicenterIso.indexOf(iso) !== -1);
-                        if (hit && ((hit.delta_displaced ?? hit.impact) || 0) > 0) {
-                            var absImpact = Math.abs(hit.delta_displaced ?? hit.impact ?? 0);
-                            var b = bucket(absImpact);
-                            l.setStyle({ 
-                                weight: isEpicenter ? 5 : b.weight, 
-                                color: isEpicenter ? '#dc2626' : '#ef4444', 
-                                fillColor: '#7f1d1d', 
-                                fillOpacity: b.opacity 
+                        var criticality = criticalityByIso[iso];
+                        var hasCriticality = typeof criticality === 'number';
+                        var colors = hasCriticality ? criticalityToColor(criticality) : null;
+                        var isAffected = !!hit;
+                        var deltaD = deltaDisplacedByIso[iso];
+                        var hasPost = typeof postCriticalityByIso[iso] === 'number';
+                        if (isAffected && hasCriticality) {
+                            var absImpact = Math.abs(deltaD);
+                            var borderColor = isEpicenter ? '#e5e7eb' : (deltaD > 0 ? '#ef4444' : deltaD < 0 ? '#22c55e' : '#94a3b8');
+                            l.setStyle({
+                                weight: isEpicenter ? 5 : (hasPost ? impactWeight(absImpact) : 3),
+                                color: borderColor,
+                                fillColor: colors.fill,
+                                fillOpacity: hasPost ? 0.75 : 0.6
                             });
                             l.bringToFront();
-                        } else if (isEpicenter && epicenterIso) {
-                            l.setStyle({ weight: 5, color: '#dc2626', fillColor: '#8B0000', fillOpacity: 0.9 });
+                        } else if (isEpicenter && epicenterIso && colors) {
+                            l.setStyle({
+                                weight: 5,
+                                color: '#e5e7eb',
+                                fillColor: colors.fill,
+                                fillOpacity: 0.75
+                            });
                             l.bringToFront();
+                        } else if (hasCriticality && colors) {
+                            l.setStyle({
+                                weight: 1.2,
+                                color: colors.border,
+                                fillColor: colors.fill,
+                                fillOpacity: 0.6
+                            });
                         }
                     });
                 }
@@ -221,13 +292,27 @@
                     
                     div.innerHTML = `
                         <div style="font-weight:bold; margin-bottom:10px; color:#fff; text-transform:uppercase; font-size:10px; letter-spacing:0.05em;">Map Legend</div>
-                        <div style="display:flex; align-items:center; margin-bottom:8px;">
-                            <span style="width:14px; height:14px; background:#8B0000; display:inline-block; margin-right:8px; border-radius:2px; border:1px solid #374151"></span>
-                            Critical Gap (epicenter)
+                        <div style="margin-bottom:6px; font-size:11px;">Criticality (fill)</div>
+                        <div style="display:flex; align-items:center; gap:2px; margin-bottom:8px;">
+                            <span style="width:10px; height:12px; background:#14532d; border-radius:1px;"></span>
+                            <span style="width:10px; height:12px; background:#4d7c0f; border-radius:1px;"></span>
+                            <span style="width:10px; height:12px; background:#a16207; border-radius:1px;"></span>
+                            <span style="width:10px; height:12px; background:#c2410c; border-radius:1px;"></span>
+                            <span style="width:10px; height:12px; background:#7f1d1d; border-radius:1px;"></span>
+                            <span style="margin-left:4px; font-size:10px; color:#9ca3af;">low → high</span>
+                        </div>
+                        <div style="font-size:10px; color:#9ca3af; margin-bottom:6px;">Pre = baseline; after Run = post-aftershock</div>
+                        <div style="display:flex; align-items:center; margin-bottom:6px;">
+                            <span style="width:14px; height:14px; border:2px solid #e5e7eb; border-radius:2px; margin-right:8px; background:transparent;"></span>
+                            Epicenter
+                        </div>
+                        <div style="display:flex; align-items:center; margin-bottom:6px;">
+                            <span style="width:14px; height:14px; border:2px solid #ef4444; border-radius:2px; margin-right:8px; background:transparent;"></span>
+                            Worse (e.g. cut funding)
                         </div>
                         <div style="display:flex; align-items:center;">
-                            <span style="width:14px; height:3px; background:#ef4444; display:inline-block; margin-right:8px; border-radius:1px;"></span>
-                            Displacement Route
+                            <span style="width:14px; height:14px; border:2px solid #22c55e; border-radius:2px; margin-right:8px; background:transparent;"></span>
+                            Better (e.g. more funding)
                         </div>
                     `;
                     return div;
@@ -323,15 +408,6 @@
                         var coords = sahelCentroids[iso];
                         if (coords) {
                             map.flyTo(coords, 5, { duration: 1.0 });
-                            gl.eachLayer(function(layer) {
-                                var lp = layer.feature.properties || {};
-                        var lIso = (lp['ISO3166-1-Alpha-3'] || lp.ISO_A3 || lp.ADM0_A3 || '').toString().toUpperCase();
-                                if (lIso.indexOf(iso) !== -1) {
-                                    layer.setStyle({ weight: 4, color: '#facc15' });
-                                    layer.bringToFront();
-                                    setTimeout(function() { layer.setStyle({ weight: 0.8, color: '#444' }); }, 2000);
-                                }
-                            });
                         }
                         return;
                     }

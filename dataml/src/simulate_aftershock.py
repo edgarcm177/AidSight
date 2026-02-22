@@ -241,23 +241,28 @@ def _heuristic_spillover(
     cov = latest["coverage"].reindex(nodes).fillna(0.5).values.astype("float32")
     need = latest["people_in_need"].reindex(nodes).fillna(1_000_000).values.astype("float64")
 
-    # Epicenter: coverage drops, need rises
     cov_cur = cov.copy()
     need_cur = need.copy()
     shock_magnitude = abs(delta_pct) * (1.0 + 0.1 * horizon_steps)
-    cov_cur[idx] = max(0.0, cov[idx] + delta_pct * 0.5)
-    need_cur[idx] = need[idx] * (1.0 + shock_magnitude * 0.3)
+    # Epicenter: sign of delta matters — cut funding → worse; increase funding → better
+    cov_cur[idx] = max(0.0, min(1.0, cov[idx] + delta_pct * 0.5))
+    if delta_pct < 0:
+        need_cur[idx] = need[idx] * (1.0 + shock_magnitude * 0.3)
+    else:
+        need_cur[idx] = need[idx] * max(0.5, 1.0 - shock_magnitude * 0.2)
 
     neighbors = _neighbors_of(graph_df, node_iso3)
-    # Spillover: each neighbor gets a fraction of epicenter's relative need increase
-    spillover_frac = 0.25 * horizon_steps / 3.0  # scale with steps
+    spillover_frac = 0.25 * horizon_steps / 3.0
     for nb in neighbors:
         if nb not in node_to_idx:
             continue
         j = node_to_idx[nb]
-        # Severity and need increase from spillover
-        cov_cur[j] = max(0.0, cov[j] - spillover_frac * 0.1)
-        need_cur[j] = need[j] * (1.0 + spillover_frac * 0.2)
+        if delta_pct < 0:
+            cov_cur[j] = max(0.0, cov[j] - spillover_frac * 0.1)
+            need_cur[j] = need[j] * (1.0 + spillover_frac * 0.2)
+        else:
+            cov_cur[j] = min(1.0, cov[j] + spillover_frac * 0.05)
+            need_cur[j] = need[j] * max(0.7, 1.0 - spillover_frac * 0.1)
 
     return baseline_year, latest, cov_cur, need_cur, nodes, node_to_idx
 

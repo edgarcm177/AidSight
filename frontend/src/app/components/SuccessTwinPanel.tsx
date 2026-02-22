@@ -14,8 +14,6 @@ interface SuccessTwinPanelProps {
   epicenter: string;
   simulationResult: AftershockResult | null;
   projects: ProjectListItem[];
-  selectedProjectId: string;
-  onProjectChange: (projectId: string) => void;
   twinResult: TwinResult | null;
   twinLoading: boolean;
   twinError: string | null;
@@ -95,8 +93,6 @@ export function SuccessTwinPanel({
   epicenter,
   simulationResult,
   projects,
-  selectedProjectId,
-  onProjectChange,
   twinResult,
   twinLoading,
   twinError,
@@ -175,11 +171,13 @@ export function SuccessTwinPanel({
     }
   };
 
+  const referenceProjectId = twinResult?.target_project_id ?? null;
   const handleFetchNeighbors = async () => {
+    if (!referenceProjectId) return;
     setNeighborsLoading(true);
     setNeighbors(null);
     try {
-      const res = await getVectorNeighbors(selectedProjectId);
+      const res = await getVectorNeighbors(referenceProjectId);
       setNeighbors(res.neighbors || []);
     } catch {
       setNeighbors([]);
@@ -335,25 +333,19 @@ export function SuccessTwinPanel({
             <section>
               <h3 className="text-xs uppercase tracking-wider text-gray-500 mb-4">Success Twin</h3>
               <div className="bg-[#1a1f2e] border border-gray-800 rounded-lg p-4 space-y-3">
-                <div>
-                  <label className="block text-xs text-gray-500 mb-1">Project to match</label>
-                  <select
-                    value={selectedProjectId}
-                    onChange={(e) => onProjectChange(e.target.value)}
-                    className="w-full bg-[#0f1421] border border-gray-700 rounded px-3 py-2 text-sm text-gray-200 focus:border-teal-500 focus:ring-1 focus:ring-teal-500"
-                  >
-                    {projects.length === 0 && <option value={selectedProjectId}>{selectedProjectId}</option>}
-                    {projects.map((p) => {
-                      const label = p.name || [p.sector, p.country, p.year].filter(Boolean).join(', ') || p.id;
-                      return (
-                        <option key={p.id} value={p.id}>
-                          {p.id} — {label}
-                        </option>
-                      );
-                    })}
-                  </select>
-                </div>
-                <button onClick={onFindTwin} disabled={twinLoading} className="text-teal-400 hover:text-teal-300 text-sm font-medium transition-colors">
+                <p className="text-xs text-gray-500">
+                  Matches the selected crisis (epicenter) and finds a similar project <span className="text-teal-400 font-medium">within that country</span>.
+                </p>
+                {epicenter && (
+                  <p className="text-sm text-gray-300">
+                    Crisis: <span className="text-teal-400">{epicenter}</span>
+                  </p>
+                )}
+                <button
+                  onClick={onFindTwin}
+                  disabled={twinLoading || !epicenter}
+                  className="text-teal-400 hover:text-teal-300 text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
                   {twinLoading ? 'Searching...' : 'Find Success Twin ↗'}
                 </button>
                 {twinResult && (
@@ -379,15 +371,24 @@ export function SuccessTwinPanel({
               <h3 className="text-xs uppercase tracking-wider text-gray-500 mb-4">Similar projects (VectorAI)</h3>
               <div className="bg-[#1a1f2e] border border-gray-800 rounded-lg p-4">
                 <p className="text-xs text-gray-500 mb-2">
-                  Similar to{' '}
-                  <span className="text-teal-400">
-                    {projects.find((p) => p.id === selectedProjectId)?.name ?? selectedProjectId}
-                  </span>
-                  {selectedProjectId && <span className="text-gray-500 ml-1">({selectedProjectId})</span>}
+                  {referenceProjectId ? (
+                    <>
+                      Similar to{' '}
+                      <span className="text-teal-400">
+                        {projects.find((p) => p.id === referenceProjectId)?.name ?? referenceProjectId}
+                      </span>
+                      <span className="text-gray-500 ml-1">({referenceProjectId})</span>
+                    </>
+                  ) : (
+                    'Find Success Twin first to enable similar projects (uses crisis-matched reference).'
+                  )}
+                </p>
+                <p className="text-xs text-gray-500 mb-3">
+                  Use these to compare sector, funding levels, and delivery models in similar contexts.
                 </p>
                 <button
                   onClick={handleFetchNeighbors}
-                  disabled={neighborsLoading}
+                  disabled={neighborsLoading || !referenceProjectId}
                   className="text-teal-400 hover:text-teal-300 text-sm font-medium transition-colors disabled:opacity-50"
                 >
                   {neighborsLoading ? 'Loading…' : 'Find similar projects'}
@@ -395,18 +396,25 @@ export function SuccessTwinPanel({
                 {neighbors !== null && (neighbors.length === 0 ? (
                   <p className="text-sm text-gray-500 mt-3">No similar projects available yet.</p>
                 ) : (
-                  <ul className="mt-3 space-y-2 text-sm text-gray-300">
+                  <ul className="mt-4 space-y-4 text-sm text-gray-300">
                     {neighbors?.map((n, idx) => {
                       const id = n.project_id ?? n.id ?? '—';
-                      const meta = [n.country, n.cluster].filter(Boolean).join(' · ');
+                      const name = n.name ?? id;
+                      const meta = [n.country, n.sector ?? n.cluster].filter(Boolean).join(' · ');
                       const ratioPct = typeof n.ratio === 'number' ? `${Math.round(n.ratio * 100)}% funded` : '';
-                      const extra = [meta, ratioPct].filter(Boolean).join(' · ');
+                      const simPct = typeof n.similarity_score === 'number' ? `${(n.similarity_score * 100).toFixed(0)}% similar` : '';
+                      const titleParts = [meta, ratioPct, simPct].filter(Boolean).join(' · ');
+                      const bullets = n.insight_bullets ?? [];
                       return (
-                        <li key={String(id) + idx}>
-                          <span className="font-mono text-teal-400">{id}</span>
-                          {extra && <span className="text-gray-500 ml-2">{extra}</span>}
-                          {typeof n.similarity_score === 'number' && (
-                            <span className="text-gray-500 ml-2">({(n.similarity_score * 100).toFixed(0)}% similar)</span>
+                        <li key={String(id) + idx} className="border border-gray-800 rounded p-3 bg-[#0f1421]">
+                          <div className="font-medium text-teal-400">{name}</div>
+                          {titleParts && <div className="text-xs text-gray-500 mt-0.5">{titleParts}</div>}
+                          {bullets.length > 0 && (
+                            <ul className="mt-2 list-disc list-inside text-xs text-gray-400 space-y-0.5">
+                              {bullets.map((b, i) => (
+                                <li key={i}>{b}</li>
+                              ))}
+                            </ul>
                           )}
                         </li>
                       );

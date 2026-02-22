@@ -14,6 +14,12 @@ Humanitarian strategy sandbox: crisis data, fragility simulation (TTC, Equity Sh
    ```
    Produces `backend/data/crises.parquet` and `backend/data/projects.parquet`.
 
+   **Success Twin project data:** The app loads projects from `data/projects.parquet`. If you see "Not enough projects in crisis country MLI" (or BFA/NER/TCD), seed at least 2 projects per epicenter:
+   ```bash
+   python -m backend.scripts.seed_epicenter_projects
+   ```
+   This adds synthetic MLI, BFA, NER, TCD projects to `data/projects.parquet` so "Find Success Twin" works for every epicenter.
+
 2. **Backend dependencies:**
    ```bash
    pip install -r backend/requirements.txt

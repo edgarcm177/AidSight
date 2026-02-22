@@ -165,6 +165,21 @@ class EdgeImpact(BaseModel):
     propagated_severity: float
 
 
+class NeighborSituation(BaseModel):
+    """Per-neighbor baseline for map: continuous criticality (0=best, 1=worst)."""
+    country: str  # ISO3
+    severity: float  # 0-1
+    coverage_proxy: float  # 0-1
+    criticality: float  # 0-1, same scale for spectrum coloring (epicenter + neighbors)
+
+
+class EpicenterNeighborsResponse(BaseModel):
+    """1-hop graph neighbors + epicenter baseline for spectrum coloring."""
+    epicenter: str
+    epicenter_criticality: float  # 0-1, so epicenter uses same spectrum as neighbors
+    neighbors: List[NeighborSituation]
+
+
 class AftershockResult(BaseModel):
     baseline_year: int
     epicenter: str

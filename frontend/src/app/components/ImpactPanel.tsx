@@ -1,6 +1,7 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import csvDataUrl from '../../../../dataml/data/raw/misfit_final_analysis.csv';
-import type { AftershockResult, AffectedCountryImpact } from '../../lib/api';
+import type { AftershockResult, AffectedCountryImpact, EpicenterNeighborsResponse } from '../../lib/api';
+import { fetchEpicenterNeighbors } from '../../lib/api';
 
 /** Only count nodes with prob_underfunded_next above this threshold. */
 const UNDERFUNDED_THRESHOLD = 0.5;
@@ -38,22 +39,45 @@ export function ImpactPanel({
 }: ImpactPanelProps) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const hasScenario = !!simulationResult;
+  const [neighborsData, setNeighborsData] = useState<EpicenterNeighborsResponse | null>(null);
+
+  useEffect(() => {
+    if (!epicenter) {
+      setNeighborsData(null);
+      return;
+    }
+    fetchEpicenterNeighbors(epicenter)
+      .then((res) => setNeighborsData(res))
+      .catch(() => setNeighborsData(null));
+  }, [epicenter]);
 
   useEffect(() => {
     if (!iframeRef.current) return;
     const epicenterToShow = simulationResult?.epicenter ?? epicenter;
-    const affectedToShow = simulationResult?.affected?.map((a) => ({
-      country: a.country,
-      delta_displaced: a.delta_displaced ?? 0,
-      extra_cost_usd: a.extra_cost_usd ?? 0,
-      prob_underfunded_next: a.prob_underfunded_next,
-    })) ?? [];
+    const affectedToShow = simulationResult?.affected?.map((a) => {
+      const sev = a.projected_severity ?? 0.5;
+      const cov = a.projected_coverage ?? 0.5;
+      const postCriticality = Math.max(0, Math.min(1, (sev + (1 - cov)) / 2));
+      return {
+        country: a.country,
+        delta_displaced: a.delta_displaced ?? 0,
+        extra_cost_usd: a.extra_cost_usd ?? 0,
+        prob_underfunded_next: a.prob_underfunded_next,
+        projected_severity: a.projected_severity,
+        projected_coverage: a.projected_coverage,
+        post_criticality: postCriticality,
+      };
+    }) ?? [];
+    const neighborsToSend = epicenter && neighborsData ? neighborsData.neighbors : [];
+    const epicenterCriticality = epicenter && neighborsData ? neighborsData.epicenter_criticality : undefined;
     iframeRef.current.contentWindow?.postMessage({
       type: 'AFTERSHOCK_AFFECTED',
       epicenter: epicenterToShow,
+      epicenter_criticality: epicenterCriticality,
       affected: affectedToShow,
+      neighbors: neighborsToSend,
     }, '*');
-  }, [epicenter, simulationResult?.epicenter, simulationResult?.affected]);
+  }, [epicenter, neighborsData, simulationResult?.epicenter, simulationResult?.affected]);
 
   useEffect(() => {
     const handleFocus = (e: Event) => {

@@ -7,7 +7,7 @@ import {
   fetchProjects,
   simulateAftershock,
   AFTERSHOCK_ERROR_MESSAGE,
-  fetchTwin,
+  fetchTwinByEpicenter,
   createMemo,
   type Crisis,
   type AftershockResult,
@@ -17,8 +17,6 @@ import {
 } from '../lib/api';
 import { reportDiagnostics } from '../lib/diagnostics';
 
-const DEFAULT_PROJECT_ID = 'PRJ001';
-
 export default function App() {
   const [crises, setCrises] = useState<Crisis[]>([]);
   const [crisesLoading, setCrisesLoading] = useState(true);
@@ -26,8 +24,7 @@ export default function App() {
   const [selectedCrisisId, setSelectedCrisisId] = useState<string | null>(null);
 
   const [projects, setProjects] = useState<ProjectListItem[]>([]);
-  const [selectedProjectId, setSelectedProjectId] = useState(DEFAULT_PROJECT_ID);
-  
+
   // --- AFTERSHOCK STATE ---
   const [epicenter, setEpicenter] = useState('');
   const [fundingAdjustment, setFundingAdjustment] = useState(-20);
@@ -155,10 +152,11 @@ export default function App() {
   };
 
   const handleFindTwin = async () => {
+    if (!epicenter) return;
     setTwinLoading(true);
     setTwinError(null);
     try {
-      const result = await fetchTwin(selectedProjectId);
+      const result = await fetchTwinByEpicenter(epicenter);
       setTwinResult(result);
     } catch (err) {
       setTwinError(err instanceof Error ? err.message : 'Failed to find twin');
@@ -261,8 +259,6 @@ export default function App() {
             epicenter={epicenter}
             simulationResult={simulationResult}
             projects={projects}
-            selectedProjectId={selectedProjectId}
-            onProjectChange={setSelectedProjectId}
             twinResult={twinResult}
             twinLoading={twinLoading}
             twinError={twinError}
