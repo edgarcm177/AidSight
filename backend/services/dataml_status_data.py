@@ -98,6 +98,7 @@ def _load_from_databricks() -> Optional[Tuple[int, List[Dict[str, Any]], List[Di
     if not rows:
         return None
 
+    logger.info("Databricks crisis_metrics: %d rows (limit=500)", len(rows))
     countries = []
     for r in rows:
         iso3 = str(r.get("country_iso3", "")).upper()
@@ -133,6 +134,7 @@ def get_status_data() -> Tuple[int, List[Dict[str, Any]], List[Dict[str, Any]], 
     if db_result is not None:
         return db_result
 
+    logger.info("Databricks disabled; using local sahel_panel.parquet / nodes.json")
     dataml_result = load_status_from_dataml()
     if dataml_result is not None:
         return dataml_result

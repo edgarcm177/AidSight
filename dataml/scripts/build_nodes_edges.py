@@ -24,7 +24,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 
-from dataml.scripts._region_config import SAHEL_ISO3, YEAR_MIN, YEAR_MAX, BASELINE_YEAR
+from dataml.scripts._region_config import SAHEL_ISO3, YEAR_MIN, YEAR_MAX, BASELINE_YEAR, DEMO_YEAR, DEMO_EPICENTERS
 from dataml.src.graph import SPILLOVER_EDGES
 
 DATAML_ROOT = Path(__file__).resolve().parent.parent
@@ -170,6 +170,18 @@ def main() -> int:
     graph_df = pd.DataFrame(graph_rows)
     graph_df.to_parquet(SPILLOVER_GRAPH_PATH, index=False)
     log.info("Wrote spillover_graph.parquet (%d edges) -> %s", len(graph_df), SPILLOVER_GRAPH_PATH)
+
+    # Demo summary: nodes/edges for demo year, countries present
+    demo_nodes = df[df["year"] == DEMO_YEAR] if "year" in df.columns else df
+    demo_countries = sorted(demo_nodes["country_iso3"].unique().tolist()) if not demo_nodes.empty else []
+    demo_crises = len(demo_nodes)
+    log.info(
+        "Sahel panel: %d demo crises for %d (%s); edges: %d",
+        demo_crises,
+        DEMO_YEAR,
+        ", ".join(demo_countries[:8]) + ("..." if len(demo_countries) > 8 else ""),
+        len(graph_df),
+    )
 
     return 0
 

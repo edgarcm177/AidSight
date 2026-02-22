@@ -1,8 +1,9 @@
 """
 Sphinx reasoning client for crisis explanation.
 Enabled if and only if SPHINX_BASE_URL is set (no API key required).
-Posts query + context JSON; expects {answer} or similar in response.
-Raises SphinxDisabled when URL missing or HTTP call fails.
+Posts query + context JSON; expects {answer}, {explanation}, {text}, or {response}.
+All HTTP client exceptions are caught, logged, and re-raised as SphinxDisabled
+so /explain/crisis never crashes.
 """
 
 import json
@@ -63,6 +64,7 @@ def explain_crisis(crisis_id: str, metrics: dict, aftershock: dict | None) -> st
             or data.get("response")
         )
         if isinstance(text, str):
+            logger.info("Sphinx explanation generated for crisis_id=%s", crisis_id)
             return text.strip()
         raise SphinxDisabled("Sphinx response missing answer/explanation field")
     except SphinxDisabled:

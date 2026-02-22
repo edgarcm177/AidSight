@@ -174,7 +174,11 @@ def _run_model_forward(
         np.column_stack([cov, need_norm, gap_norm, conflict, drought]),
         dtype=torch.float32,
     )
-    src_idx, tgt_idx = get_edge_index(graph_df, node_to_idx)
+    # Filter graph to model's node set (graph may have extra countries from panel)
+    graph_filtered = graph_df[
+        graph_df["source_iso3"].isin(node_to_idx) & graph_df["target_iso3"].isin(node_to_idx)
+    ]
+    src_idx, tgt_idx = get_edge_index(graph_filtered, node_to_idx)
     edge_index = torch.tensor([src_idx, tgt_idx], dtype=torch.long)
 
     delta_pct = float(delta_funding_pct)  # already in decimal form if backend sends -0.2

@@ -34,7 +34,7 @@ def explain_crisis_endpoint(payload: ExplainRequest) -> ExplainResponse:
         return ExplainResponse(explanation=text)
     except SphinxDisabled:
         return ExplainResponse(
-            explanation="Sphinx is not configured; this is a static explanation based on local metrics. "
+            explanation="Sphinx is not configured; here is a basic explanation based on local metrics: "
             "The crisis may be overlooked due to lower visibility compared to larger neighboring crises. "
             "Set SPHINX_BASE_URL to enable AI reasoning."
         )

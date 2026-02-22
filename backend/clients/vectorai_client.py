@@ -22,8 +22,9 @@ def vectorai_enabled() -> bool:
 def query_similar_projects(project_id: str, top_k: int = 5) -> list[dict]:
     """
     Query VectorAI for nearest neighbors of project_id.
-    Returns list of {id, similarity_score, ratio, country, cluster}.
-    Raises VectorAIDisabled if not configured or query fails.
+    Never returns None: when disabled or on error, always raises VectorAIDisabled.
+    Expected neighbor shape: {"project_id"|"id", "similarity_score"|"score",
+      "country_iso3"|"country", "cluster", "ratio"|"ratio_reached"}.
     """
     if not vectorai_enabled():
         raise VectorAIDisabled("ACTIAN_VECTORAI_CONNECTION_STRING and ACTIAN_PROJECTS_COLLECTION not set")

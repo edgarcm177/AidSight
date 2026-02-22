@@ -1,8 +1,17 @@
 """
 Read-only Databricks client for crisis_metrics.
+
+Expected table: aftershock.crisis_metrics
+Columns: country_iso3 (str), year (int), severity_score (double),
+  requirements_usd (double), funding_usd (double), coverage_pct (double),
+  pooled_fund_coverage_usd (double), underfunding_score (double)
+Usage: read-only; no writes.
+
 Uses DATABRICKS_HOST, DATABRICKS_TOKEN, DATABRICKS_HTTP_PATH.
 If any required env var is missing, raises DatabricksDisabled immediately.
 On SQL failure, logs and re-raises DatabricksDisabled so callers can fall back.
+
+SQL uses .format(limit=N) where N is int-sanitized in fetch_crisis_metrics.
 """
 
 import logging
@@ -12,9 +21,6 @@ DatabricksDisabled = type("DatabricksDisabled", (Exception,), {})
 
 logger = logging.getLogger(__name__)
 
-# Table: aftershock.crisis_metrics
-# Schema: country_iso3, year, severity_score, requirements_usd, funding_usd,
-#         coverage_pct, pooled_fund_coverage_usd, underfunding_score
 CRISIS_METRICS_SQL = """
 SELECT
   country_iso3,
@@ -39,9 +45,8 @@ def _is_configured() -> bool:
 
 def fetch_crisis_metrics(limit: int = 500) -> list[dict]:
     """
-    Returns rows from crisis_metrics table in Databricks.
-    Schema: country_iso3, year, severity_score, requirements_usd,
-    funding_usd, coverage_pct, pooled_fund_coverage_usd, underfunding_score
+    Returns rows from aftershock.crisis_metrics.
+    limit is int-sanitized to avoid SQL injection.
     """
     if not _is_configured():
         raise DatabricksDisabled("Databricks env vars (DATABRICKS_HOST, DATABRICKS_TOKEN, DATABRICKS_HTTP_PATH) not set")
@@ -55,11 +60,12 @@ def fetch_crisis_metrics(limit: int = 500) -> list[dict]:
     token = os.environ["DATABRICKS_TOKEN"].strip()
     path = os.environ["DATABRICKS_HTTP_PATH"].strip()
 
+    limit_safe = max(1, min(10000, int(limit)))
     conn = None
     try:
         conn = sql.connect(server_hostname=host, http_path=path, access_token=token)
         cur = conn.cursor()
-        q = CRISIS_METRICS_SQL.format(limit=limit)
+        q = CRISIS_METRICS_SQL.format(limit=limit_safe)
         cur.execute(q)
         rows = cur.fetchall()
         cols = [d[0] for d in cur.description]

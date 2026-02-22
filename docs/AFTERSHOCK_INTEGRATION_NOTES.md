@@ -107,9 +107,28 @@ python -m dataml.scripts.build_nodes_edges
 - **Databricks disabled**: Uses `dataml/data/processed/nodes.json` and `edges.json`; if missing, backend mock.
 
 **Databricks setup:**
-- Table expected: `aftershock.crisis_metrics` with columns: country_iso3, year, severity_score, requirements_usd, funding_usd, coverage_pct, pooled_fund_coverage_usd, underfunding_score
-- Create from sahel_panel.parquet via Databricks notebook: `spark.read.parquet("path/to/sahel_panel.parquet").write.saveAsTable("aftershock.crisis_metrics")`
-- Env vars: `DATABRICKS_HOST`, `DATABRICKS_TOKEN`, `DATABRICKS_HTTP_PATH`
+
+1. Run ETL to produce `dataml/data/processed/sahel_panel.parquet`.
+2. Upload the parquet file to Databricks (DBFS or cloud path).
+3. In a Databricks notebook:
+   ```python
+   df = spark.read.parquet("/path/to/sahel_panel.parquet")
+   df = df.withColumnRenamed("funding_total_usd", "funding_usd")  # if needed
+   df.write.saveAsTable("aftershock.crisis_metrics")
+   ```
+   Or with SQL:
+   ```sql
+   CREATE TABLE aftershock.crisis_metrics
+   USING DELTA
+   AS SELECT
+     country_iso3, year, severity as severity_score,
+     funding_required as requirements_usd, funding_received as funding_usd,
+     coverage * 100 as coverage_pct, funding_received as pooled_fund_coverage_usd,
+     underfunding_score
+   FROM parquet.`/path/to/sahel_panel.parquet`;
+   ```
+4. Ensure schema: country_iso3, year, severity_score, requirements_usd, funding_usd, coverage_pct, pooled_fund_coverage_usd, underfunding_score.
+5. Env vars: `DATABRICKS_HOST`, `DATABRICKS_TOKEN`, `DATABRICKS_HTTP_PATH`
 
 ### POST /explain/crisis (Sphinx)
 

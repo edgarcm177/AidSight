@@ -1,11 +1,13 @@
 """Project metrics and neighbors endpoints. Data from dataml/data/processed/."""
 
 import json
+import logging
 from pathlib import Path
 
 from fastapi import APIRouter, HTTPException
 
 router = APIRouter()
+log = logging.getLogger(__name__)
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 DATAML_PROCESSED = REPO_ROOT / "dataml" / "data" / "processed"
@@ -73,11 +75,13 @@ def get_vector_neighbors(project_id: str, top_k: int = 5):
         from ..clients.vectorai_client import VectorAIDisabled, query_similar_projects
 
         results = query_similar_projects(project_id, top_k)
+        log.info("VectorAI neighbors used for project_id=%s (k=%d)", project_id, top_k)
         return {"project_id": project_id, "neighbors": _normalize_neighbors(results)}
     except VectorAIDisabled:
         from ..services.vectorai import search_similar_projects
 
         results = search_similar_projects(project_id, top_k)
+        log.info("VectorAI disabled; using in-memory neighbors for project_id=%s", project_id)
         return {"project_id": project_id, "neighbors": _normalize_neighbors(results)}
     except Exception as e:
         raise HTTPException(status_code=503, detail=str(e))
