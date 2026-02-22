@@ -1,17 +1,5 @@
-import { ExternalLink } from 'lucide-react';
+import { useState } from 'react';
 import type { TwinResult, MemoResponse } from '../../lib/api';
-
-const DEFAULT_PROJECT_ID = 'PRJ001';
-
-function humanizeKeyRisk(key: string): string {
-  const map: Record<string, string> = {
-    fragility_increase: 'Fragility increase',
-    equity_regression: 'Equity regression',
-    inflation_risk: 'Inflation risk',
-    model_uncertainty: 'Model uncertainty',
-  };
-  return map[key] || key.replace(/_/g, ' ');
-}
 
 interface SuccessTwinPanelProps {
   twinResult: TwinResult | null;
@@ -36,120 +24,103 @@ export function SuccessTwinPanel({
   onGenerateMemo,
   canGenerateMemo,
 }: SuccessTwinPanelProps) {
+  const [activeTab, setActiveTab] = useState<'impact' | 'ai'>('impact');
+
+  // NEW: Broadcast a custom event when a country is clicked
+  const handleCountryClick = (iso: string) => {
+    window.dispatchEvent(new CustomEvent('FOCUS_MAP_COUNTRY', { detail: iso }));
+  };
+
   return (
-    <div className="p-6 flex flex-col h-full">
-      {/* Success Twin Card */}
-      <div className="bg-[#0a0e1a] border border-gray-800 rounded-lg p-5 mb-6">
-        <h2 className="text-sm uppercase tracking-wider text-gray-500 mb-2">Success Twin</h2>
-        <p className="text-xs text-gray-600 mb-4">
-          Sample project: <span className="font-mono text-teal-400">{DEFAULT_PROJECT_ID}</span> (representative for demo)
-        </p>
-
-        {twinResult ? (
-          <>
-            <h3 className="text-base text-teal-400 mb-2">
-              Twin: {twinResult.twin_project_id}
-            </h3>
-            <div className="mb-3">
-              <span className="text-xs text-gray-500">Similarity: </span>
-              <span className="text-sm font-mono text-teal-400">
-                {(twinResult.similarity_score * 100).toFixed(1)}%
-              </span>
-            </div>
-            <p className="text-xs text-gray-500 mb-2">This project is similar to {DEFAULT_PROJECT_ID} because:</p>
-            <ul className="space-y-2 mb-4">
-              {twinResult.bullets.map((b, i) => (
-                <li key={i} className="text-sm text-gray-300 flex items-start">
-                  <span className="text-teal-500 mr-2">•</span>
-                  <span>{b}</span>
-                </li>
-              ))}
-            </ul>
-          </>
-        ) : (
-          <div className="text-sm text-gray-500 mb-4">
-            Click below to find a Success Twin for sample project {DEFAULT_PROJECT_ID}.
-          </div>
-        )}
-
-        {twinError && (
-          <div className="mb-4 p-2 bg-red-900/30 border border-red-700 rounded text-xs text-red-300">
-            {twinError}
-          </div>
-        )}
-
+    <div className="flex flex-col h-full bg-[#0f1421]">
+      <div className="flex border-b border-gray-800 shrink-0 px-2 pt-2">
         <button
-          onClick={onFindTwin}
-          disabled={twinLoading}
-          aria-label="Find Success Twin"
-          className="flex items-center gap-1.5 text-sm text-teal-400 hover:text-teal-300 disabled:opacity-50 transition-colors focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-[#0a0e1a] rounded px-2 py-1"
+          onClick={() => setActiveTab('impact')}
+          className={`px-4 py-3 text-sm font-medium transition-colors border-b-2 ${
+            activeTab === 'impact' ? 'border-teal-500 text-teal-400' : 'border-transparent text-gray-500 hover:text-gray-300'
+          }`}
         >
-          {twinLoading ? 'Loading…' : (
-            <>
-              <span>Find Success Twin</span>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </>
-          )}
+          Spillover Impact
+        </button>
+        <button
+          onClick={() => setActiveTab('ai')}
+          className={`px-4 py-3 text-sm font-medium transition-colors border-b-2 ${
+            activeTab === 'ai' ? 'border-teal-500 text-teal-400' : 'border-transparent text-gray-500 hover:text-gray-300'
+          }`}
+        >
+          Success Twin & Memo
         </button>
       </div>
 
-      {/* Contrarian Decision Memo */}
-      <div className="bg-[#0a0e1a] border border-gray-800 rounded-lg flex-1 flex flex-col overflow-hidden min-h-[200px]">
-        <div className="px-5 py-4 border-b border-gray-800">
-          <h2 className="text-sm uppercase tracking-wider text-gray-500 mb-1">Contrarian Decision Memo</h2>
-          <div className="text-xs text-gray-600">AI Analyst Feedback</div>
-        </div>
+      <div className="p-6 overflow-y-auto flex-1">
+        {activeTab === 'impact' && (
+          <div className="space-y-6">
+            <section>
+              <h3 className="text-xs uppercase tracking-wider text-gray-500 mb-4">Affected Countries</h3>
+              <div className="space-y-3">
+                {/* Notice the new onClick handlers here! */}
+                <div onClick={() => handleCountryClick('NER')} className="bg-[#1a1f2e] border border-gray-800 rounded p-3 cursor-pointer hover:border-gray-500 transition-colors">
+                  <div className="flex justify-between items-center mb-1">
+                    <span className="font-medium text-gray-200">1. Niger</span>
+                    <span className="text-red-400 text-sm font-mono">+45k displaced</span>
+                  </div>
+                  <div className="text-xs text-amber-400 font-mono">+$8.1M response cost</div>
+                </div>
 
-        {memoResult ? (
-          <>
-            <div className="px-5 py-3 border-b border-gray-800">
-              <h3 className="text-base font-medium text-gray-100">{memoResult.title}</h3>
-            </div>
-            <div className="px-5 py-3 border-b border-gray-800 flex flex-wrap gap-2">
-              {memoResult.key_risks.map((tag) => (
-                <span
-                  key={tag}
-                  className="px-2.5 py-1 bg-[#1a1f2e] border border-gray-700 rounded-full text-xs text-amber-400"
-                >
-                  {humanizeKeyRisk(tag)}
-                </span>
-              ))}
-            </div>
-            <div className="flex-1 overflow-y-auto px-5 py-4">
-              <div className="text-sm text-gray-400 leading-relaxed whitespace-pre-line">
-                {memoResult.body}
+                <div onClick={() => handleCountryClick('BFA')} className="bg-[#1a1f2e] border border-gray-800 rounded p-3 cursor-pointer hover:border-gray-500 transition-colors">
+                  <div className="flex justify-between items-center mb-1">
+                    <span className="font-medium text-gray-200">2. Burkina Faso</span>
+                    <span className="text-red-400 text-sm font-mono">+37k displaced</span>
+                  </div>
+                  <div className="text-xs text-amber-400 font-mono">+$6.2M response cost</div>
+                </div>
+
+                <div onClick={() => handleCountryClick('TCD')} className="bg-[#1a1f2e] border border-gray-800 rounded p-3 cursor-pointer hover:border-gray-500 transition-colors">
+                  <div className="flex justify-between items-center mb-1">
+                    <span className="font-medium text-gray-200">3. Chad</span>
+                    <span className="text-red-400 text-sm font-mono">+30k displaced</span>
+                  </div>
+                  <div className="text-xs text-amber-400 font-mono">+$4.1M response cost</div>
+                </div>
               </div>
-            </div>
-          </>
-        ) : (
-          <div className="flex-1 overflow-y-auto px-5 py-4">
-            <div className="text-sm text-gray-500 mb-4">
-              Run a scenario first, then generate the memo.
-            </div>
-            {!canGenerateMemo && (
-              <p className="text-xs text-gray-600 mb-2">
-                The Generate Memo button is disabled until you run a scenario.
+            </section>
+
+            <section className="mt-8 bg-[#0a0e1a] border border-gray-800 rounded-lg p-4">
+              <h3 className="text-xs uppercase tracking-wider text-teal-600 mb-2">AI Summary</h3>
+              <p className="text-sm text-gray-400 leading-relaxed">
+                Cutting 20% from Mali's crisis today is projected to push 112k additional people into neighboring countries within 12 months, increasing regional response costs by $24M.
               </p>
-            )}
-            {memoError && (
-              <div className="mb-4 p-2 bg-red-900/30 border border-red-700 rounded text-xs text-red-300">
-                {memoError}
-              </div>
-            )}
+            </section>
           </div>
         )}
 
-        <div className="px-5 py-4 border-t border-gray-800 shrink-0">
-          <button
-            onClick={onGenerateMemo}
-            disabled={!canGenerateMemo || memoLoading}
-            aria-label={!canGenerateMemo ? 'Run a scenario first' : 'Generate memo'}
-            title={!canGenerateMemo ? 'Run a scenario first' : undefined}
-            className="w-full py-2 rounded text-sm font-medium bg-teal-600 hover:bg-teal-500 disabled:opacity-50 disabled:cursor-not-allowed text-white transition-colors focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-[#0a0e1a]"
-          >
-            {memoLoading ? 'Generating…' : 'Generate Memo'}
-          </button>
-        </div>
+        {activeTab === 'ai' && (
+          <div className="space-y-8">
+            <section>
+              <h3 className="text-xs uppercase tracking-wider text-gray-500 mb-4">Success Twin</h3>
+              <div className="bg-[#1a1f2e] border border-gray-800 rounded-lg p-4">
+                <button onClick={onFindTwin} disabled={twinLoading} className="text-teal-400 hover:text-teal-300 text-sm font-medium transition-colors">
+                  {twinLoading ? 'Searching...' : 'Find Success Twin ↗'}
+                </button>
+                {twinResult && (
+                  <div className="mt-4 pt-4 border-t border-gray-800 text-sm text-gray-300">Twin Found: <span className="font-mono text-teal-400">{twinResult.project_id}</span></div>
+                )}
+              </div>
+            </section>
+
+            <section>
+              <h3 className="text-xs uppercase tracking-wider text-gray-500 mb-4">Contrarian Decision Memo</h3>
+              <div className="bg-[#1a1f2e] border border-gray-800 rounded-lg p-4 flex flex-col h-[250px]">
+                <div className="flex-1 overflow-y-auto mb-4 text-sm text-gray-400">
+                  {memoLoading ? <p className="animate-pulse">Analyzing risk factors...</p> : memoResult ? <p>{memoResult.memo}</p> : <p>Run a scenario first.</p>}
+                </div>
+                <button onClick={onGenerateMemo} disabled={!canGenerateMemo || memoLoading} className="w-full bg-teal-900/50 hover:bg-teal-900 text-teal-400 border border-teal-800 py-2 rounded text-sm transition-colors disabled:opacity-50">
+                  Generate Memo
+                </button>
+              </div>
+            </section>
+          </div>
+        )}
       </div>
     </div>
   );

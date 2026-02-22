@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AidSight Heat Map</title>
+    <style>
+        body { margin: 0; padding: 0; }
+        #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+        
+        .mapboxgl-popup-content { background: rgba(0, 0, 0, 0.8); color: white; font-family: Arial, sans-serif; border-radius: 4px; padding: 10px; }
+        
+        /* 1. Epicenter Radial Pulse */
+        .radial-ring {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: rgba(239, 68, 68, 0.3);
+            border: 2px solid rgba(239, 68, 68, 0.8);
+            animation: ripple 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+            margin: -40px 0 0 -40px; /* Centers the ring perfectly */
+        }
+        @keyframes ripple {
+            0% { transform: scale(0.1); opacity: 1; }
+            100% { transform: scale(3.5); opacity: 0; }
+        }
+
+        /* 2. Shooting Beam (Draws out, then fades) */
+        .shooting-beam {
+            stroke-dasharray: 1000; /* Create a massive dashed line */
+            stroke-dashoffset: 1000; /* Push the dash completely off screen */
+            animation: shoot-and-fade 1.5s ease-in-out forwards;
+            filter: drop-shadow(0 0 6px rgba(239, 68, 68, 1));
+        }
+        @keyframes shoot-and-fade {
+            0% { stroke-dashoffset: 1000; opacity: 1; }
+            60% { stroke-dashoffset: 0; opacity: 1; } /* Beam hits neighbor */
+            100% { stroke-dashoffset: 0; opacity: 0; } /* Beam fades out completely */
+        }
+
+        /* 3. Data Tooltip (Waits for sequence to finish) */
+        .impact-label {
+            background: rgba(15, 20, 33, 0.95);
+            border: 1px solid #ef4444;
+            color: #f3f4f6;
+            font-family: monospace;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            white-space: nowrap;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            opacity: 0;
+            animation: fade-in 0.5s ease-in forwards;
+            animation-delay: 1.9s; /* Appears right when the pulse stops */
+        }
+        @keyframes fade-in { to { opacity: 1; } }
+
+        /* 4. Dark Mode Leaflet Popups */
+        .leaflet-popup-content-wrapper, .leaflet-popup-tip {
+            background: #0f1421;
+            color: #e5e7eb;
+            border: 1px solid #374151;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.5);
+        }
+        .leaflet-popup-content {
+            margin: 12px 16px;
+            font-family: ui-sans-serif, system-ui, sans-serif;
+            font-size: 13px;
+        }
+        .popup-title {
+            font-weight: bold;
+            font-size: 15px;
+            color: #fff;
+            margin-bottom: 6px;
+            border-bottom: 1px solid #374151;
+            padding-bottom: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="map"></div>
+
+    <script>
+        (function () {
+            function loadCSS(href) {
+                return new Promise((res, rej) => {
+                    if (document.querySelector(`link[href="${href}"]`)) return res();
+                    const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = href;
+                    l.onload = res; l.onerror = rej; document.head.appendChild(l);
+                });
+            }
+            function loadScript(src) {
+                return new Promise((res, rej) => {
+                    if (document.querySelector(`script[src="${src}"]`)) return res();
+                    const s = document.createElement('script'); s.src = src;
+                    s.onload = res; s.onerror = rej; document.head.appendChild(s);
+                });
+            }
+
+            Promise.all([
+                loadCSS('https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'),
+                loadScript('https://unpkg.com/leaflet@1.9.4/dist/leaflet.js')
+            ]).then(init).catch(err => console.error('Failed to load dependencies', err));
+
+            function init() {
+                const map = L.map('map', { 
+                    zoomControl: true, minZoom: 2, 
+                    maxBounds: [[-90, -180], [90, 180]]
+                }).setView([20, 0], 2); 
+
+                // --- ADD DARK MODE LEGEND ---
+                const legend = L.control({ position: 'bottomright' });
+                legend.onAdd = function () {
+                    const div = L.DomUtil.create('div', 'info legend');
+                    div.style.background = '#0f1421';
+                    div.style.color = '#e5e7eb';
+                    div.style.padding = '12px 16px';
+                    div.style.borderRadius = '8px';
+                    div.style.border = '1px solid #1f2937';
+                    div.style.fontFamily = 'monospace';
+                    div.style.fontSize = '12px';
+                    div.style.boxShadow = '0 4px 6px rgba(0,0,0,0.5)';
+                    
+                    div.innerHTML = `
+                        <div style="font-weight:bold; margin-bottom:10px; color:#fff; text-transform:uppercase; font-size:10px; letter-spacing:0.05em;">Severity & Funding</div>
+                        <div style="display:flex; align-items:center; margin-bottom:8px;">
+                            <span style="width:14px; height:14px; background:#8B0000; display:inline-block; margin-right:8px; border-radius:2px; border:1px solid #374151"></span>
+                            Critical Gap
+                        </div>
+                        <div style="display:flex; align-items:center; margin-bottom:8px;">
+                            <span style="width:14px; height:14px; background:#006837; display:inline-block; margin-right:8px; border-radius:2px; border:1px solid #374151"></span>
+                            Adequately Funded
+                        </div>
+                        <div style="display:flex; align-items:center;">
+                            <span style="width:14px; height:3px; background:#ef4444; display:inline-block; margin-right:8px; border-radius:1px;"></span>
+                            Displacement Route
+                        </div>
+                    `;
+                    return div;
+                };
+                legend.addTo(map);
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; OpenStreetMap', maxZoom: 19
+                }).addTo(map);
+
+                const sahelISOs = ['MLI', 'BFA', 'NER', 'TCD'];
+                const africaISOs = ['DZA','AGO','BEN','BWA','BFA','BDI','CPV','CMR','CAF','TCD','COM','COD','COG','DJI','EGY','GNQ','ERI','SWZ','ETH','GAB','GMB','GHA','GIN','GNB','CIV','KEN','LSO','LBR','LBY','MDG','MWI','MLI','MRT','MUS','MAR','MOZ','NAM','NER','NGA','RWA','STP','SEN','SYC','SLE','SOM','ZAF','SSD','SDN','TZA','TGO','TUN','UGA','ZMB','ZWE'];
+                
+                const sahelCentroids = {
+                    'MLI': [17.5707, -3.9962], 'BFA': [12.2383, -1.5616],
+                    'NER': [17.6078, 8.0817], 'TCD': [15.4542, 18.7322]
+                };
+                const displacementEdges = [['MLI', 'BFA'], ['MLI', 'NER'], ['BFA', 'NER'], ['NER', 'TCD']];
+
+                const activeAnimations = L.layerGroup().addTo(map);
+
+                fetch('https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson?v=2')
+                .then(r => r.json())
+                .then(geojson => {
+                    const geojsonLayer = L.geoJson(geojson, {
+                        style: function(feature) {
+                            // BRUTE FORCE: Grab literally any property that might be the name or ID
+                            let p = feature.properties;
+                            let id = (p.ISO_A3 || p.ADM0_A3 || p.ADMIN || p.NAME || p.name || '').toString().toUpperCase();
+                            
+                            let fillColor = '#eeffe6'; // Light green for the rest of the world
+                            
+                            // Unstoppable Sahel Checks
+                            if (id.includes('MLI') || id === 'MALI') {
+                                fillColor = '#8B0000'; // Mali starts Red
+                            } else if (
+                                id.includes('BFA') || id.includes('BURKINA') || 
+                                id.includes('NER') || id.includes('NIGER') || 
+                                id.includes('TCD') || id.includes('CHAD')
+                            ) {
+                                fillColor = '#006837'; // Neighbors start Green
+                            }
+                            return { fillColor: fillColor, weight: 0.8, opacity: 1, color: '#444', fillOpacity: 0.7 };
+                        },
+                        onEachFeature: (feature, layer) => {
+                            let p = feature.properties;
+                            let iso = (p.ISO_A3 || p.ADM0_A3 || p.ADMIN || '').toString().toUpperCase();
+                            let countryName = p.NAME || p.ADMIN || 'Unknown Region';
+                            
+                            // 1. ATTACH THE POPUP DATA
+                            let popupHtml = `<div class="popup-title">${countryName}</div>`;
+                            
+                            if (iso.includes('MLI') || iso === 'MALI') {
+                                popupHtml += `<span style="color:#ef4444; font-weight:bold;">Status: Critical Crisis</span><br/>Funding Gap: -$43/capita<br/>Risk: Epicenter`;
+                            } else if (iso.includes('NER') || iso.includes('NIGER')) {
+                                popupHtml += `<span style="color:#10b981; font-weight:bold;">Status: Adequately Funded</span><br/>Vulnerability: High<br/>Spillover Risk: +45,000 IDPs`;
+                            } else if (iso.includes('BFA') || iso.includes('BURKINA')) {
+                                popupHtml += `<span style="color:#10b981; font-weight:bold;">Status: Adequately Funded</span><br/>Vulnerability: Medium<br/>Spillover Risk: +37,000 IDPs`;
+                            } else if (iso.includes('TCD') || iso.includes('CHAD')) {
+                                popupHtml += `<span style="color:#10b981; font-weight:bold;">Status: Adequately Funded</span><br/>Vulnerability: Medium<br/>Spillover Risk: +30,000 IDPs`;
+                            } else {
+                                popupHtml += `Standard baseline metrics.`;
+                            }
+
+                            // Bind it so it opens on click!
+                            layer.bindPopup(popupHtml);
+                            
+                            // 2. CONTINENT CLICK -> ZOOM (Your existing logic)
+                            layer.on('click', () => {
+                                let isAfrica = false;
+                                africaISOs.forEach(aIso => { if (iso.includes(aIso)) isAfrica = true; });
+
+                                if (isAfrica) {
+                                    map.flyToBounds([[4.0, -17.0], [25.0, 25.0]], { padding: [20, 20], duration: 1.5 });
+                                    geojsonLayer.eachLayer(l => {
+                                        let lIso = (l.feature.properties.ISO_A3 || l.feature.properties.ADMIN || '').toString().toUpperCase();
+                                        
+                                        let isSahel = lIso.includes('MLI') || lIso.includes('MALI') || lIso.includes('BFA') || lIso.includes('BURKINA') || lIso.includes('NER') || lIso.includes('NIGER') || lIso.includes('TCD') || lIso.includes('CHAD');
+
+                                        if (isSahel) {
+                                            l.setStyle({ weight: 3, color: '#0d9488', opacity: 1 });
+                                            l.bringToFront();
+                                        } else {
+                                            l.setStyle({ fillOpacity: 0.3, weight: 0.5, color: '#444' });
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    }).addTo(map);
+
+                    // --- THE MASTER ANIMATION SEQUENCE ---
+                    window.addEventListener('message', function(event) {
+                        // NEW: Listen for Sidebar Clicks to zoom in!
+                        if (event.data.type === 'FOCUS_COUNTRY') {
+                            const iso = event.data.iso;
+                            const coords = sahelCentroids[iso];
+                            if (coords) {
+                                // Zoom to the country
+                                map.flyTo(coords, 5, { duration: 1.0 });
+                                
+                                // Flash its border bright yellow for 2 seconds
+                                geojsonLayer.eachLayer(layer => {
+                                    let lIso = (layer.feature.properties.ISO_A3 || layer.feature.properties.ADM0_A3 || '').toString().toUpperCase();
+                                    if (lIso.includes(iso)) {
+                                        layer.setStyle({ weight: 4, color: '#facc15' }); // Yellow border
+                                        layer.bringToFront();
+                                        setTimeout(() => layer.setStyle({ weight: 0.8, color: '#444' }), 2000);
+                                    }
+                                });
+                            }
+                        }
+
+
+
+                        if (event.data.type === 'RUN_SHOCKWAVE') {
+                            const epicenterIso = event.data.epicenter;
+                            activeAnimations.clearLayers(); 
+
+                            map.flyToBounds([[4.0, -17.0], [25.0, 25.0]], { padding: [20, 20], duration: 1.5 });
+
+                            const coords = sahelCentroids[epicenterIso];
+                            if (!coords) return;
+
+                            // 1. Epicenter starts pulsing
+                            const pulseIcon = L.divIcon({ className: '', html: '<div class="radial-ring"></div>', iconSize: [0, 0] });
+                            const pulseMarker = L.marker(coords, { icon: pulseIcon }).addTo(activeAnimations);
+
+                            // 2. Beams shoot FROM epicenter TO neighbors
+                            let neighbors = [];
+                            displacementEdges.forEach(pair => {
+                                let origin, target;
+                                // Determine line direction so it shoots away from the center
+                                if (pair[0] === epicenterIso) { origin = pair[0]; target = pair[1]; }
+                                else if (pair[1] === epicenterIso) { origin = pair[1]; target = pair[0]; }
+
+                                if (origin && target) {
+                                    neighbors.push(target);
+                                    L.polyline([sahelCentroids[origin], sahelCentroids[target]], {
+                                        color: '#ef4444', weight: 4, opacity: 1, className: 'shooting-beam'
+                                    }).addTo(activeAnimations);
+                                }
+                            });
+
+                            // 3. Beams hit at 900ms -> Neighbors start strobing
+                            setTimeout(() => {
+                                geojsonLayer.eachLayer(layer => {
+                                    let iso = layer.feature.properties.ISO_A3 || layer.feature.properties.ADM0_A3 || layer.feature.properties.iso_a3;
+                                    if (iso) iso = iso.toUpperCase();
+
+                                    if (neighbors.includes(iso)) {
+                                        // Strobe Effect
+                                        layer.setStyle({ fillColor: '#ef4444', fillOpacity: 0.9 });
+                                        setTimeout(() => layer.setStyle({ fillColor: '#006837', fillOpacity: 0.7 }), 250);
+                                        setTimeout(() => layer.setStyle({ fillColor: '#ef4444', fillOpacity: 0.9 }), 500);
+                                        setTimeout(() => layer.setStyle({ fillColor: '#006837', fillOpacity: 0.7 }), 750);
+                                        
+                                        // 4. Lock to permanent dark red at 1000ms (1.9s total)
+                                        setTimeout(() => layer.setStyle({ fillColor: '#7f1d1d', fillOpacity: 0.85 }), 1000);
+                                    }
+                                });
+                            }, 900); 
+
+                            // 5. Sequence finishes at 1.9s -> Stop pulse, show tooltips
+                            setTimeout(() => {
+                                activeAnimations.removeLayer(pulseMarker); // Turns off the epicenter pulse
+                                
+                            }, 1900);
+                        }
+                    });
+                }).catch(err => console.error(err));
+            }
+        })();
+    </script>
+</body>
+</html>
