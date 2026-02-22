@@ -1,0 +1,53 @@
+{
+  "baseline_year": 2025,
+  "countries": {
+    "BFA": {
+      "country": "BFA",
+      "severity": 0.65,
+      "funding_usd": 120000000,
+      "displaced_in": 50000,
+      "displaced_out": 80000,
+      "coverage_proxy": 0.42
+    },
+    "MLI": {
+      "country": "MLI",
+      "severity": 0.72,
+      "funding_usd": 90000000,
+      "displaced_in": 80000,
+      "displaced_out": 60000,
+      "coverage_proxy": 0.38
+    },
+    "NER": {
+      "country": "NER",
+      "severity": 0.58,
+      "funding_usd": 110000000,
+      "displaced_in": 40000,
+      "displaced_out": 20000,
+      "coverage_proxy": 0.48
+    },
+    "TCD": {
+      "country": "TCD",
+      "severity": 0.78,
+      "funding_usd": 85000000,
+      "displaced_in": 120000,
+      "displaced_out": 45000,
+      "coverage_proxy": 0.35
+    },
+    "CMR": {
+      "country": "CMR",
+      "severity": 0.55,
+      "funding_usd": 95000000,
+      "displaced_in": 30000,
+      "displaced_out": 15000,
+      "coverage_proxy": 0.52
+    },
+    "NGA": {
+      "country": "NGA",
+      "severity": 0.70,
+      "funding_usd": 200000000,
+      "displaced_in": 200000,
+      "displaced_out": 90000,
+      "coverage_proxy": 0.40
+    }
+  }
+}

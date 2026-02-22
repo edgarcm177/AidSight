@@ -1,0 +1,77 @@
+[
+  {
+    "source_country": "MLI",
+    "target_country": "NER",
+    "weight": 1.0
+  },
+  {
+    "source_country": "MLI",
+    "target_country": "BFA",
+    "weight": 1.0
+  },
+  {
+    "source_country": "NER",
+    "target_country": "BFA",
+    "weight": 1.0
+  },
+  {
+    "source_country": "NER",
+    "target_country": "TCD",
+    "weight": 1.0
+  },
+  {
+    "source_country": "NER",
+    "target_country": "NGA",
+    "weight": 1.0
+  },
+  {
+    "source_country": "BFA",
+    "target_country": "TCD",
+    "weight": 1.0
+  },
+  {
+    "source_country": "TCD",
+    "target_country": "CMR",
+    "weight": 1.0
+  },
+  {
+    "source_country": "TCD",
+    "target_country": "NGA",
+    "weight": 1.0
+  },
+  {
+    "source_country": "TCD",
+    "target_country": "SDN",
+    "weight": 1.0
+  },
+  {
+    "source_country": "TCD",
+    "target_country": "CAF",
+    "weight": 1.0
+  },
+  {
+    "source_country": "CMR",
+    "target_country": "NGA",
+    "weight": 1.0
+  },
+  {
+    "source_country": "CMR",
+    "target_country": "CAF",
+    "weight": 1.0
+  },
+  {
+    "source_country": "NGA",
+    "target_country": "CMR",
+    "weight": 1.0
+  },
+  {
+    "source_country": "SDN",
+    "target_country": "SSD",
+    "weight": 1.0
+  },
+  {
+    "source_country": "SSD",
+    "target_country": "CAF",
+    "weight": 1.0
+  }
+]

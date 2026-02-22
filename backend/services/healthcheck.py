@@ -1,12 +1,15 @@
 """
 Internal smoke test helper for Data & ML layer.
-Call from REPL or unit tests: run_data_ml_smoketest()
+Call from REPL or unit tests: run_data_ml_smoketest(), run_aftershock_smoketest()
 """
 
 import logging
 from typing import Any, Dict
 
+from fastapi.testclient import TestClient
+
 from ..data import data_loader
+from ..main import app
 from .fragility import run_fragility_simulation
 from .memo import build_contrarian_memo
 from .twins import find_success_twin
@@ -90,5 +93,99 @@ def run_data_ml_smoketest() -> Dict[str, Any]:
     except Exception as e:
         log.warning("Smoketest: find_success_twin failed: %s", e)
         result["twins_ok"] = False
+
+    return result
+
+
+def run_aftershock_smoketest() -> Dict[str, Any]:
+    """
+    Smoke test Aftershock endpoints via TestClient.
+    Covers POST /simulate/shock, GET /crises/nodes, /edges, /baseline_predictions,
+    GET /projects/metrics, GET /projects/neighbors/{project_id}.
+    """
+    result: Dict[str, Any] = {
+        "simulate_shock_ok": False,
+        "crises_nodes_ok": False,
+        "crises_edges_ok": False,
+        "crises_baseline_ok": False,
+        "projects_metrics_ok": False,
+        "projects_neighbors_ok": False,
+    }
+    client = TestClient(app)
+
+    # POST /simulate/shock
+    try:
+        r = client.post(
+            "/simulate/shock",
+            json={"country": "BFA", "delta_funding_pct": -0.2, "horizon_steps": 2},
+        )
+        if r.status_code == 200:
+            data = r.json()
+            expected = {"baseline_year", "epicenter", "affected", "total_extra_displaced", "total_extra_cost_usd", "notes"}
+            result["simulate_shock_ok"] = expected.issubset(set(data.keys()))
+        else:
+            log.warning("Smoketest: /simulate/shock returned %s", r.status_code)
+    except Exception as e:
+        log.warning("Smoketest: /simulate/shock failed: %s", e)
+
+    # GET /crises/nodes
+    try:
+        r = client.get("/crises/nodes")
+        if r.status_code == 200:
+            data = r.json()
+            result["crises_nodes_ok"] = isinstance(data, list) and len(data) > 0
+            if result["crises_nodes_ok"] and data:
+                result["crises_nodes_ok"] = "country" in data[0] and "severity" in data[0]
+        else:
+            result["crises_nodes_ok"] = False
+    except Exception as e:
+        log.warning("Smoketest: /crises/nodes failed: %s", e)
+
+    # GET /crises/edges
+    try:
+        r = client.get("/crises/edges")
+        if r.status_code == 200:
+            data = r.json()
+            result["crises_edges_ok"] = isinstance(data, list) and len(data) > 0
+            if result["crises_edges_ok"] and data:
+                e0 = data[0]
+                result["crises_edges_ok"] = ("source_country" in e0 or "src" in e0) and ("target_country" in e0 or "dst" in e0)
+        else:
+            result["crises_edges_ok"] = False
+    except Exception as e:
+        log.warning("Smoketest: /crises/edges failed: %s", e)
+
+    # GET /crises/baseline_predictions
+    try:
+        r = client.get("/crises/baseline_predictions")
+        if r.status_code == 200:
+            data = r.json()
+            result["crises_baseline_ok"] = isinstance(data, list) and len(data) > 0
+        else:
+            result["crises_baseline_ok"] = False
+    except Exception as e:
+        log.warning("Smoketest: /crises/baseline_predictions failed: %s", e)
+
+    # GET /projects/metrics
+    try:
+        r = client.get("/projects/metrics")
+        if r.status_code == 200:
+            data = r.json()
+            result["projects_metrics_ok"] = isinstance(data, list) and len(data) > 0
+        else:
+            result["projects_metrics_ok"] = False
+    except Exception as e:
+        log.warning("Smoketest: /projects/metrics failed: %s", e)
+
+    # GET /projects/neighbors/{project_id}
+    try:
+        r = client.get("/projects/neighbors/P00000")
+        if r.status_code == 200:
+            data = r.json()
+            result["projects_neighbors_ok"] = "project_id" in data and "neighbors" in data
+        else:
+            result["projects_neighbors_ok"] = False
+    except Exception as e:
+        log.warning("Smoketest: /projects/neighbors failed: %s", e)
 
     return result

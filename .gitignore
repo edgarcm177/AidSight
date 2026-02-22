@@ -1,1 +1,66 @@
-**/node_modules/
+# virtual environments
+.venv/
+venv/
+env/
+.env.local
+.env.*.local
+
+# python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+.eggs/
+dist/
+build/
+*.egg
+
+# node
+node_modules/
+.npm
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+.next/
+out/
+.vite/
+*.tsbuildinfo
+
+# IDE
+.vscode/
+.idea/
+.cursor/
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# models / large data
+*.pt
+*.pkl
+*.parquet
+*.h5
+*.hdf5
+
+# logs and temp
+*.log
+*.tmp
+*.temp
+.cache/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# coverage and tests
+coverage/
+htmlcov/
+.coverage
+.tox/

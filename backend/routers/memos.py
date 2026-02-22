@@ -18,6 +18,6 @@ def generate_memo(payload: MemoRequest):
     crisis_dict = crisis_row.to_dict()
 
     memo_dict = build_contrarian_memo(
-        crisis_dict, payload.simulation, payload.twin, payload.scenario
+        crisis_dict, payload.simulation, payload.twin, payload.scenario, payload.aftershock
     )
     return memo_dict

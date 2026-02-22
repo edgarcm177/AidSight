@@ -1,0 +1,14 @@
+{
+  "edges": [
+    {"src": "BFA", "dst": "MLI", "weight": 0.4},
+    {"src": "BFA", "dst": "NER", "weight": 0.35},
+    {"src": "BFA", "dst": "TCD", "weight": 0.25},
+    {"src": "MLI", "dst": "BFA", "weight": 0.3},
+    {"src": "MLI", "dst": "NER", "weight": 0.35},
+    {"src": "NER", "dst": "BFA", "weight": 0.2},
+    {"src": "NER", "dst": "NGA", "weight": 0.45},
+    {"src": "TCD", "dst": "CMR", "weight": 0.5},
+    {"src": "TCD", "dst": "NER", "weight": 0.3},
+    {"src": "CMR", "dst": "NGA", "weight": 0.25}
+  ]
+}

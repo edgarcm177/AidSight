@@ -2,32 +2,52 @@
 """
 Aftershock Data/ML smoketest: preprocess, train, simulate_aftershock.
 
-Verifies the full pipeline and simulate_aftershock output shape.
+Verifies the full pipeline and that simulate_aftershock returns the API schema
+(baseline_year, epicenter, delta_funding_pct, affected, total_extra_displaced,
+total_extra_cost_usd, notes). All paths use dataml-internal DATAML_ROOT.
 Run from repo root: python -m dataml.scripts.run_aftershock_smoketest
 Or: python dataml/scripts/run_aftershock_smoketest.py
 """
 
+import json
 import sys
 from pathlib import Path
 
-# Ensure repo root is on path
+import pandas as pd
+
+# Ensure repo root is on path so "dataml" package resolves
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(REPO_ROOT))
+
+REQUIRED_KEYS = {
+    "baseline_year",
+    "epicenter",
+    "delta_funding_pct",
+    "affected",
+    "total_extra_displaced",
+    "total_extra_cost_usd",
+}
 
 
 def main() -> int:
     results = {}
 
-    # 1. Preprocess
+    # 1. Preprocess (writes dataml/data/processed/*.parquet)
     try:
         from dataml.src.preprocess import main as preprocess_main
         preprocess_main()
+        # Optional: assert underfunding columns exist for baseline year
+        panel_path = Path(__file__).resolve().parent.parent / "data" / "processed" / "sahel_panel.parquet"
+        if panel_path.exists():
+            df = pd.read_parquet(panel_path)
+            assert "underfunding_score" in df.columns, "panel missing underfunding_score"
+            assert "chronic_underfunded_flag" in df.columns, "panel missing chronic_underfunded_flag"
         results["preprocess_ok"] = True
     except Exception as e:
         results["preprocess_ok"] = False
         results["preprocess_error"] = str(e)
 
-    # 2. Train
+    # 2. Train (writes dataml/models/spillover_model.pt, model_config.json)
     try:
         from dataml.src.train import train_model
         train_model()
@@ -36,18 +56,20 @@ def main() -> int:
         results["train_ok"] = False
         results["train_error"] = str(e)
 
-    # 3. simulate_aftershock
+    # 3. simulate_aftershock: one example (BFA, -0.2, 2), pretty-print, assert schema
     try:
         from dataml.src.simulate_aftershock import simulate_aftershock
-        out = simulate_aftershock("MLI", -10.0, 3)
-        required = {"node_iso3", "delta_funding_pct", "horizon_years", "baseline", "scenario", "spillover_impacts", "trajectory"}
-        has_all = all(k in out for k in required)
-        assert has_all, f"Missing keys: {required - set(out.keys())}"
-        assert out["baseline"].keys() >= {"coverage", "people_in_need", "funding_gap_usd"}
-        assert out["scenario"].keys() >= {"coverage", "people_in_need", "funding_gap_usd"}
-        assert isinstance(out["spillover_impacts"], list)
-        assert isinstance(out["trajectory"], list)
-        assert len(out["trajectory"]) == 4  # year_offset 0,1,2,3
+        out = simulate_aftershock("BFA", -0.2, 2)
+        missing = REQUIRED_KEYS - set(out.keys())
+        assert not missing, f"Missing keys: {missing}"
+        assert isinstance(out["affected"], list)
+        for entry in out["affected"]:
+            assert "country" in entry and "delta_severity" in entry
+            assert "delta_displaced" in entry and "extra_cost_usd" in entry
+            assert "prob_underfunded_next" in entry
+        print("\n--- simulate_aftershock(\"BFA\", -0.2, 2) response ---\n")
+        print(json.dumps(out, indent=2))
+        print()
         results["simulate_ok"] = True
     except Exception as e:
         results["simulate_ok"] = False
@@ -56,7 +78,11 @@ def main() -> int:
     for k, v in results.items():
         if k.endswith("_ok"):
             print(f"  {k}: {v}")
-    all_ok = results.get("preprocess_ok", False) and results.get("train_ok", False) and results.get("simulate_ok", False)
+    all_ok = (
+        results.get("preprocess_ok", False)
+        and results.get("train_ok", False)
+        and results.get("simulate_ok", False)
+    )
     print("\n  All Aftershock *_ok flags True:", all_ok)
     if not all_ok and "preprocess_error" in results:
         print("  preprocess_error:", results["preprocess_error"])

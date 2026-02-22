@@ -1,0 +1,92 @@
+[
+  {
+    "country": "MLI",
+    "year": 2026,
+    "severity": 0.2,
+    "funding_total_usd": 551000000.0,
+    "beneficiaries_total": 5100000,
+    "funding_per_beneficiary": 108.04,
+    "underfunding_score": 0.78,
+    "chronic_underfunded_flag": 1
+  },
+  {
+    "country": "NER",
+    "year": 2026,
+    "severity": 0.09,
+    "funding_total_usd": 449000000.0,
+    "beneficiaries_total": 2600000,
+    "funding_per_beneficiary": 172.69,
+    "underfunding_score": 0.55,
+    "chronic_underfunded_flag": 0
+  },
+  {
+    "country": "NGA",
+    "year": 2026,
+    "severity": 0.02,
+    "funding_total_usd": 516399424.0,
+    "beneficiaries_total": 5900000,
+    "funding_per_beneficiary": 87.53,
+    "underfunding_score": 0.86,
+    "chronic_underfunded_flag": 1
+  },
+  {
+    "country": "SDN",
+    "year": 2026,
+    "severity": 0.65,
+    "funding_total_usd": 2866228650.0,
+    "beneficiaries_total": 33699770,
+    "funding_per_beneficiary": 85.05,
+    "underfunding_score": 0.87,
+    "chronic_underfunded_flag": 1
+  },
+  {
+    "country": "BFA",
+    "year": 2026,
+    "severity": 0.18,
+    "funding_total_usd": 662000000.0,
+    "beneficiaries_total": 4400000,
+    "funding_per_beneficiary": 150.45,
+    "underfunding_score": 0.63,
+    "chronic_underfunded_flag": 0
+  },
+  {
+    "country": "SSD",
+    "year": 2026,
+    "severity": 0.69,
+    "funding_total_usd": 1463046016.0,
+    "beneficiaries_total": 9913863,
+    "funding_per_beneficiary": 147.58,
+    "underfunding_score": 0.64,
+    "chronic_underfunded_flag": 0
+  },
+  {
+    "country": "TCD",
+    "year": 2026,
+    "severity": 0.21,
+    "funding_total_usd": 975000000.0,
+    "beneficiaries_total": 4509014,
+    "funding_per_beneficiary": 216.23,
+    "underfunding_score": 0.39,
+    "chronic_underfunded_flag": 0
+  },
+  {
+    "country": "CMR",
+    "year": 2026,
+    "severity": 0.1,
+    "funding_total_usd": 308000000.0,
+    "beneficiaries_total": 2900000,
+    "funding_per_beneficiary": 106.21,
+    "underfunding_score": 0.79,
+    "chronic_underfunded_flag": 1
+  },
+  {
+    "country": "CAF",
+    "year": 2026,
+    "severity": 0.35,
+    "funding_total_usd": 264097392.0,
+    "beneficiaries_total": 2286959,
+    "funding_per_beneficiary": 115.48,
+    "underfunding_score": 0.76,
+    "chronic_underfunded_flag": 1
+  }
+]

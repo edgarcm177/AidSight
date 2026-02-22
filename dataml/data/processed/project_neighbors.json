@@ -1,0 +1,4102 @@
+[
+  {
+    "project_id": "P00000",
+    "neighbors": [
+      {
+        "neighbor_id": "P00025",
+        "similarity_score": 0.577,
+        "neighbor_ratio_reached": 0.010572
+      },
+      {
+        "neighbor_id": "P00128",
+        "similarity_score": 0.564,
+        "neighbor_ratio_reached": 0.007293
+      },
+      {
+        "neighbor_id": "P00039",
+        "similarity_score": 0.5633,
+        "neighbor_ratio_reached": 0.009345
+      }
+    ]
+  },
+  {
+    "project_id": "P00001",
+    "neighbors": [
+      {
+        "neighbor_id": "P00126",
+        "similarity_score": 0.5621,
+        "neighbor_ratio_reached": 0.001371
+      },
+      {
+        "neighbor_id": "P00138",
+        "similarity_score": 0.5212,
+        "neighbor_ratio_reached": 0.00266
+      },
+      {
+        "neighbor_id": "P00086",
+        "similarity_score": 0.5111,
+        "neighbor_ratio_reached": 0.001613
+      }
+    ]
+  },
+  {
+    "project_id": "P00002",
+    "neighbors": [
+      {
+        "neighbor_id": "P00082",
+        "similarity_score": 0.447,
+        "neighbor_ratio_reached": 0.052184
+      },
+      {
+        "neighbor_id": "P00134",
+        "similarity_score": 0.4204,
+        "neighbor_ratio_reached": 0.030116
+      },
+      {
+        "neighbor_id": "P00154",
+        "similarity_score": 0.3778,
+        "neighbor_ratio_reached": 0.010298
+      }
+    ]
+  },
+  {
+    "project_id": "P00003",
+    "neighbors": [
+      {
+        "neighbor_id": "P00014",
+        "similarity_score": 0.5946,
+        "neighbor_ratio_reached": 0.010482
+      },
+      {
+        "neighbor_id": "P00004",
+        "similarity_score": 0.5905,
+        "neighbor_ratio_reached": 0.006322
+      },
+      {
+        "neighbor_id": "P00155",
+        "similarity_score": 0.5905,
+        "neighbor_ratio_reached": 0.010297
+      }
+    ]
+  },
+  {
+    "project_id": "P00004",
+    "neighbors": [
+      {
+        "neighbor_id": "P00003",
+        "similarity_score": 0.5905,
+        "neighbor_ratio_reached": 0.009876
+      },
+      {
+        "neighbor_id": "P00185",
+        "similarity_score": 0.554,
+        "neighbor_ratio_reached": 0.015909
+      },
+      {
+        "neighbor_id": "P00143",
+        "similarity_score": 0.5127,
+        "neighbor_ratio_reached": 0.009878
+      }
+    ]
+  },
+  {
+    "project_id": "P00005",
+    "neighbors": [
+      {
+        "neighbor_id": "P00045",
+        "similarity_score": 0.5329,
+        "neighbor_ratio_reached": 0.003157
+      },
+      {
+        "neighbor_id": "P00036",
+        "similarity_score": 0.527,
+        "neighbor_ratio_reached": 0.014307
+      },
+      {
+        "neighbor_id": "P00114",
+        "similarity_score": 0.5224,
+        "neighbor_ratio_reached": 0.009287
+      }
+    ]
+  },
+  {
+    "project_id": "P00006",
+    "neighbors": [
+      {
+        "neighbor_id": "P00163",
+        "similarity_score": 0.4783,
+        "neighbor_ratio_reached": 0.03935
+      },
+      {
+        "neighbor_id": "P00072",
+        "similarity_score": 0.4781,
+        "neighbor_ratio_reached": 0.018773
+      },
+      {
+        "neighbor_id": "P00077",
+        "similarity_score": 0.4753,
+        "neighbor_ratio_reached": 0.041808
+      }
+    ]
+  },
+  {
+    "project_id": "P00007",
+    "neighbors": [
+      {
+        "neighbor_id": "P00008",
+        "similarity_score": 0.8151,
+        "neighbor_ratio_reached": 0.008097
+      },
+      {
+        "neighbor_id": "P00173",
+        "similarity_score": 0.5469,
+        "neighbor_ratio_reached": 0.006847
+      },
+      {
+        "neighbor_id": "P00103",
+        "similarity_score": 0.542,
+        "neighbor_ratio_reached": 0.004532
+      }
+    ]
+  },
+  {
+    "project_id": "P00008",
+    "neighbors": [
+      {
+        "neighbor_id": "P00007",
+        "similarity_score": 0.8151,
+        "neighbor_ratio_reached": 0.006287
+      },
+      {
+        "neighbor_id": "P00173",
+        "similarity_score": 0.5574,
+        "neighbor_ratio_reached": 0.006847
+      },
+      {
+        "neighbor_id": "P00039",
+        "similarity_score": 0.5541,
+        "neighbor_ratio_reached": 0.009345
+      }
+    ]
+  },
+  {
+    "project_id": "P00009",
+    "neighbors": [
+      {
+        "neighbor_id": "P00050",
+        "similarity_score": 0.4444,
+        "neighbor_ratio_reached": 0.005418
+      },
+      {
+        "neighbor_id": "P00076",
+        "similarity_score": 0.4139,
+        "neighbor_ratio_reached": 0.016583
+      },
+      {
+        "neighbor_id": "P00188",
+        "similarity_score": 0.4044,
+        "neighbor_ratio_reached": 0.003381
+      }
+    ]
+  },
+  {
+    "project_id": "P00010",
+    "neighbors": [
+      {
+        "neighbor_id": "P00139",
+        "similarity_score": 0.5762,
+        "neighbor_ratio_reached": 0.04441
+      },
+      {
+        "neighbor_id": "P00160",
+        "similarity_score": 0.5494,
+        "neighbor_ratio_reached": 0.042956
+      },
+      {
+        "neighbor_id": "P00059",
+        "similarity_score": 0.469,
+        "neighbor_ratio_reached": 0.025336
+      }
+    ]
+  },
+  {
+    "project_id": "P00011",
+    "neighbors": [
+      {
+        "neighbor_id": "P00142",
+        "similarity_score": 0.5452,
+        "neighbor_ratio_reached": 0.03562
+      },
+      {
+        "neighbor_id": "P00159",
+        "similarity_score": 0.5398,
+        "neighbor_ratio_reached": 0.007355
+      },
+      {
+        "neighbor_id": "P00160",
+        "similarity_score": 0.503,
+        "neighbor_ratio_reached": 0.042956
+      }
+    ]
+  },
+  {
+    "project_id": "P00012",
+    "neighbors": [
+      {
+        "neighbor_id": "P00204",
+        "similarity_score": 0.6422,
+        "neighbor_ratio_reached": 0.008761
+      },
+      {
+        "neighbor_id": "P00157",
+        "similarity_score": 0.5644,
+        "neighbor_ratio_reached": 0.009352
+      },
+      {
+        "neighbor_id": "P00140",
+        "similarity_score": 0.5583,
+        "neighbor_ratio_reached": 0.004309
+      }
+    ]
+  },
+  {
+    "project_id": "P00013",
+    "neighbors": [
+      {
+        "neighbor_id": "P00097",
+        "similarity_score": 0.5838,
+        "neighbor_ratio_reached": 0.037375
+      },
+      {
+        "neighbor_id": "P00142",
+        "similarity_score": 0.412,
+        "neighbor_ratio_reached": 0.03562
+      },
+      {
+        "neighbor_id": "P00139",
+        "similarity_score": 0.383,
+        "neighbor_ratio_reached": 0.04441
+      }
+    ]
+  },
+  {
+    "project_id": "P00014",
+    "neighbors": [
+      {
+        "neighbor_id": "P00155",
+        "similarity_score": 0.872,
+        "neighbor_ratio_reached": 0.010297
+      },
+      {
+        "neighbor_id": "P00003",
+        "similarity_score": 0.5946,
+        "neighbor_ratio_reached": 0.009876
+      },
+      {
+        "neighbor_id": "P00143",
+        "similarity_score": 0.5125,
+        "neighbor_ratio_reached": 0.009878
+      }
+    ]
+  },
+  {
+    "project_id": "P00015",
+    "neighbors": [
+      {
+        "neighbor_id": "P00046",
+        "similarity_score": 0.5833,
+        "neighbor_ratio_reached": 0.01327
+      },
+      {
+        "neighbor_id": "P00047",
+        "similarity_score": 0.5403,
+        "neighbor_ratio_reached": 0.036072
+      },
+      {
+        "neighbor_id": "P00153",
+        "similarity_score": 0.514,
+        "neighbor_ratio_reached": 0.015389
+      }
+    ]
+  },
+  {
+    "project_id": "P00016",
+    "neighbors": [
+      {
+        "neighbor_id": "P00200",
+        "similarity_score": 0.4714,
+        "neighbor_ratio_reached": 0.000674
+      },
+      {
+        "neighbor_id": "P00106",
+        "similarity_score": 0.4514,
+        "neighbor_ratio_reached": 0.001127
+      },
+      {
+        "neighbor_id": "P00041",
+        "similarity_score": 0.4326,
+        "neighbor_ratio_reached": 0.000784
+      }
+    ]
+  },
+  {
+    "project_id": "P00017",
+    "neighbors": [
+      {
+        "neighbor_id": "P00078",
+        "similarity_score": 0.7509,
+        "neighbor_ratio_reached": 0.009951
+      },
+      {
+        "neighbor_id": "P00060",
+        "similarity_score": 0.5142,
+        "neighbor_ratio_reached": 0.002926
+      },
+      {
+        "neighbor_id": "P00190",
+        "similarity_score": 0.4992,
+        "neighbor_ratio_reached": 0.005473
+      }
+    ]
+  },
+  {
+    "project_id": "P00018",
+    "neighbors": [
+      {
+        "neighbor_id": "P00019",
+        "similarity_score": 0.5834,
+        "neighbor_ratio_reached": 0.005969
+      },
+      {
+        "neighbor_id": "P00149",
+        "similarity_score": 0.5337,
+        "neighbor_ratio_reached": 0.006477
+      },
+      {
+        "neighbor_id": "P00061",
+        "similarity_score": 0.5249,
+        "neighbor_ratio_reached": 0.010386
+      }
+    ]
+  },
+  {
+    "project_id": "P00019",
+    "neighbors": [
+      {
+        "neighbor_id": "P00191",
+        "similarity_score": 0.6027,
+        "neighbor_ratio_reached": 0.009708
+      },
+      {
+        "neighbor_id": "P00018",
+        "similarity_score": 0.5834,
+        "neighbor_ratio_reached": 0.003761
+      },
+      {
+        "neighbor_id": "P00061",
+        "similarity_score": 0.5184,
+        "neighbor_ratio_reached": 0.010386
+      }
+    ]
+  },
+  {
+    "project_id": "P00020",
+    "neighbors": [
+      {
+        "neighbor_id": "P00019",
+        "similarity_score": 0.388,
+        "neighbor_ratio_reached": 0.005969
+      },
+      {
+        "neighbor_id": "P00092",
+        "similarity_score": 0.3648,
+        "neighbor_ratio_reached": 0.002151
+      },
+      {
+        "neighbor_id": "P00161",
+        "similarity_score": 0.3516,
+        "neighbor_ratio_reached": 0.002266
+      }
+    ]
+  },
+  {
+    "project_id": "P00021",
+    "neighbors": [
+      {
+        "neighbor_id": "P00195",
+        "similarity_score": 0.617,
+        "neighbor_ratio_reached": 0.012452
+      },
+      {
+        "neighbor_id": "P00167",
+        "similarity_score": 0.4802,
+        "neighbor_ratio_reached": 0.018509
+      },
+      {
+        "neighbor_id": "P00166",
+        "similarity_score": 0.4285,
+        "neighbor_ratio_reached": 0.011804
+      }
+    ]
+  },
+  {
+    "project_id": "P00022",
+    "neighbors": [
+      {
+        "neighbor_id": "P00055",
+        "similarity_score": 0.5627,
+        "neighbor_ratio_reached": 0.012501
+      },
+      {
+        "neighbor_id": "P00132",
+        "similarity_score": 0.5465,
+        "neighbor_ratio_reached": 0.014567
+      },
+      {
+        "neighbor_id": "P00063",
+        "similarity_score": 0.5336,
+        "neighbor_ratio_reached": 0.003181
+      }
+    ]
+  },
+  {
+    "project_id": "P00023",
+    "neighbors": [
+      {
+        "neighbor_id": "P00095",
+        "similarity_score": 0.6483,
+        "neighbor_ratio_reached": 0.02323
+      },
+      {
+        "neighbor_id": "P00134",
+        "similarity_score": 0.6195,
+        "neighbor_ratio_reached": 0.030116
+      },
+      {
+        "neighbor_id": "P00055",
+        "similarity_score": 0.4846,
+        "neighbor_ratio_reached": 0.012501
+      }
+    ]
+  },
+  {
+    "project_id": "P00024",
+    "neighbors": [
+      {
+        "neighbor_id": "P00102",
+        "similarity_score": 0.6886,
+        "neighbor_ratio_reached": 0.006305
+      },
+      {
+        "neighbor_id": "P00103",
+        "similarity_score": 0.5557,
+        "neighbor_ratio_reached": 0.004532
+      },
+      {
+        "neighbor_id": "P00173",
+        "similarity_score": 0.5394,
+        "neighbor_ratio_reached": 0.006847
+      }
+    ]
+  },
+  {
+    "project_id": "P00025",
+    "neighbors": [
+      {
+        "neighbor_id": "P00101",
+        "similarity_score": 0.7103,
+        "neighbor_ratio_reached": 0.01645
+      },
+      {
+        "neighbor_id": "P00027",
+        "similarity_score": 0.6823,
+        "neighbor_ratio_reached": 0.017273
+      },
+      {
+        "neighbor_id": "P00039",
+        "similarity_score": 0.6289,
+        "neighbor_ratio_reached": 0.009345
+      }
+    ]
+  },
+  {
+    "project_id": "P00026",
+    "neighbors": [
+      {
+        "neighbor_id": "P00040",
+        "similarity_score": 0.5954,
+        "neighbor_ratio_reached": 0.013416
+      },
+      {
+        "neighbor_id": "P00043",
+        "similarity_score": 0.5438,
+        "neighbor_ratio_reached": 0.021448
+      },
+      {
+        "neighbor_id": "P00038",
+        "similarity_score": 0.475,
+        "neighbor_ratio_reached": 0.007225
+      }
+    ]
+  },
+  {
+    "project_id": "P00027",
+    "neighbors": [
+      {
+        "neighbor_id": "P00101",
+        "similarity_score": 0.9389,
+        "neighbor_ratio_reached": 0.01645
+      },
+      {
+        "neighbor_id": "P00025",
+        "similarity_score": 0.6823,
+        "neighbor_ratio_reached": 0.010572
+      },
+      {
+        "neighbor_id": "P00039",
+        "similarity_score": 0.5746,
+        "neighbor_ratio_reached": 0.009345
+      }
+    ]
+  },
+  {
+    "project_id": "P00028",
+    "neighbors": [
+      {
+        "neighbor_id": "P00086",
+        "similarity_score": 0.547,
+        "neighbor_ratio_reached": 0.001613
+      },
+      {
+        "neighbor_id": "P00180",
+        "similarity_score": 0.5464,
+        "neighbor_ratio_reached": 0.006211
+      },
+      {
+        "neighbor_id": "P00085",
+        "similarity_score": 0.5342,
+        "neighbor_ratio_reached": 0.006295
+      }
+    ]
+  },
+  {
+    "project_id": "P00029",
+    "neighbors": [
+      {
+        "neighbor_id": "P00129",
+        "similarity_score": 0.716,
+        "neighbor_ratio_reached": 0.007938
+      },
+      {
+        "neighbor_id": "P00180",
+        "similarity_score": 0.645,
+        "neighbor_ratio_reached": 0.006211
+      },
+      {
+        "neighbor_id": "P00183",
+        "similarity_score": 0.6293,
+        "neighbor_ratio_reached": 0.005599
+      }
+    ]
+  },
+  {
+    "project_id": "P00030",
+    "neighbors": [
+      {
+        "neighbor_id": "P00112",
+        "similarity_score": 0.6255,
+        "neighbor_ratio_reached": 0.003826
+      },
+      {
+        "neighbor_id": "P00110",
+        "similarity_score": 0.5614,
+        "neighbor_ratio_reached": 0.001271
+      },
+      {
+        "neighbor_id": "P00130",
+        "similarity_score": 0.517,
+        "neighbor_ratio_reached": 0.001213
+      }
+    ]
+  },
+  {
+    "project_id": "P00031",
+    "neighbors": [
+      {
+        "neighbor_id": "P00070",
+        "similarity_score": 0.4603,
+        "neighbor_ratio_reached": 0.186041
+      },
+      {
+        "neighbor_id": "P00074",
+        "similarity_score": 0.3625,
+        "neighbor_ratio_reached": 0.067372
+      },
+      {
+        "neighbor_id": "P00044",
+        "similarity_score": 0.3624,
+        "neighbor_ratio_reached": 0.041918
+      }
+    ]
+  },
+  {
+    "project_id": "P00032",
+    "neighbors": [
+      {
+        "neighbor_id": "P00181",
+        "similarity_score": 0.7927,
+        "neighbor_ratio_reached": 0.00871
+      },
+      {
+        "neighbor_id": "P00109",
+        "similarity_score": 0.733,
+        "neighbor_ratio_reached": 0.008961
+      },
+      {
+        "neighbor_id": "P00182",
+        "similarity_score": 0.6583,
+        "neighbor_ratio_reached": 0.008091
+      }
+    ]
+  },
+  {
+    "project_id": "P00033",
+    "neighbors": [
+      {
+        "neighbor_id": "P00135",
+        "similarity_score": 0.5833,
+        "neighbor_ratio_reached": 0.026526
+      },
+      {
+        "neighbor_id": "P00136",
+        "similarity_score": 0.5336,
+        "neighbor_ratio_reached": 0.029023
+      },
+      {
+        "neighbor_id": "P00034",
+        "similarity_score": 0.5185,
+        "neighbor_ratio_reached": 0.009347
+      }
+    ]
+  },
+  {
+    "project_id": "P00034",
+    "neighbors": [
+      {
+        "neighbor_id": "P00085",
+        "similarity_score": 0.69,
+        "neighbor_ratio_reached": 0.006295
+      },
+      {
+        "neighbor_id": "P00087",
+        "similarity_score": 0.647,
+        "neighbor_ratio_reached": 0.007476
+      },
+      {
+        "neighbor_id": "P00111",
+        "similarity_score": 0.6442,
+        "neighbor_ratio_reached": 0.005847
+      }
+    ]
+  },
+  {
+    "project_id": "P00035",
+    "neighbors": [
+      {
+        "neighbor_id": "P00164",
+        "similarity_score": 0.5134,
+        "neighbor_ratio_reached": 0.025784
+      },
+      {
+        "neighbor_id": "P00187",
+        "similarity_score": 0.4431,
+        "neighbor_ratio_reached": 0.017838
+      },
+      {
+        "neighbor_id": "P00044",
+        "similarity_score": 0.4268,
+        "neighbor_ratio_reached": 0.041918
+      }
+    ]
+  },
+  {
+    "project_id": "P00036",
+    "neighbors": [
+      {
+        "neighbor_id": "P00152",
+        "similarity_score": 0.6104,
+        "neighbor_ratio_reached": 0.01397
+      },
+      {
+        "neighbor_id": "P00005",
+        "similarity_score": 0.527,
+        "neighbor_ratio_reached": 0.00523
+      },
+      {
+        "neighbor_id": "P00201",
+        "similarity_score": 0.515,
+        "neighbor_ratio_reached": 0.010607
+      }
+    ]
+  },
+  {
+    "project_id": "P00037",
+    "neighbors": [
+      {
+        "neighbor_id": "P00185",
+        "similarity_score": 0.6603,
+        "neighbor_ratio_reached": 0.015909
+      },
+      {
+        "neighbor_id": "P00068",
+        "similarity_score": 0.5838,
+        "neighbor_ratio_reached": 0.024272
+      },
+      {
+        "neighbor_id": "P00198",
+        "similarity_score": 0.5325,
+        "neighbor_ratio_reached": 0.013033
+      }
+    ]
+  },
+  {
+    "project_id": "P00038",
+    "neighbors": [
+      {
+        "neighbor_id": "P00040",
+        "similarity_score": 0.6504,
+        "neighbor_ratio_reached": 0.013416
+      },
+      {
+        "neighbor_id": "P00052",
+        "similarity_score": 0.6145,
+        "neighbor_ratio_reached": 0.009264
+      },
+      {
+        "neighbor_id": "P00026",
+        "similarity_score": 0.475,
+        "neighbor_ratio_reached": 0.022592
+      }
+    ]
+  },
+  {
+    "project_id": "P00039",
+    "neighbors": [
+      {
+        "neighbor_id": "P00128",
+        "similarity_score": 0.7327,
+        "neighbor_ratio_reached": 0.007293
+      },
+      {
+        "neighbor_id": "P00025",
+        "similarity_score": 0.6289,
+        "neighbor_ratio_reached": 0.010572
+      },
+      {
+        "neighbor_id": "P00071",
+        "similarity_score": 0.6182,
+        "neighbor_ratio_reached": 0.008813
+      }
+    ]
+  },
+  {
+    "project_id": "P00040",
+    "neighbors": [
+      {
+        "neighbor_id": "P00038",
+        "similarity_score": 0.6504,
+        "neighbor_ratio_reached": 0.007225
+      },
+      {
+        "neighbor_id": "P00052",
+        "similarity_score": 0.5997,
+        "neighbor_ratio_reached": 0.009264
+      },
+      {
+        "neighbor_id": "P00026",
+        "similarity_score": 0.5954,
+        "neighbor_ratio_reached": 0.022592
+      }
+    ]
+  },
+  {
+    "project_id": "P00041",
+    "neighbors": [
+      {
+        "neighbor_id": "P00165",
+        "similarity_score": 0.5177,
+        "neighbor_ratio_reached": 0.000787
+      },
+      {
+        "neighbor_id": "P00001",
+        "similarity_score": 0.4484,
+        "neighbor_ratio_reached": 0.001099
+      },
+      {
+        "neighbor_id": "P00200",
+        "similarity_score": 0.4339,
+        "neighbor_ratio_reached": 0.000674
+      }
+    ]
+  },
+  {
+    "project_id": "P00042",
+    "neighbors": [
+      {
+        "neighbor_id": "P00086",
+        "similarity_score": 0.5743,
+        "neighbor_ratio_reached": 0.001613
+      },
+      {
+        "neighbor_id": "P00028",
+        "similarity_score": 0.5256,
+        "neighbor_ratio_reached": 0.002863
+      },
+      {
+        "neighbor_id": "P00188",
+        "similarity_score": 0.5254,
+        "neighbor_ratio_reached": 0.003381
+      }
+    ]
+  },
+  {
+    "project_id": "P00043",
+    "neighbors": [
+      {
+        "neighbor_id": "P00127",
+        "similarity_score": 0.5824,
+        "neighbor_ratio_reached": 0.017164
+      },
+      {
+        "neighbor_id": "P00119",
+        "similarity_score": 0.5624,
+        "neighbor_ratio_reached": 0.010847
+      },
+      {
+        "neighbor_id": "P00040",
+        "similarity_score": 0.556,
+        "neighbor_ratio_reached": 0.013416
+      }
+    ]
+  },
+  {
+    "project_id": "P00044",
+    "neighbors": [
+      {
+        "neighbor_id": "P00120",
+        "similarity_score": 0.6337,
+        "neighbor_ratio_reached": 0.030205
+      },
+      {
+        "neighbor_id": "P00164",
+        "similarity_score": 0.5991,
+        "neighbor_ratio_reached": 0.025784
+      },
+      {
+        "neighbor_id": "P00075",
+        "similarity_score": 0.5047,
+        "neighbor_ratio_reached": 0.031829
+      }
+    ]
+  },
+  {
+    "project_id": "P00045",
+    "neighbors": [
+      {
+        "neighbor_id": "P00005",
+        "similarity_score": 0.5329,
+        "neighbor_ratio_reached": 0.00523
+      },
+      {
+        "neighbor_id": "P00146",
+        "similarity_score": 0.496,
+        "neighbor_ratio_reached": 0.002921
+      },
+      {
+        "neighbor_id": "P00145",
+        "similarity_score": 0.4794,
+        "neighbor_ratio_reached": 0.001736
+      }
+    ]
+  },
+  {
+    "project_id": "P00046",
+    "neighbors": [
+      {
+        "neighbor_id": "P00143",
+        "similarity_score": 0.5958,
+        "neighbor_ratio_reached": 0.009878
+      },
+      {
+        "neighbor_id": "P00153",
+        "similarity_score": 0.5903,
+        "neighbor_ratio_reached": 0.015389
+      },
+      {
+        "neighbor_id": "P00015",
+        "similarity_score": 0.5833,
+        "neighbor_ratio_reached": 0.016376
+      }
+    ]
+  },
+  {
+    "project_id": "P00047",
+    "neighbors": [
+      {
+        "neighbor_id": "P00015",
+        "similarity_score": 0.5403,
+        "neighbor_ratio_reached": 0.016376
+      },
+      {
+        "neighbor_id": "P00199",
+        "similarity_score": 0.5119,
+        "neighbor_ratio_reached": 0.030444
+      },
+      {
+        "neighbor_id": "P00073",
+        "similarity_score": 0.4731,
+        "neighbor_ratio_reached": 0.05288
+      }
+    ]
+  },
+  {
+    "project_id": "P00048",
+    "neighbors": [
+      {
+        "neighbor_id": "P00202",
+        "similarity_score": 0.8711,
+        "neighbor_ratio_reached": 0.009769
+      },
+      {
+        "neighbor_id": "P00144",
+        "similarity_score": 0.6494,
+        "neighbor_ratio_reached": 0.009872
+      },
+      {
+        "neighbor_id": "P00198",
+        "similarity_score": 0.6426,
+        "neighbor_ratio_reached": 0.013033
+      }
+    ]
+  },
+  {
+    "project_id": "P00049",
+    "neighbors": [
+      {
+        "neighbor_id": "P00080",
+        "similarity_score": 0.8251,
+        "neighbor_ratio_reached": 0.0072
+      },
+      {
+        "neighbor_id": "P00143",
+        "similarity_score": 0.6522,
+        "neighbor_ratio_reached": 0.009878
+      },
+      {
+        "neighbor_id": "P00081",
+        "similarity_score": 0.6366,
+        "neighbor_ratio_reached": 0.004724
+      }
+    ]
+  },
+  {
+    "project_id": "P00050",
+    "neighbors": [
+      {
+        "neighbor_id": "P00102",
+        "similarity_score": 0.5598,
+        "neighbor_ratio_reached": 0.006305
+      },
+      {
+        "neighbor_id": "P00173",
+        "similarity_score": 0.5457,
+        "neighbor_ratio_reached": 0.006847
+      },
+      {
+        "neighbor_id": "P00024",
+        "similarity_score": 0.5388,
+        "neighbor_ratio_reached": 0.003775
+      }
+    ]
+  },
+  {
+    "project_id": "P00051",
+    "neighbors": [
+      {
+        "neighbor_id": "P00187",
+        "similarity_score": 0.415,
+        "neighbor_ratio_reached": 0.017838
+      },
+      {
+        "neighbor_id": "P00075",
+        "similarity_score": 0.3743,
+        "neighbor_ratio_reached": 0.031829
+      },
+      {
+        "neighbor_id": "P00164",
+        "similarity_score": 0.3683,
+        "neighbor_ratio_reached": 0.025784
+      }
+    ]
+  },
+  {
+    "project_id": "P00052",
+    "neighbors": [
+      {
+        "neighbor_id": "P00038",
+        "similarity_score": 0.6145,
+        "neighbor_ratio_reached": 0.007225
+      },
+      {
+        "neighbor_id": "P00040",
+        "similarity_score": 0.5997,
+        "neighbor_ratio_reached": 0.013416
+      },
+      {
+        "neighbor_id": "P00026",
+        "similarity_score": 0.4619,
+        "neighbor_ratio_reached": 0.022592
+      }
+    ]
+  },
+  {
+    "project_id": "P00053",
+    "neighbors": [
+      {
+        "neighbor_id": "P00197",
+        "similarity_score": 0.7842,
+        "neighbor_ratio_reached": 0.002989
+      },
+      {
+        "neighbor_id": "P00056",
+        "similarity_score": 0.6408,
+        "neighbor_ratio_reached": 0.003612
+      },
+      {
+        "neighbor_id": "P00094",
+        "similarity_score": 0.6229,
+        "neighbor_ratio_reached": 0.001816
+      }
+    ]
+  },
+  {
+    "project_id": "P00054",
+    "neighbors": [
+      {
+        "neighbor_id": "P00167",
+        "similarity_score": 0.6265,
+        "neighbor_ratio_reached": 0.018509
+      },
+      {
+        "neighbor_id": "P00166",
+        "similarity_score": 0.4811,
+        "neighbor_ratio_reached": 0.011804
+      },
+      {
+        "neighbor_id": "P00195",
+        "similarity_score": 0.4753,
+        "neighbor_ratio_reached": 0.012452
+      }
+    ]
+  },
+  {
+    "project_id": "P00055",
+    "neighbors": [
+      {
+        "neighbor_id": "P00132",
+        "similarity_score": 0.6137,
+        "neighbor_ratio_reached": 0.014567
+      },
+      {
+        "neighbor_id": "P00062",
+        "similarity_score": 0.6078,
+        "neighbor_ratio_reached": 0.011389
+      },
+      {
+        "neighbor_id": "P00133",
+        "similarity_score": 0.5897,
+        "neighbor_ratio_reached": 0.021465
+      }
+    ]
+  },
+  {
+    "project_id": "P00056",
+    "neighbors": [
+      {
+        "neighbor_id": "P00197",
+        "similarity_score": 0.6675,
+        "neighbor_ratio_reached": 0.002989
+      },
+      {
+        "neighbor_id": "P00053",
+        "similarity_score": 0.6408,
+        "neighbor_ratio_reached": 0.002225
+      },
+      {
+        "neighbor_id": "P00093",
+        "similarity_score": 0.6223,
+        "neighbor_ratio_reached": 0.003466
+      }
+    ]
+  },
+  {
+    "project_id": "P00057",
+    "neighbors": [
+      {
+        "neighbor_id": "P00157",
+        "similarity_score": 0.572,
+        "neighbor_ratio_reached": 0.009352
+      },
+      {
+        "neighbor_id": "P00204",
+        "similarity_score": 0.5037,
+        "neighbor_ratio_reached": 0.008761
+      },
+      {
+        "neighbor_id": "P00012",
+        "similarity_score": 0.4809,
+        "neighbor_ratio_reached": 0.006984
+      }
+    ]
+  },
+  {
+    "project_id": "P00058",
+    "neighbors": [
+      {
+        "neighbor_id": "P00159",
+        "similarity_score": 0.5202,
+        "neighbor_ratio_reached": 0.007355
+      },
+      {
+        "neighbor_id": "P00089",
+        "similarity_score": 0.4657,
+        "neighbor_ratio_reached": 0.012129
+      },
+      {
+        "neighbor_id": "P00096",
+        "similarity_score": 0.4652,
+        "neighbor_ratio_reached": 0.006204
+      }
+    ]
+  },
+  {
+    "project_id": "P00059",
+    "neighbors": [
+      {
+        "neighbor_id": "P00139",
+        "similarity_score": 0.4913,
+        "neighbor_ratio_reached": 0.04441
+      },
+      {
+        "neighbor_id": "P00010",
+        "similarity_score": 0.469,
+        "neighbor_ratio_reached": 0.078683
+      },
+      {
+        "neighbor_id": "P00160",
+        "similarity_score": 0.4395,
+        "neighbor_ratio_reached": 0.042956
+      }
+    ]
+  },
+  {
+    "project_id": "P00060",
+    "neighbors": [
+      {
+        "neighbor_id": "P00171",
+        "similarity_score": 0.5821,
+        "neighbor_ratio_reached": 0.002102
+      },
+      {
+        "neighbor_id": "P00190",
+        "similarity_score": 0.5667,
+        "neighbor_ratio_reached": 0.005473
+      },
+      {
+        "neighbor_id": "P00148",
+        "similarity_score": 0.5477,
+        "neighbor_ratio_reached": 0.005928
+      }
+    ]
+  },
+  {
+    "project_id": "P00061",
+    "neighbors": [
+      {
+        "neighbor_id": "P00169",
+        "similarity_score": 0.6232,
+        "neighbor_ratio_reached": 0.007969
+      },
+      {
+        "neighbor_id": "P00149",
+        "similarity_score": 0.5985,
+        "neighbor_ratio_reached": 0.006477
+      },
+      {
+        "neighbor_id": "P00191",
+        "similarity_score": 0.5268,
+        "neighbor_ratio_reached": 0.009708
+      }
+    ]
+  },
+  {
+    "project_id": "P00062",
+    "neighbors": [
+      {
+        "neighbor_id": "P00132",
+        "similarity_score": 0.6184,
+        "neighbor_ratio_reached": 0.014567
+      },
+      {
+        "neighbor_id": "P00055",
+        "similarity_score": 0.6078,
+        "neighbor_ratio_reached": 0.012501
+      },
+      {
+        "neighbor_id": "P00133",
+        "similarity_score": 0.5209,
+        "neighbor_ratio_reached": 0.021465
+      }
+    ]
+  },
+  {
+    "project_id": "P00063",
+    "neighbors": [
+      {
+        "neighbor_id": "P00022",
+        "similarity_score": 0.5336,
+        "neighbor_ratio_reached": 0.006338
+      },
+      {
+        "neighbor_id": "P00168",
+        "similarity_score": 0.5101,
+        "neighbor_ratio_reached": 0.004718
+      },
+      {
+        "neighbor_id": "P00197",
+        "similarity_score": 0.4835,
+        "neighbor_ratio_reached": 0.002989
+      }
+    ]
+  },
+  {
+    "project_id": "P00064",
+    "neighbors": [
+      {
+        "neighbor_id": "P00166",
+        "similarity_score": 0.5359,
+        "neighbor_ratio_reached": 0.011804
+      },
+      {
+        "neighbor_id": "P00195",
+        "similarity_score": 0.4928,
+        "neighbor_ratio_reached": 0.012452
+      },
+      {
+        "neighbor_id": "P00167",
+        "similarity_score": 0.4769,
+        "neighbor_ratio_reached": 0.018509
+      }
+    ]
+  },
+  {
+    "project_id": "P00065",
+    "neighbors": [
+      {
+        "neighbor_id": "P00187",
+        "similarity_score": 0.3655,
+        "neighbor_ratio_reached": 0.017838
+      },
+      {
+        "neighbor_id": "P00002",
+        "similarity_score": 0.3434,
+        "neighbor_ratio_reached": 0.045603
+      },
+      {
+        "neighbor_id": "P00154",
+        "similarity_score": 0.3412,
+        "neighbor_ratio_reached": 0.010298
+      }
+    ]
+  },
+  {
+    "project_id": "P00066",
+    "neighbors": [
+      {
+        "neighbor_id": "P00067",
+        "similarity_score": 0.6309,
+        "neighbor_ratio_reached": 0.002938
+      },
+      {
+        "neighbor_id": "P00104",
+        "similarity_score": 0.5648,
+        "neighbor_ratio_reached": 0.002852
+      },
+      {
+        "neighbor_id": "P00123",
+        "similarity_score": 0.5329,
+        "neighbor_ratio_reached": 0.003457
+      }
+    ]
+  },
+  {
+    "project_id": "P00067",
+    "neighbors": [
+      {
+        "neighbor_id": "P00104",
+        "similarity_score": 0.7139,
+        "neighbor_ratio_reached": 0.002852
+      },
+      {
+        "neighbor_id": "P00066",
+        "similarity_score": 0.6309,
+        "neighbor_ratio_reached": 0.001532
+      },
+      {
+        "neighbor_id": "P00123",
+        "similarity_score": 0.5941,
+        "neighbor_ratio_reached": 0.003457
+      }
+    ]
+  },
+  {
+    "project_id": "P00068",
+    "neighbors": [
+      {
+        "neighbor_id": "P00185",
+        "similarity_score": 0.6752,
+        "neighbor_ratio_reached": 0.015909
+      },
+      {
+        "neighbor_id": "P00037",
+        "similarity_score": 0.5838,
+        "neighbor_ratio_reached": 0.017019
+      },
+      {
+        "neighbor_id": "P00153",
+        "similarity_score": 0.537,
+        "neighbor_ratio_reached": 0.015389
+      }
+    ]
+  },
+  {
+    "project_id": "P00069",
+    "neighbors": [
+      {
+        "neighbor_id": "P00163",
+        "similarity_score": 0.6711,
+        "neighbor_ratio_reached": 0.03935
+      },
+      {
+        "neighbor_id": "P00076",
+        "similarity_score": 0.5916,
+        "neighbor_ratio_reached": 0.016583
+      },
+      {
+        "neighbor_id": "P00072",
+        "similarity_score": 0.5806,
+        "neighbor_ratio_reached": 0.018773
+      }
+    ]
+  },
+  {
+    "project_id": "P00070",
+    "neighbors": [
+      {
+        "neighbor_id": "P00031",
+        "similarity_score": 0.4603,
+        "neighbor_ratio_reached": 0.250647
+      },
+      {
+        "neighbor_id": "P00074",
+        "similarity_score": 0.4137,
+        "neighbor_ratio_reached": 0.067372
+      },
+      {
+        "neighbor_id": "P00044",
+        "similarity_score": 0.3959,
+        "neighbor_ratio_reached": 0.041918
+      }
+    ]
+  },
+  {
+    "project_id": "P00071",
+    "neighbors": [
+      {
+        "neighbor_id": "P00128",
+        "similarity_score": 0.6524,
+        "neighbor_ratio_reached": 0.007293
+      },
+      {
+        "neighbor_id": "P00039",
+        "similarity_score": 0.6182,
+        "neighbor_ratio_reached": 0.009345
+      },
+      {
+        "neighbor_id": "P00194",
+        "similarity_score": 0.6043,
+        "neighbor_ratio_reached": 0.008905
+      }
+    ]
+  },
+  {
+    "project_id": "P00072",
+    "neighbors": [
+      {
+        "neighbor_id": "P00136",
+        "similarity_score": 0.5907,
+        "neighbor_ratio_reached": 0.029023
+      },
+      {
+        "neighbor_id": "P00069",
+        "similarity_score": 0.5806,
+        "neighbor_ratio_reached": 0.023392
+      },
+      {
+        "neighbor_id": "P00135",
+        "similarity_score": 0.5388,
+        "neighbor_ratio_reached": 0.026526
+      }
+    ]
+  },
+  {
+    "project_id": "P00073",
+    "neighbors": [
+      {
+        "neighbor_id": "P00074",
+        "similarity_score": 0.8222,
+        "neighbor_ratio_reached": 0.067372
+      },
+      {
+        "neighbor_id": "P00163",
+        "similarity_score": 0.5765,
+        "neighbor_ratio_reached": 0.03935
+      },
+      {
+        "neighbor_id": "P00077",
+        "similarity_score": 0.5014,
+        "neighbor_ratio_reached": 0.041808
+      }
+    ]
+  },
+  {
+    "project_id": "P00074",
+    "neighbors": [
+      {
+        "neighbor_id": "P00073",
+        "similarity_score": 0.8222,
+        "neighbor_ratio_reached": 0.05288
+      },
+      {
+        "neighbor_id": "P00163",
+        "similarity_score": 0.5445,
+        "neighbor_ratio_reached": 0.03935
+      },
+      {
+        "neighbor_id": "P00077",
+        "similarity_score": 0.4888,
+        "neighbor_ratio_reached": 0.041808
+      }
+    ]
+  },
+  {
+    "project_id": "P00075",
+    "neighbors": [
+      {
+        "neighbor_id": "P00044",
+        "similarity_score": 0.5047,
+        "neighbor_ratio_reached": 0.041918
+      },
+      {
+        "neighbor_id": "P00120",
+        "similarity_score": 0.4811,
+        "neighbor_ratio_reached": 0.030205
+      },
+      {
+        "neighbor_id": "P00164",
+        "similarity_score": 0.4716,
+        "neighbor_ratio_reached": 0.025784
+      }
+    ]
+  },
+  {
+    "project_id": "P00076",
+    "neighbors": [
+      {
+        "neighbor_id": "P00069",
+        "similarity_score": 0.5916,
+        "neighbor_ratio_reached": 0.023392
+      },
+      {
+        "neighbor_id": "P00163",
+        "similarity_score": 0.5151,
+        "neighbor_ratio_reached": 0.03935
+      },
+      {
+        "neighbor_id": "P00100",
+        "similarity_score": 0.5023,
+        "neighbor_ratio_reached": 0.008052
+      }
+    ]
+  },
+  {
+    "project_id": "P00077",
+    "neighbors": [
+      {
+        "neighbor_id": "P00163",
+        "similarity_score": 0.5477,
+        "neighbor_ratio_reached": 0.03935
+      },
+      {
+        "neighbor_id": "P00069",
+        "similarity_score": 0.5212,
+        "neighbor_ratio_reached": 0.023392
+      },
+      {
+        "neighbor_id": "P00073",
+        "similarity_score": 0.5014,
+        "neighbor_ratio_reached": 0.05288
+      }
+    ]
+  },
+  {
+    "project_id": "P00078",
+    "neighbors": [
+      {
+        "neighbor_id": "P00017",
+        "similarity_score": 0.7509,
+        "neighbor_ratio_reached": 0.006847
+      },
+      {
+        "neighbor_id": "P00151",
+        "similarity_score": 0.5704,
+        "neighbor_ratio_reached": 0.01784
+      },
+      {
+        "neighbor_id": "P00079",
+        "similarity_score": 0.5542,
+        "neighbor_ratio_reached": 0.021939
+      }
+    ]
+  },
+  {
+    "project_id": "P00079",
+    "neighbors": [
+      {
+        "neighbor_id": "P00172",
+        "similarity_score": 0.6731,
+        "neighbor_ratio_reached": 0.018269
+      },
+      {
+        "neighbor_id": "P00151",
+        "similarity_score": 0.6394,
+        "neighbor_ratio_reached": 0.01784
+      },
+      {
+        "neighbor_id": "P00078",
+        "similarity_score": 0.5542,
+        "neighbor_ratio_reached": 0.009951
+      }
+    ]
+  },
+  {
+    "project_id": "P00080",
+    "neighbors": [
+      {
+        "neighbor_id": "P00049",
+        "similarity_score": 0.8251,
+        "neighbor_ratio_reached": 0.009104
+      },
+      {
+        "neighbor_id": "P00081",
+        "similarity_score": 0.7255,
+        "neighbor_ratio_reached": 0.004724
+      },
+      {
+        "neighbor_id": "P00143",
+        "similarity_score": 0.6195,
+        "neighbor_ratio_reached": 0.009878
+      }
+    ]
+  },
+  {
+    "project_id": "P00081",
+    "neighbors": [
+      {
+        "neighbor_id": "P00080",
+        "similarity_score": 0.7255,
+        "neighbor_ratio_reached": 0.0072
+      },
+      {
+        "neighbor_id": "P00049",
+        "similarity_score": 0.6366,
+        "neighbor_ratio_reached": 0.009104
+      },
+      {
+        "neighbor_id": "P00143",
+        "similarity_score": 0.5483,
+        "neighbor_ratio_reached": 0.009878
+      }
+    ]
+  },
+  {
+    "project_id": "P00082",
+    "neighbors": [
+      {
+        "neighbor_id": "P00002",
+        "similarity_score": 0.447,
+        "neighbor_ratio_reached": 0.045603
+      },
+      {
+        "neighbor_id": "P00036",
+        "similarity_score": 0.4156,
+        "neighbor_ratio_reached": 0.014307
+      },
+      {
+        "neighbor_id": "P00026",
+        "similarity_score": 0.4139,
+        "neighbor_ratio_reached": 0.022592
+      }
+    ]
+  },
+  {
+    "project_id": "P00083",
+    "neighbors": [
+      {
+        "neighbor_id": "P00201",
+        "similarity_score": 0.5764,
+        "neighbor_ratio_reached": 0.010607
+      },
+      {
+        "neighbor_id": "P00198",
+        "similarity_score": 0.5604,
+        "neighbor_ratio_reached": 0.013033
+      },
+      {
+        "neighbor_id": "P00113",
+        "similarity_score": 0.5491,
+        "neighbor_ratio_reached": 0.021084
+      }
+    ]
+  },
+  {
+    "project_id": "P00084",
+    "neighbors": [
+      {
+        "neighbor_id": "P00199",
+        "similarity_score": 0.4088,
+        "neighbor_ratio_reached": 0.030444
+      },
+      {
+        "neighbor_id": "P00164",
+        "similarity_score": 0.4016,
+        "neighbor_ratio_reached": 0.025784
+      },
+      {
+        "neighbor_id": "P00120",
+        "similarity_score": 0.3964,
+        "neighbor_ratio_reached": 0.030205
+      }
+    ]
+  },
+  {
+    "project_id": "P00085",
+    "neighbors": [
+      {
+        "neighbor_id": "P00034",
+        "similarity_score": 0.69,
+        "neighbor_ratio_reached": 0.009347
+      },
+      {
+        "neighbor_id": "P00087",
+        "similarity_score": 0.6392,
+        "neighbor_ratio_reached": 0.007476
+      },
+      {
+        "neighbor_id": "P00180",
+        "similarity_score": 0.6327,
+        "neighbor_ratio_reached": 0.006211
+      }
+    ]
+  },
+  {
+    "project_id": "P00086",
+    "neighbors": [
+      {
+        "neighbor_id": "P00042",
+        "similarity_score": 0.5743,
+        "neighbor_ratio_reached": 0.002127
+      },
+      {
+        "neighbor_id": "P00028",
+        "similarity_score": 0.547,
+        "neighbor_ratio_reached": 0.002863
+      },
+      {
+        "neighbor_id": "P00001",
+        "similarity_score": 0.5111,
+        "neighbor_ratio_reached": 0.001099
+      }
+    ]
+  },
+  {
+    "project_id": "P00087",
+    "neighbors": [
+      {
+        "neighbor_id": "P00034",
+        "similarity_score": 0.647,
+        "neighbor_ratio_reached": 0.009347
+      },
+      {
+        "neighbor_id": "P00085",
+        "similarity_score": 0.6392,
+        "neighbor_ratio_reached": 0.006295
+      },
+      {
+        "neighbor_id": "P00181",
+        "similarity_score": 0.6082,
+        "neighbor_ratio_reached": 0.00871
+      }
+    ]
+  },
+  {
+    "project_id": "P00088",
+    "neighbors": [
+      {
+        "neighbor_id": "P00140",
+        "similarity_score": 0.6092,
+        "neighbor_ratio_reached": 0.004309
+      },
+      {
+        "neighbor_id": "P00012",
+        "similarity_score": 0.5193,
+        "neighbor_ratio_reached": 0.006984
+      },
+      {
+        "neighbor_id": "P00141",
+        "similarity_score": 0.5176,
+        "neighbor_ratio_reached": 0.001425
+      }
+    ]
+  },
+  {
+    "project_id": "P00089",
+    "neighbors": [
+      {
+        "neighbor_id": "P00012",
+        "similarity_score": 0.4707,
+        "neighbor_ratio_reached": 0.006984
+      },
+      {
+        "neighbor_id": "P00058",
+        "similarity_score": 0.4657,
+        "neighbor_ratio_reached": 0.004593
+      },
+      {
+        "neighbor_id": "P00057",
+        "similarity_score": 0.4508,
+        "neighbor_ratio_reached": 0.016496
+      }
+    ]
+  },
+  {
+    "project_id": "P00090",
+    "neighbors": [
+      {
+        "neighbor_id": "P00091",
+        "similarity_score": 0.4159,
+        "neighbor_ratio_reached": 0.00027
+      },
+      {
+        "neighbor_id": "P00158",
+        "similarity_score": 0.3134,
+        "neighbor_ratio_reached": 0.00963
+      },
+      {
+        "neighbor_id": "P00092",
+        "similarity_score": 0.2975,
+        "neighbor_ratio_reached": 0.002151
+      }
+    ]
+  },
+  {
+    "project_id": "P00091",
+    "neighbors": [
+      {
+        "neighbor_id": "P00090",
+        "similarity_score": 0.4159,
+        "neighbor_ratio_reached": 0.001039
+      },
+      {
+        "neighbor_id": "P00108",
+        "similarity_score": 0.305,
+        "neighbor_ratio_reached": 0.00104
+      },
+      {
+        "neighbor_id": "P00165",
+        "similarity_score": 0.2943,
+        "neighbor_ratio_reached": 0.000787
+      }
+    ]
+  },
+  {
+    "project_id": "P00092",
+    "neighbors": [
+      {
+        "neighbor_id": "P00161",
+        "similarity_score": 0.8237,
+        "neighbor_ratio_reached": 0.002266
+      },
+      {
+        "neighbor_id": "P00098",
+        "similarity_score": 0.5302,
+        "neighbor_ratio_reached": 0.001899
+      },
+      {
+        "neighbor_id": "P00159",
+        "similarity_score": 0.4553,
+        "neighbor_ratio_reached": 0.007355
+      }
+    ]
+  },
+  {
+    "project_id": "P00093",
+    "neighbors": [
+      {
+        "neighbor_id": "P00056",
+        "similarity_score": 0.6223,
+        "neighbor_ratio_reached": 0.003612
+      },
+      {
+        "neighbor_id": "P00094",
+        "similarity_score": 0.4947,
+        "neighbor_ratio_reached": 0.001816
+      },
+      {
+        "neighbor_id": "P00053",
+        "similarity_score": 0.488,
+        "neighbor_ratio_reached": 0.002225
+      }
+    ]
+  },
+  {
+    "project_id": "P00094",
+    "neighbors": [
+      {
+        "neighbor_id": "P00053",
+        "similarity_score": 0.6229,
+        "neighbor_ratio_reached": 0.002225
+      },
+      {
+        "neighbor_id": "P00197",
+        "similarity_score": 0.5656,
+        "neighbor_ratio_reached": 0.002989
+      },
+      {
+        "neighbor_id": "P00056",
+        "similarity_score": 0.5601,
+        "neighbor_ratio_reached": 0.003612
+      }
+    ]
+  },
+  {
+    "project_id": "P00095",
+    "neighbors": [
+      {
+        "neighbor_id": "P00023",
+        "similarity_score": 0.6483,
+        "neighbor_ratio_reached": 0.021357
+      },
+      {
+        "neighbor_id": "P00055",
+        "similarity_score": 0.5481,
+        "neighbor_ratio_reached": 0.012501
+      },
+      {
+        "neighbor_id": "P00133",
+        "similarity_score": 0.53,
+        "neighbor_ratio_reached": 0.021465
+      }
+    ]
+  },
+  {
+    "project_id": "P00096",
+    "neighbors": [
+      {
+        "neighbor_id": "P00203",
+        "similarity_score": 0.5722,
+        "neighbor_ratio_reached": 0.007801
+      },
+      {
+        "neighbor_id": "P00058",
+        "similarity_score": 0.4652,
+        "neighbor_ratio_reached": 0.004593
+      },
+      {
+        "neighbor_id": "P00089",
+        "similarity_score": 0.4481,
+        "neighbor_ratio_reached": 0.012129
+      }
+    ]
+  },
+  {
+    "project_id": "P00097",
+    "neighbors": [
+      {
+        "neighbor_id": "P00013",
+        "similarity_score": 0.5838,
+        "neighbor_ratio_reached": 0.084626
+      },
+      {
+        "neighbor_id": "P00057",
+        "similarity_score": 0.4465,
+        "neighbor_ratio_reached": 0.016496
+      },
+      {
+        "neighbor_id": "P00142",
+        "similarity_score": 0.4436,
+        "neighbor_ratio_reached": 0.03562
+      }
+    ]
+  },
+  {
+    "project_id": "P00098",
+    "neighbors": [
+      {
+        "neighbor_id": "P00161",
+        "similarity_score": 0.5925,
+        "neighbor_ratio_reached": 0.002266
+      },
+      {
+        "neighbor_id": "P00092",
+        "similarity_score": 0.5302,
+        "neighbor_ratio_reached": 0.002151
+      },
+      {
+        "neighbor_id": "P00058",
+        "similarity_score": 0.4414,
+        "neighbor_ratio_reached": 0.004593
+      }
+    ]
+  },
+  {
+    "project_id": "P00099",
+    "neighbors": [
+      {
+        "neighbor_id": "P00158",
+        "similarity_score": 0.4118,
+        "neighbor_ratio_reached": 0.00963
+      },
+      {
+        "neighbor_id": "P00035",
+        "similarity_score": 0.3516,
+        "neighbor_ratio_reached": 0.02366
+      },
+      {
+        "neighbor_id": "P00097",
+        "similarity_score": 0.332,
+        "neighbor_ratio_reached": 0.037375
+      }
+    ]
+  },
+  {
+    "project_id": "P00100",
+    "neighbors": [
+      {
+        "neighbor_id": "P00072",
+        "similarity_score": 0.5385,
+        "neighbor_ratio_reached": 0.018773
+      },
+      {
+        "neighbor_id": "P00188",
+        "similarity_score": 0.5203,
+        "neighbor_ratio_reached": 0.003381
+      },
+      {
+        "neighbor_id": "P00069",
+        "similarity_score": 0.5101,
+        "neighbor_ratio_reached": 0.023392
+      }
+    ]
+  },
+  {
+    "project_id": "P00101",
+    "neighbors": [
+      {
+        "neighbor_id": "P00027",
+        "similarity_score": 0.9389,
+        "neighbor_ratio_reached": 0.017273
+      },
+      {
+        "neighbor_id": "P00025",
+        "similarity_score": 0.7103,
+        "neighbor_ratio_reached": 0.010572
+      },
+      {
+        "neighbor_id": "P00039",
+        "similarity_score": 0.5817,
+        "neighbor_ratio_reached": 0.009345
+      }
+    ]
+  },
+  {
+    "project_id": "P00102",
+    "neighbors": [
+      {
+        "neighbor_id": "P00024",
+        "similarity_score": 0.6886,
+        "neighbor_ratio_reached": 0.003775
+      },
+      {
+        "neighbor_id": "P00173",
+        "similarity_score": 0.578,
+        "neighbor_ratio_reached": 0.006847
+      },
+      {
+        "neighbor_id": "P00050",
+        "similarity_score": 0.5598,
+        "neighbor_ratio_reached": 0.005418
+      }
+    ]
+  },
+  {
+    "project_id": "P00103",
+    "neighbors": [
+      {
+        "neighbor_id": "P00173",
+        "similarity_score": 0.5616,
+        "neighbor_ratio_reached": 0.006847
+      },
+      {
+        "neighbor_id": "P00024",
+        "similarity_score": 0.5557,
+        "neighbor_ratio_reached": 0.003775
+      },
+      {
+        "neighbor_id": "P00000",
+        "similarity_score": 0.5427,
+        "neighbor_ratio_reached": 0.006179
+      }
+    ]
+  },
+  {
+    "project_id": "P00104",
+    "neighbors": [
+      {
+        "neighbor_id": "P00067",
+        "similarity_score": 0.7139,
+        "neighbor_ratio_reached": 0.002938
+      },
+      {
+        "neighbor_id": "P00066",
+        "similarity_score": 0.5648,
+        "neighbor_ratio_reached": 0.001532
+      },
+      {
+        "neighbor_id": "P00146",
+        "similarity_score": 0.5412,
+        "neighbor_ratio_reached": 0.002921
+      }
+    ]
+  },
+  {
+    "project_id": "P00105",
+    "neighbors": [
+      {
+        "neighbor_id": "P00116",
+        "similarity_score": 0.5696,
+        "neighbor_ratio_reached": 0.002474
+      },
+      {
+        "neighbor_id": "P00156",
+        "similarity_score": 0.493,
+        "neighbor_ratio_reached": 0.001176
+      },
+      {
+        "neighbor_id": "P00004",
+        "similarity_score": 0.4308,
+        "neighbor_ratio_reached": 0.006322
+      }
+    ]
+  },
+  {
+    "project_id": "P00106",
+    "neighbors": [
+      {
+        "neighbor_id": "P00200",
+        "similarity_score": 0.5467,
+        "neighbor_ratio_reached": 0.000674
+      },
+      {
+        "neighbor_id": "P00016",
+        "similarity_score": 0.4514,
+        "neighbor_ratio_reached": 0.001135
+      },
+      {
+        "neighbor_id": "P00145",
+        "similarity_score": 0.4475,
+        "neighbor_ratio_reached": 0.001736
+      }
+    ]
+  },
+  {
+    "project_id": "P00107",
+    "neighbors": [
+      {
+        "neighbor_id": "P00113",
+        "similarity_score": 0.5883,
+        "neighbor_ratio_reached": 0.021084
+      },
+      {
+        "neighbor_id": "P00186",
+        "similarity_score": 0.5769,
+        "neighbor_ratio_reached": 0.008925
+      },
+      {
+        "neighbor_id": "P00198",
+        "similarity_score": 0.5161,
+        "neighbor_ratio_reached": 0.013033
+      }
+    ]
+  },
+  {
+    "project_id": "P00108",
+    "neighbors": [
+      {
+        "neighbor_id": "P00110",
+        "similarity_score": 0.7998,
+        "neighbor_ratio_reached": 0.001271
+      },
+      {
+        "neighbor_id": "P00130",
+        "similarity_score": 0.6359,
+        "neighbor_ratio_reached": 0.001213
+      },
+      {
+        "neighbor_id": "P00165",
+        "similarity_score": 0.5391,
+        "neighbor_ratio_reached": 0.000787
+      }
+    ]
+  },
+  {
+    "project_id": "P00109",
+    "neighbors": [
+      {
+        "neighbor_id": "P00032",
+        "similarity_score": 0.733,
+        "neighbor_ratio_reached": 0.007288
+      },
+      {
+        "neighbor_id": "P00181",
+        "similarity_score": 0.6542,
+        "neighbor_ratio_reached": 0.00871
+      },
+      {
+        "neighbor_id": "P00182",
+        "similarity_score": 0.6411,
+        "neighbor_ratio_reached": 0.008091
+      }
+    ]
+  },
+  {
+    "project_id": "P00110",
+    "neighbors": [
+      {
+        "neighbor_id": "P00108",
+        "similarity_score": 0.7998,
+        "neighbor_ratio_reached": 0.00104
+      },
+      {
+        "neighbor_id": "P00130",
+        "similarity_score": 0.6042,
+        "neighbor_ratio_reached": 0.001213
+      },
+      {
+        "neighbor_id": "P00030",
+        "similarity_score": 0.5614,
+        "neighbor_ratio_reached": 0.002199
+      }
+    ]
+  },
+  {
+    "project_id": "P00111",
+    "neighbors": [
+      {
+        "neighbor_id": "P00034",
+        "similarity_score": 0.6442,
+        "neighbor_ratio_reached": 0.009347
+      },
+      {
+        "neighbor_id": "P00085",
+        "similarity_score": 0.6002,
+        "neighbor_ratio_reached": 0.006295
+      },
+      {
+        "neighbor_id": "P00087",
+        "similarity_score": 0.5842,
+        "neighbor_ratio_reached": 0.007476
+      }
+    ]
+  },
+  {
+    "project_id": "P00112",
+    "neighbors": [
+      {
+        "neighbor_id": "P00183",
+        "similarity_score": 0.6423,
+        "neighbor_ratio_reached": 0.005599
+      },
+      {
+        "neighbor_id": "P00030",
+        "similarity_score": 0.6255,
+        "neighbor_ratio_reached": 0.002199
+      },
+      {
+        "neighbor_id": "P00029",
+        "similarity_score": 0.5208,
+        "neighbor_ratio_reached": 0.007963
+      }
+    ]
+  },
+  {
+    "project_id": "P00113",
+    "neighbors": [
+      {
+        "neighbor_id": "P00198",
+        "similarity_score": 0.597,
+        "neighbor_ratio_reached": 0.013033
+      },
+      {
+        "neighbor_id": "P00107",
+        "similarity_score": 0.5883,
+        "neighbor_ratio_reached": 0.020762
+      },
+      {
+        "neighbor_id": "P00201",
+        "similarity_score": 0.5554,
+        "neighbor_ratio_reached": 0.010607
+      }
+    ]
+  },
+  {
+    "project_id": "P00114",
+    "neighbors": [
+      {
+        "neighbor_id": "P00201",
+        "similarity_score": 0.6378,
+        "neighbor_ratio_reached": 0.010607
+      },
+      {
+        "neighbor_id": "P00152",
+        "similarity_score": 0.5647,
+        "neighbor_ratio_reached": 0.01397
+      },
+      {
+        "neighbor_id": "P00005",
+        "similarity_score": 0.5224,
+        "neighbor_ratio_reached": 0.00523
+      }
+    ]
+  },
+  {
+    "project_id": "P00115",
+    "neighbors": [
+      {
+        "neighbor_id": "P00016",
+        "similarity_score": 0.4098,
+        "neighbor_ratio_reached": 0.001135
+      },
+      {
+        "neighbor_id": "P00125",
+        "similarity_score": 0.3872,
+        "neighbor_ratio_reached": 0.002404
+      },
+      {
+        "neighbor_id": "P00200",
+        "similarity_score": 0.3829,
+        "neighbor_ratio_reached": 0.000674
+      }
+    ]
+  },
+  {
+    "project_id": "P00116",
+    "neighbors": [
+      {
+        "neighbor_id": "P00105",
+        "similarity_score": 0.5696,
+        "neighbor_ratio_reached": 0.002009
+      },
+      {
+        "neighbor_id": "P00156",
+        "similarity_score": 0.4917,
+        "neighbor_ratio_reached": 0.001176
+      },
+      {
+        "neighbor_id": "P00081",
+        "similarity_score": 0.4596,
+        "neighbor_ratio_reached": 0.004724
+      }
+    ]
+  },
+  {
+    "project_id": "P00117",
+    "neighbors": [
+      {
+        "neighbor_id": "P00172",
+        "similarity_score": 0.4015,
+        "neighbor_ratio_reached": 0.018269
+      },
+      {
+        "neighbor_id": "P00079",
+        "similarity_score": 0.3757,
+        "neighbor_ratio_reached": 0.021939
+      },
+      {
+        "neighbor_id": "P00170",
+        "similarity_score": 0.3731,
+        "neighbor_ratio_reached": 0.059757
+      }
+    ]
+  },
+  {
+    "project_id": "P00118",
+    "neighbors": [
+      {
+        "neighbor_id": "P00191",
+        "similarity_score": 0.4588,
+        "neighbor_ratio_reached": 0.009708
+      },
+      {
+        "neighbor_id": "P00061",
+        "similarity_score": 0.4289,
+        "neighbor_ratio_reached": 0.010386
+      },
+      {
+        "neighbor_id": "P00150",
+        "similarity_score": 0.4134,
+        "neighbor_ratio_reached": 0.010375
+      }
+    ]
+  },
+  {
+    "project_id": "P00119",
+    "neighbors": [
+      {
+        "neighbor_id": "P00127",
+        "similarity_score": 0.6194,
+        "neighbor_ratio_reached": 0.017164
+      },
+      {
+        "neighbor_id": "P00193",
+        "similarity_score": 0.612,
+        "neighbor_ratio_reached": 0.011368
+      },
+      {
+        "neighbor_id": "P00071",
+        "similarity_score": 0.5846,
+        "neighbor_ratio_reached": 0.008813
+      }
+    ]
+  },
+  {
+    "project_id": "P00120",
+    "neighbors": [
+      {
+        "neighbor_id": "P00044",
+        "similarity_score": 0.6337,
+        "neighbor_ratio_reached": 0.041918
+      },
+      {
+        "neighbor_id": "P00164",
+        "similarity_score": 0.4942,
+        "neighbor_ratio_reached": 0.025784
+      },
+      {
+        "neighbor_id": "P00075",
+        "similarity_score": 0.4811,
+        "neighbor_ratio_reached": 0.031829
+      }
+    ]
+  },
+  {
+    "project_id": "P00121",
+    "neighbors": [
+      {
+        "neighbor_id": "P00186",
+        "similarity_score": 0.6647,
+        "neighbor_ratio_reached": 0.008925
+      },
+      {
+        "neighbor_id": "P00184",
+        "similarity_score": 0.6586,
+        "neighbor_ratio_reached": 0.008496
+      },
+      {
+        "neighbor_id": "P00122",
+        "similarity_score": 0.6538,
+        "neighbor_ratio_reached": 0.005005
+      }
+    ]
+  },
+  {
+    "project_id": "P00122",
+    "neighbors": [
+      {
+        "neighbor_id": "P00186",
+        "similarity_score": 0.6627,
+        "neighbor_ratio_reached": 0.008925
+      },
+      {
+        "neighbor_id": "P00121",
+        "similarity_score": 0.6538,
+        "neighbor_ratio_reached": 0.007485
+      },
+      {
+        "neighbor_id": "P00184",
+        "similarity_score": 0.5496,
+        "neighbor_ratio_reached": 0.008496
+      }
+    ]
+  },
+  {
+    "project_id": "P00123",
+    "neighbors": [
+      {
+        "neighbor_id": "P00067",
+        "similarity_score": 0.5941,
+        "neighbor_ratio_reached": 0.002938
+      },
+      {
+        "neighbor_id": "P00066",
+        "similarity_score": 0.5329,
+        "neighbor_ratio_reached": 0.001532
+      },
+      {
+        "neighbor_id": "P00154",
+        "similarity_score": 0.5132,
+        "neighbor_ratio_reached": 0.010298
+      }
+    ]
+  },
+  {
+    "project_id": "P00124",
+    "neighbors": [
+      {
+        "neighbor_id": "P00187",
+        "similarity_score": 0.4284,
+        "neighbor_ratio_reached": 0.017838
+      },
+      {
+        "neighbor_id": "P00162",
+        "similarity_score": 0.3956,
+        "neighbor_ratio_reached": 0.002776
+      },
+      {
+        "neighbor_id": "P00026",
+        "similarity_score": 0.3906,
+        "neighbor_ratio_reached": 0.022592
+      }
+    ]
+  },
+  {
+    "project_id": "P00125",
+    "neighbors": [
+      {
+        "neighbor_id": "P00115",
+        "similarity_score": 0.3872,
+        "neighbor_ratio_reached": 0.000833
+      },
+      {
+        "neighbor_id": "P00041",
+        "similarity_score": 0.3534,
+        "neighbor_ratio_reached": 0.000784
+      },
+      {
+        "neighbor_id": "P00009",
+        "similarity_score": 0.3517,
+        "neighbor_ratio_reached": 0.004489
+      }
+    ]
+  },
+  {
+    "project_id": "P00126",
+    "neighbors": [
+      {
+        "neighbor_id": "P00001",
+        "similarity_score": 0.5621,
+        "neighbor_ratio_reached": 0.001099
+      },
+      {
+        "neighbor_id": "P00138",
+        "similarity_score": 0.5586,
+        "neighbor_ratio_reached": 0.00266
+      },
+      {
+        "neighbor_id": "P00042",
+        "similarity_score": 0.5188,
+        "neighbor_ratio_reached": 0.002127
+      }
+    ]
+  },
+  {
+    "project_id": "P00127",
+    "neighbors": [
+      {
+        "neighbor_id": "P00193",
+        "similarity_score": 0.653,
+        "neighbor_ratio_reached": 0.011368
+      },
+      {
+        "neighbor_id": "P00119",
+        "similarity_score": 0.6194,
+        "neighbor_ratio_reached": 0.010847
+      },
+      {
+        "neighbor_id": "P00043",
+        "similarity_score": 0.5824,
+        "neighbor_ratio_reached": 0.021448
+      }
+    ]
+  },
+  {
+    "project_id": "P00128",
+    "neighbors": [
+      {
+        "neighbor_id": "P00039",
+        "similarity_score": 0.7327,
+        "neighbor_ratio_reached": 0.009345
+      },
+      {
+        "neighbor_id": "P00194",
+        "similarity_score": 0.6629,
+        "neighbor_ratio_reached": 0.008905
+      },
+      {
+        "neighbor_id": "P00071",
+        "similarity_score": 0.6524,
+        "neighbor_ratio_reached": 0.008813
+      }
+    ]
+  },
+  {
+    "project_id": "P00129",
+    "neighbors": [
+      {
+        "neighbor_id": "P00029",
+        "similarity_score": 0.716,
+        "neighbor_ratio_reached": 0.007963
+      },
+      {
+        "neighbor_id": "P00178",
+        "similarity_score": 0.6631,
+        "neighbor_ratio_reached": 0.008581
+      },
+      {
+        "neighbor_id": "P00177",
+        "similarity_score": 0.6484,
+        "neighbor_ratio_reached": 0.006395
+      }
+    ]
+  },
+  {
+    "project_id": "P00130",
+    "neighbors": [
+      {
+        "neighbor_id": "P00108",
+        "similarity_score": 0.6359,
+        "neighbor_ratio_reached": 0.00104
+      },
+      {
+        "neighbor_id": "P00110",
+        "similarity_score": 0.6042,
+        "neighbor_ratio_reached": 0.001271
+      },
+      {
+        "neighbor_id": "P00030",
+        "similarity_score": 0.517,
+        "neighbor_ratio_reached": 0.002199
+      }
+    ]
+  },
+  {
+    "project_id": "P00131",
+    "neighbors": [
+      {
+        "neighbor_id": "P00138",
+        "similarity_score": 0.4975,
+        "neighbor_ratio_reached": 0.00266
+      },
+      {
+        "neighbor_id": "P00086",
+        "similarity_score": 0.4897,
+        "neighbor_ratio_reached": 0.001613
+      },
+      {
+        "neighbor_id": "P00156",
+        "similarity_score": 0.4623,
+        "neighbor_ratio_reached": 0.001176
+      }
+    ]
+  },
+  {
+    "project_id": "P00132",
+    "neighbors": [
+      {
+        "neighbor_id": "P00133",
+        "similarity_score": 0.704,
+        "neighbor_ratio_reached": 0.021465
+      },
+      {
+        "neighbor_id": "P00062",
+        "similarity_score": 0.6184,
+        "neighbor_ratio_reached": 0.011389
+      },
+      {
+        "neighbor_id": "P00055",
+        "similarity_score": 0.6137,
+        "neighbor_ratio_reached": 0.012501
+      }
+    ]
+  },
+  {
+    "project_id": "P00133",
+    "neighbors": [
+      {
+        "neighbor_id": "P00132",
+        "similarity_score": 0.704,
+        "neighbor_ratio_reached": 0.014567
+      },
+      {
+        "neighbor_id": "P00055",
+        "similarity_score": 0.5897,
+        "neighbor_ratio_reached": 0.012501
+      },
+      {
+        "neighbor_id": "P00095",
+        "similarity_score": 0.53,
+        "neighbor_ratio_reached": 0.02323
+      }
+    ]
+  },
+  {
+    "project_id": "P00134",
+    "neighbors": [
+      {
+        "neighbor_id": "P00023",
+        "similarity_score": 0.6195,
+        "neighbor_ratio_reached": 0.021357
+      },
+      {
+        "neighbor_id": "P00095",
+        "similarity_score": 0.5231,
+        "neighbor_ratio_reached": 0.02323
+      },
+      {
+        "neighbor_id": "P00002",
+        "similarity_score": 0.4204,
+        "neighbor_ratio_reached": 0.045603
+      }
+    ]
+  },
+  {
+    "project_id": "P00135",
+    "neighbors": [
+      {
+        "neighbor_id": "P00136",
+        "similarity_score": 0.6605,
+        "neighbor_ratio_reached": 0.029023
+      },
+      {
+        "neighbor_id": "P00033",
+        "similarity_score": 0.5833,
+        "neighbor_ratio_reached": 0.022933
+      },
+      {
+        "neighbor_id": "P00027",
+        "similarity_score": 0.5604,
+        "neighbor_ratio_reached": 0.017273
+      }
+    ]
+  },
+  {
+    "project_id": "P00136",
+    "neighbors": [
+      {
+        "neighbor_id": "P00135",
+        "similarity_score": 0.6605,
+        "neighbor_ratio_reached": 0.026526
+      },
+      {
+        "neighbor_id": "P00072",
+        "similarity_score": 0.5907,
+        "neighbor_ratio_reached": 0.018773
+      },
+      {
+        "neighbor_id": "P00033",
+        "similarity_score": 0.5336,
+        "neighbor_ratio_reached": 0.022933
+      }
+    ]
+  },
+  {
+    "project_id": "P00137",
+    "neighbors": [
+      {
+        "neighbor_id": "P00175",
+        "similarity_score": 0.3777,
+        "neighbor_ratio_reached": 0.001319
+      },
+      {
+        "neighbor_id": "P00024",
+        "similarity_score": 0.359,
+        "neighbor_ratio_reached": 0.003775
+      },
+      {
+        "neighbor_id": "P00131",
+        "similarity_score": 0.3525,
+        "neighbor_ratio_reached": 0.001524
+      }
+    ]
+  },
+  {
+    "project_id": "P00138",
+    "neighbors": [
+      {
+        "neighbor_id": "P00188",
+        "similarity_score": 0.6468,
+        "neighbor_ratio_reached": 0.003381
+      },
+      {
+        "neighbor_id": "P00126",
+        "similarity_score": 0.5586,
+        "neighbor_ratio_reached": 0.001371
+      },
+      {
+        "neighbor_id": "P00001",
+        "similarity_score": 0.5212,
+        "neighbor_ratio_reached": 0.001099
+      }
+    ]
+  },
+  {
+    "project_id": "P00139",
+    "neighbors": [
+      {
+        "neighbor_id": "P00160",
+        "similarity_score": 0.6021,
+        "neighbor_ratio_reached": 0.042956
+      },
+      {
+        "neighbor_id": "P00010",
+        "similarity_score": 0.5762,
+        "neighbor_ratio_reached": 0.078683
+      },
+      {
+        "neighbor_id": "P00142",
+        "similarity_score": 0.5489,
+        "neighbor_ratio_reached": 0.03562
+      }
+    ]
+  },
+  {
+    "project_id": "P00140",
+    "neighbors": [
+      {
+        "neighbor_id": "P00088",
+        "similarity_score": 0.6092,
+        "neighbor_ratio_reached": 0.002725
+      },
+      {
+        "neighbor_id": "P00157",
+        "similarity_score": 0.596,
+        "neighbor_ratio_reached": 0.009352
+      },
+      {
+        "neighbor_id": "P00204",
+        "similarity_score": 0.5921,
+        "neighbor_ratio_reached": 0.008761
+      }
+    ]
+  },
+  {
+    "project_id": "P00141",
+    "neighbors": [
+      {
+        "neighbor_id": "P00088",
+        "similarity_score": 0.5176,
+        "neighbor_ratio_reached": 0.002725
+      },
+      {
+        "neighbor_id": "P00140",
+        "similarity_score": 0.476,
+        "neighbor_ratio_reached": 0.004309
+      },
+      {
+        "neighbor_id": "P00030",
+        "similarity_score": 0.3868,
+        "neighbor_ratio_reached": 0.002199
+      }
+    ]
+  },
+  {
+    "project_id": "P00142",
+    "neighbors": [
+      {
+        "neighbor_id": "P00139",
+        "similarity_score": 0.5489,
+        "neighbor_ratio_reached": 0.04441
+      },
+      {
+        "neighbor_id": "P00011",
+        "similarity_score": 0.5452,
+        "neighbor_ratio_reached": 0.016549
+      },
+      {
+        "neighbor_id": "P00160",
+        "similarity_score": 0.4907,
+        "neighbor_ratio_reached": 0.042956
+      }
+    ]
+  },
+  {
+    "project_id": "P00143",
+    "neighbors": [
+      {
+        "neighbor_id": "P00049",
+        "similarity_score": 0.6522,
+        "neighbor_ratio_reached": 0.009104
+      },
+      {
+        "neighbor_id": "P00080",
+        "similarity_score": 0.6195,
+        "neighbor_ratio_reached": 0.0072
+      },
+      {
+        "neighbor_id": "P00046",
+        "similarity_score": 0.5958,
+        "neighbor_ratio_reached": 0.01327
+      }
+    ]
+  },
+  {
+    "project_id": "P00144",
+    "neighbors": [
+      {
+        "neighbor_id": "P00202",
+        "similarity_score": 0.6559,
+        "neighbor_ratio_reached": 0.009769
+      },
+      {
+        "neighbor_id": "P00048",
+        "similarity_score": 0.6494,
+        "neighbor_ratio_reached": 0.011581
+      },
+      {
+        "neighbor_id": "P00198",
+        "similarity_score": 0.5911,
+        "neighbor_ratio_reached": 0.013033
+      }
+    ]
+  },
+  {
+    "project_id": "P00145",
+    "neighbors": [
+      {
+        "neighbor_id": "P00045",
+        "similarity_score": 0.4794,
+        "neighbor_ratio_reached": 0.003157
+      },
+      {
+        "neighbor_id": "P00200",
+        "similarity_score": 0.4618,
+        "neighbor_ratio_reached": 0.000674
+      },
+      {
+        "neighbor_id": "P00130",
+        "similarity_score": 0.4587,
+        "neighbor_ratio_reached": 0.001213
+      }
+    ]
+  },
+  {
+    "project_id": "P00146",
+    "neighbors": [
+      {
+        "neighbor_id": "P00104",
+        "similarity_score": 0.5412,
+        "neighbor_ratio_reached": 0.002852
+      },
+      {
+        "neighbor_id": "P00067",
+        "similarity_score": 0.5226,
+        "neighbor_ratio_reached": 0.002938
+      },
+      {
+        "neighbor_id": "P00083",
+        "similarity_score": 0.5082,
+        "neighbor_ratio_reached": 0.008887
+      }
+    ]
+  },
+  {
+    "project_id": "P00147",
+    "neighbors": [
+      {
+        "neighbor_id": "P00189",
+        "similarity_score": 0.6651,
+        "neighbor_ratio_reached": 0.01054
+      },
+      {
+        "neighbor_id": "P00150",
+        "similarity_score": 0.6199,
+        "neighbor_ratio_reached": 0.010375
+      },
+      {
+        "neighbor_id": "P00190",
+        "similarity_score": 0.4925,
+        "neighbor_ratio_reached": 0.005473
+      }
+    ]
+  },
+  {
+    "project_id": "P00148",
+    "neighbors": [
+      {
+        "neighbor_id": "P00060",
+        "similarity_score": 0.5477,
+        "neighbor_ratio_reached": 0.002926
+      },
+      {
+        "neighbor_id": "P00190",
+        "similarity_score": 0.5205,
+        "neighbor_ratio_reached": 0.005473
+      },
+      {
+        "neighbor_id": "P00017",
+        "similarity_score": 0.4957,
+        "neighbor_ratio_reached": 0.006847
+      }
+    ]
+  },
+  {
+    "project_id": "P00149",
+    "neighbors": [
+      {
+        "neighbor_id": "P00169",
+        "similarity_score": 0.8459,
+        "neighbor_ratio_reached": 0.007969
+      },
+      {
+        "neighbor_id": "P00061",
+        "similarity_score": 0.5985,
+        "neighbor_ratio_reached": 0.010386
+      },
+      {
+        "neighbor_id": "P00018",
+        "similarity_score": 0.5337,
+        "neighbor_ratio_reached": 0.003761
+      }
+    ]
+  },
+  {
+    "project_id": "P00150",
+    "neighbors": [
+      {
+        "neighbor_id": "P00189",
+        "similarity_score": 0.7458,
+        "neighbor_ratio_reached": 0.01054
+      },
+      {
+        "neighbor_id": "P00191",
+        "similarity_score": 0.6554,
+        "neighbor_ratio_reached": 0.009708
+      },
+      {
+        "neighbor_id": "P00147",
+        "similarity_score": 0.6199,
+        "neighbor_ratio_reached": 0.010419
+      }
+    ]
+  },
+  {
+    "project_id": "P00151",
+    "neighbors": [
+      {
+        "neighbor_id": "P00079",
+        "similarity_score": 0.6394,
+        "neighbor_ratio_reached": 0.021939
+      },
+      {
+        "neighbor_id": "P00078",
+        "similarity_score": 0.5704,
+        "neighbor_ratio_reached": 0.009951
+      },
+      {
+        "neighbor_id": "P00172",
+        "similarity_score": 0.5513,
+        "neighbor_ratio_reached": 0.018269
+      }
+    ]
+  },
+  {
+    "project_id": "P00152",
+    "neighbors": [
+      {
+        "neighbor_id": "P00036",
+        "similarity_score": 0.6104,
+        "neighbor_ratio_reached": 0.014307
+      },
+      {
+        "neighbor_id": "P00114",
+        "similarity_score": 0.5647,
+        "neighbor_ratio_reached": 0.009287
+      },
+      {
+        "neighbor_id": "P00201",
+        "similarity_score": 0.5171,
+        "neighbor_ratio_reached": 0.010607
+      }
+    ]
+  },
+  {
+    "project_id": "P00153",
+    "neighbors": [
+      {
+        "neighbor_id": "P00046",
+        "similarity_score": 0.5903,
+        "neighbor_ratio_reached": 0.01327
+      },
+      {
+        "neighbor_id": "P00068",
+        "similarity_score": 0.537,
+        "neighbor_ratio_reached": 0.024272
+      },
+      {
+        "neighbor_id": "P00015",
+        "similarity_score": 0.514,
+        "neighbor_ratio_reached": 0.016376
+      }
+    ]
+  },
+  {
+    "project_id": "P00154",
+    "neighbors": [
+      {
+        "neighbor_id": "P00123",
+        "similarity_score": 0.5132,
+        "neighbor_ratio_reached": 0.003457
+      },
+      {
+        "neighbor_id": "P00080",
+        "similarity_score": 0.4639,
+        "neighbor_ratio_reached": 0.0072
+      },
+      {
+        "neighbor_id": "P00049",
+        "similarity_score": 0.4636,
+        "neighbor_ratio_reached": 0.009104
+      }
+    ]
+  },
+  {
+    "project_id": "P00155",
+    "neighbors": [
+      {
+        "neighbor_id": "P00014",
+        "similarity_score": 0.872,
+        "neighbor_ratio_reached": 0.010482
+      },
+      {
+        "neighbor_id": "P00003",
+        "similarity_score": 0.5905,
+        "neighbor_ratio_reached": 0.009876
+      },
+      {
+        "neighbor_id": "P00144",
+        "similarity_score": 0.4979,
+        "neighbor_ratio_reached": 0.009872
+      }
+    ]
+  },
+  {
+    "project_id": "P00156",
+    "neighbors": [
+      {
+        "neighbor_id": "P00105",
+        "similarity_score": 0.493,
+        "neighbor_ratio_reached": 0.002009
+      },
+      {
+        "neighbor_id": "P00116",
+        "similarity_score": 0.4917,
+        "neighbor_ratio_reached": 0.002474
+      },
+      {
+        "neighbor_id": "P00131",
+        "similarity_score": 0.4623,
+        "neighbor_ratio_reached": 0.001524
+      }
+    ]
+  },
+  {
+    "project_id": "P00157",
+    "neighbors": [
+      {
+        "neighbor_id": "P00204",
+        "similarity_score": 0.7162,
+        "neighbor_ratio_reached": 0.008761
+      },
+      {
+        "neighbor_id": "P00140",
+        "similarity_score": 0.596,
+        "neighbor_ratio_reached": 0.004309
+      },
+      {
+        "neighbor_id": "P00057",
+        "similarity_score": 0.572,
+        "neighbor_ratio_reached": 0.016496
+      }
+    ]
+  },
+  {
+    "project_id": "P00158",
+    "neighbors": [
+      {
+        "neighbor_id": "P00097",
+        "similarity_score": 0.419,
+        "neighbor_ratio_reached": 0.037375
+      },
+      {
+        "neighbor_id": "P00099",
+        "similarity_score": 0.4118,
+        "neighbor_ratio_reached": 0.021088
+      },
+      {
+        "neighbor_id": "P00057",
+        "similarity_score": 0.3629,
+        "neighbor_ratio_reached": 0.016496
+      }
+    ]
+  },
+  {
+    "project_id": "P00159",
+    "neighbors": [
+      {
+        "neighbor_id": "P00011",
+        "similarity_score": 0.5398,
+        "neighbor_ratio_reached": 0.016549
+      },
+      {
+        "neighbor_id": "P00058",
+        "similarity_score": 0.5202,
+        "neighbor_ratio_reached": 0.004593
+      },
+      {
+        "neighbor_id": "P00161",
+        "similarity_score": 0.4674,
+        "neighbor_ratio_reached": 0.002266
+      }
+    ]
+  },
+  {
+    "project_id": "P00160",
+    "neighbors": [
+      {
+        "neighbor_id": "P00139",
+        "similarity_score": 0.6021,
+        "neighbor_ratio_reached": 0.04441
+      },
+      {
+        "neighbor_id": "P00010",
+        "similarity_score": 0.5494,
+        "neighbor_ratio_reached": 0.078683
+      },
+      {
+        "neighbor_id": "P00011",
+        "similarity_score": 0.503,
+        "neighbor_ratio_reached": 0.016549
+      }
+    ]
+  },
+  {
+    "project_id": "P00161",
+    "neighbors": [
+      {
+        "neighbor_id": "P00092",
+        "similarity_score": 0.8237,
+        "neighbor_ratio_reached": 0.002151
+      },
+      {
+        "neighbor_id": "P00098",
+        "similarity_score": 0.5925,
+        "neighbor_ratio_reached": 0.001899
+      },
+      {
+        "neighbor_id": "P00159",
+        "similarity_score": 0.4674,
+        "neighbor_ratio_reached": 0.007355
+      }
+    ]
+  },
+  {
+    "project_id": "P00162",
+    "neighbors": [
+      {
+        "neighbor_id": "P00192",
+        "similarity_score": 0.6591,
+        "neighbor_ratio_reached": 0.003456
+      },
+      {
+        "neighbor_id": "P00176",
+        "similarity_score": 0.5167,
+        "neighbor_ratio_reached": 0.001471
+      },
+      {
+        "neighbor_id": "P00188",
+        "similarity_score": 0.4708,
+        "neighbor_ratio_reached": 0.003381
+      }
+    ]
+  },
+  {
+    "project_id": "P00163",
+    "neighbors": [
+      {
+        "neighbor_id": "P00069",
+        "similarity_score": 0.6711,
+        "neighbor_ratio_reached": 0.023392
+      },
+      {
+        "neighbor_id": "P00073",
+        "similarity_score": 0.5765,
+        "neighbor_ratio_reached": 0.05288
+      },
+      {
+        "neighbor_id": "P00077",
+        "similarity_score": 0.5477,
+        "neighbor_ratio_reached": 0.041808
+      }
+    ]
+  },
+  {
+    "project_id": "P00164",
+    "neighbors": [
+      {
+        "neighbor_id": "P00044",
+        "similarity_score": 0.5991,
+        "neighbor_ratio_reached": 0.041918
+      },
+      {
+        "neighbor_id": "P00035",
+        "similarity_score": 0.5134,
+        "neighbor_ratio_reached": 0.02366
+      },
+      {
+        "neighbor_id": "P00120",
+        "similarity_score": 0.4942,
+        "neighbor_ratio_reached": 0.030205
+      }
+    ]
+  },
+  {
+    "project_id": "P00165",
+    "neighbors": [
+      {
+        "neighbor_id": "P00108",
+        "similarity_score": 0.5391,
+        "neighbor_ratio_reached": 0.00104
+      },
+      {
+        "neighbor_id": "P00041",
+        "similarity_score": 0.5177,
+        "neighbor_ratio_reached": 0.000784
+      },
+      {
+        "neighbor_id": "P00130",
+        "similarity_score": 0.5135,
+        "neighbor_ratio_reached": 0.001213
+      }
+    ]
+  },
+  {
+    "project_id": "P00166",
+    "neighbors": [
+      {
+        "neighbor_id": "P00167",
+        "similarity_score": 0.61,
+        "neighbor_ratio_reached": 0.018509
+      },
+      {
+        "neighbor_id": "P00195",
+        "similarity_score": 0.5365,
+        "neighbor_ratio_reached": 0.012452
+      },
+      {
+        "neighbor_id": "P00064",
+        "similarity_score": 0.5359,
+        "neighbor_ratio_reached": 0.005241
+      }
+    ]
+  },
+  {
+    "project_id": "P00167",
+    "neighbors": [
+      {
+        "neighbor_id": "P00054",
+        "similarity_score": 0.6265,
+        "neighbor_ratio_reached": 0.016599
+      },
+      {
+        "neighbor_id": "P00166",
+        "similarity_score": 0.61,
+        "neighbor_ratio_reached": 0.011804
+      },
+      {
+        "neighbor_id": "P00195",
+        "similarity_score": 0.5776,
+        "neighbor_ratio_reached": 0.012452
+      }
+    ]
+  },
+  {
+    "project_id": "P00168",
+    "neighbors": [
+      {
+        "neighbor_id": "P00196",
+        "similarity_score": 0.5554,
+        "neighbor_ratio_reached": 0.008
+      },
+      {
+        "neighbor_id": "P00063",
+        "similarity_score": 0.5101,
+        "neighbor_ratio_reached": 0.003181
+      },
+      {
+        "neighbor_id": "P00062",
+        "similarity_score": 0.5056,
+        "neighbor_ratio_reached": 0.011389
+      }
+    ]
+  },
+  {
+    "project_id": "P00169",
+    "neighbors": [
+      {
+        "neighbor_id": "P00149",
+        "similarity_score": 0.8459,
+        "neighbor_ratio_reached": 0.006477
+      },
+      {
+        "neighbor_id": "P00061",
+        "similarity_score": 0.6232,
+        "neighbor_ratio_reached": 0.010386
+      },
+      {
+        "neighbor_id": "P00018",
+        "similarity_score": 0.499,
+        "neighbor_ratio_reached": 0.003761
+      }
+    ]
+  },
+  {
+    "project_id": "P00170",
+    "neighbors": [
+      {
+        "neighbor_id": "P00117",
+        "similarity_score": 0.3731,
+        "neighbor_ratio_reached": 0.071896
+      },
+      {
+        "neighbor_id": "P00147",
+        "similarity_score": 0.3645,
+        "neighbor_ratio_reached": 0.010419
+      },
+      {
+        "neighbor_id": "P00189",
+        "similarity_score": 0.3558,
+        "neighbor_ratio_reached": 0.01054
+      }
+    ]
+  },
+  {
+    "project_id": "P00171",
+    "neighbors": [
+      {
+        "neighbor_id": "P00060",
+        "similarity_score": 0.5821,
+        "neighbor_ratio_reached": 0.002926
+      },
+      {
+        "neighbor_id": "P00190",
+        "similarity_score": 0.5056,
+        "neighbor_ratio_reached": 0.005473
+      },
+      {
+        "neighbor_id": "P00017",
+        "similarity_score": 0.4426,
+        "neighbor_ratio_reached": 0.006847
+      }
+    ]
+  },
+  {
+    "project_id": "P00172",
+    "neighbors": [
+      {
+        "neighbor_id": "P00079",
+        "similarity_score": 0.6731,
+        "neighbor_ratio_reached": 0.021939
+      },
+      {
+        "neighbor_id": "P00151",
+        "similarity_score": 0.5513,
+        "neighbor_ratio_reached": 0.01784
+      },
+      {
+        "neighbor_id": "P00078",
+        "similarity_score": 0.4939,
+        "neighbor_ratio_reached": 0.009951
+      }
+    ]
+  },
+  {
+    "project_id": "P00173",
+    "neighbors": [
+      {
+        "neighbor_id": "P00102",
+        "similarity_score": 0.578,
+        "neighbor_ratio_reached": 0.006305
+      },
+      {
+        "neighbor_id": "P00103",
+        "similarity_score": 0.5616,
+        "neighbor_ratio_reached": 0.004532
+      },
+      {
+        "neighbor_id": "P00008",
+        "similarity_score": 0.5574,
+        "neighbor_ratio_reached": 0.008097
+      }
+    ]
+  },
+  {
+    "project_id": "P00174",
+    "neighbors": [
+      {
+        "neighbor_id": "P00051",
+        "similarity_score": 0.3558,
+        "neighbor_ratio_reached": 0.028988
+      },
+      {
+        "neighbor_id": "P00187",
+        "similarity_score": 0.3226,
+        "neighbor_ratio_reached": 0.017838
+      },
+      {
+        "neighbor_id": "P00124",
+        "similarity_score": 0.2807,
+        "neighbor_ratio_reached": 0.01225
+      }
+    ]
+  },
+  {
+    "project_id": "P00175",
+    "neighbors": [
+      {
+        "neighbor_id": "P00024",
+        "similarity_score": 0.4774,
+        "neighbor_ratio_reached": 0.003775
+      },
+      {
+        "neighbor_id": "P00126",
+        "similarity_score": 0.4593,
+        "neighbor_ratio_reached": 0.001371
+      },
+      {
+        "neighbor_id": "P00103",
+        "similarity_score": 0.4282,
+        "neighbor_ratio_reached": 0.004532
+      }
+    ]
+  },
+  {
+    "project_id": "P00176",
+    "neighbors": [
+      {
+        "neighbor_id": "P00162",
+        "similarity_score": 0.5167,
+        "neighbor_ratio_reached": 0.002776
+      },
+      {
+        "neighbor_id": "P00192",
+        "similarity_score": 0.4625,
+        "neighbor_ratio_reached": 0.003456
+      },
+      {
+        "neighbor_id": "P00165",
+        "similarity_score": 0.4426,
+        "neighbor_ratio_reached": 0.000787
+      }
+    ]
+  },
+  {
+    "project_id": "P00177",
+    "neighbors": [
+      {
+        "neighbor_id": "P00180",
+        "similarity_score": 0.7883,
+        "neighbor_ratio_reached": 0.006211
+      },
+      {
+        "neighbor_id": "P00129",
+        "similarity_score": 0.6484,
+        "neighbor_ratio_reached": 0.007938
+      },
+      {
+        "neighbor_id": "P00029",
+        "similarity_score": 0.6145,
+        "neighbor_ratio_reached": 0.007963
+      }
+    ]
+  },
+  {
+    "project_id": "P00178",
+    "neighbors": [
+      {
+        "neighbor_id": "P00129",
+        "similarity_score": 0.6631,
+        "neighbor_ratio_reached": 0.007938
+      },
+      {
+        "neighbor_id": "P00183",
+        "similarity_score": 0.6482,
+        "neighbor_ratio_reached": 0.005599
+      },
+      {
+        "neighbor_id": "P00029",
+        "similarity_score": 0.605,
+        "neighbor_ratio_reached": 0.007963
+      }
+    ]
+  },
+  {
+    "project_id": "P00179",
+    "neighbors": [
+      {
+        "neighbor_id": "P00033",
+        "similarity_score": 0.4864,
+        "neighbor_ratio_reached": 0.022933
+      },
+      {
+        "neighbor_id": "P00135",
+        "similarity_score": 0.4484,
+        "neighbor_ratio_reached": 0.026526
+      },
+      {
+        "neighbor_id": "P00181",
+        "similarity_score": 0.4302,
+        "neighbor_ratio_reached": 0.00871
+      }
+    ]
+  },
+  {
+    "project_id": "P00180",
+    "neighbors": [
+      {
+        "neighbor_id": "P00177",
+        "similarity_score": 0.7883,
+        "neighbor_ratio_reached": 0.006395
+      },
+      {
+        "neighbor_id": "P00029",
+        "similarity_score": 0.645,
+        "neighbor_ratio_reached": 0.007963
+      },
+      {
+        "neighbor_id": "P00085",
+        "similarity_score": 0.6327,
+        "neighbor_ratio_reached": 0.006295
+      }
+    ]
+  },
+  {
+    "project_id": "P00181",
+    "neighbors": [
+      {
+        "neighbor_id": "P00032",
+        "similarity_score": 0.7927,
+        "neighbor_ratio_reached": 0.007288
+      },
+      {
+        "neighbor_id": "P00109",
+        "similarity_score": 0.6542,
+        "neighbor_ratio_reached": 0.008961
+      },
+      {
+        "neighbor_id": "P00182",
+        "similarity_score": 0.6293,
+        "neighbor_ratio_reached": 0.008091
+      }
+    ]
+  },
+  {
+    "project_id": "P00182",
+    "neighbors": [
+      {
+        "neighbor_id": "P00032",
+        "similarity_score": 0.6583,
+        "neighbor_ratio_reached": 0.007288
+      },
+      {
+        "neighbor_id": "P00109",
+        "similarity_score": 0.6411,
+        "neighbor_ratio_reached": 0.008961
+      },
+      {
+        "neighbor_id": "P00181",
+        "similarity_score": 0.6293,
+        "neighbor_ratio_reached": 0.00871
+      }
+    ]
+  },
+  {
+    "project_id": "P00183",
+    "neighbors": [
+      {
+        "neighbor_id": "P00178",
+        "similarity_score": 0.6482,
+        "neighbor_ratio_reached": 0.008581
+      },
+      {
+        "neighbor_id": "P00112",
+        "similarity_score": 0.6423,
+        "neighbor_ratio_reached": 0.003826
+      },
+      {
+        "neighbor_id": "P00029",
+        "similarity_score": 0.6293,
+        "neighbor_ratio_reached": 0.007963
+      }
+    ]
+  },
+  {
+    "project_id": "P00184",
+    "neighbors": [
+      {
+        "neighbor_id": "P00121",
+        "similarity_score": 0.6586,
+        "neighbor_ratio_reached": 0.007485
+      },
+      {
+        "neighbor_id": "P00202",
+        "similarity_score": 0.5915,
+        "neighbor_ratio_reached": 0.009769
+      },
+      {
+        "neighbor_id": "P00048",
+        "similarity_score": 0.5777,
+        "neighbor_ratio_reached": 0.011581
+      }
+    ]
+  },
+  {
+    "project_id": "P00185",
+    "neighbors": [
+      {
+        "neighbor_id": "P00068",
+        "similarity_score": 0.6752,
+        "neighbor_ratio_reached": 0.024272
+      },
+      {
+        "neighbor_id": "P00037",
+        "similarity_score": 0.6603,
+        "neighbor_ratio_reached": 0.017019
+      },
+      {
+        "neighbor_id": "P00003",
+        "similarity_score": 0.5733,
+        "neighbor_ratio_reached": 0.009876
+      }
+    ]
+  },
+  {
+    "project_id": "P00186",
+    "neighbors": [
+      {
+        "neighbor_id": "P00121",
+        "similarity_score": 0.6647,
+        "neighbor_ratio_reached": 0.007485
+      },
+      {
+        "neighbor_id": "P00122",
+        "similarity_score": 0.6627,
+        "neighbor_ratio_reached": 0.005005
+      },
+      {
+        "neighbor_id": "P00107",
+        "similarity_score": 0.5769,
+        "neighbor_ratio_reached": 0.020762
+      }
+    ]
+  },
+  {
+    "project_id": "P00187",
+    "neighbors": [
+      {
+        "neighbor_id": "P00035",
+        "similarity_score": 0.4431,
+        "neighbor_ratio_reached": 0.02366
+      },
+      {
+        "neighbor_id": "P00124",
+        "similarity_score": 0.4284,
+        "neighbor_ratio_reached": 0.01225
+      },
+      {
+        "neighbor_id": "P00051",
+        "similarity_score": 0.415,
+        "neighbor_ratio_reached": 0.028988
+      }
+    ]
+  },
+  {
+    "project_id": "P00188",
+    "neighbors": [
+      {
+        "neighbor_id": "P00138",
+        "similarity_score": 0.6468,
+        "neighbor_ratio_reached": 0.00266
+      },
+      {
+        "neighbor_id": "P00042",
+        "similarity_score": 0.5254,
+        "neighbor_ratio_reached": 0.002127
+      },
+      {
+        "neighbor_id": "P00100",
+        "similarity_score": 0.5203,
+        "neighbor_ratio_reached": 0.008052
+      }
+    ]
+  },
+  {
+    "project_id": "P00189",
+    "neighbors": [
+      {
+        "neighbor_id": "P00150",
+        "similarity_score": 0.7458,
+        "neighbor_ratio_reached": 0.010375
+      },
+      {
+        "neighbor_id": "P00147",
+        "similarity_score": 0.6651,
+        "neighbor_ratio_reached": 0.010419
+      },
+      {
+        "neighbor_id": "P00191",
+        "similarity_score": 0.5882,
+        "neighbor_ratio_reached": 0.009708
+      }
+    ]
+  },
+  {
+    "project_id": "P00190",
+    "neighbors": [
+      {
+        "neighbor_id": "P00060",
+        "similarity_score": 0.5667,
+        "neighbor_ratio_reached": 0.002926
+      },
+      {
+        "neighbor_id": "P00148",
+        "similarity_score": 0.5205,
+        "neighbor_ratio_reached": 0.005928
+      },
+      {
+        "neighbor_id": "P00171",
+        "similarity_score": 0.5056,
+        "neighbor_ratio_reached": 0.002102
+      }
+    ]
+  },
+  {
+    "project_id": "P00191",
+    "neighbors": [
+      {
+        "neighbor_id": "P00150",
+        "similarity_score": 0.6554,
+        "neighbor_ratio_reached": 0.010375
+      },
+      {
+        "neighbor_id": "P00019",
+        "similarity_score": 0.6027,
+        "neighbor_ratio_reached": 0.005969
+      },
+      {
+        "neighbor_id": "P00189",
+        "similarity_score": 0.5882,
+        "neighbor_ratio_reached": 0.01054
+      }
+    ]
+  },
+  {
+    "project_id": "P00192",
+    "neighbors": [
+      {
+        "neighbor_id": "P00162",
+        "similarity_score": 0.6591,
+        "neighbor_ratio_reached": 0.002776
+      },
+      {
+        "neighbor_id": "P00176",
+        "similarity_score": 0.4625,
+        "neighbor_ratio_reached": 0.001471
+      },
+      {
+        "neighbor_id": "P00038",
+        "similarity_score": 0.4622,
+        "neighbor_ratio_reached": 0.007225
+      }
+    ]
+  },
+  {
+    "project_id": "P00193",
+    "neighbors": [
+      {
+        "neighbor_id": "P00127",
+        "similarity_score": 0.653,
+        "neighbor_ratio_reached": 0.017164
+      },
+      {
+        "neighbor_id": "P00119",
+        "similarity_score": 0.612,
+        "neighbor_ratio_reached": 0.010847
+      },
+      {
+        "neighbor_id": "P00071",
+        "similarity_score": 0.598,
+        "neighbor_ratio_reached": 0.008813
+      }
+    ]
+  },
+  {
+    "project_id": "P00194",
+    "neighbors": [
+      {
+        "neighbor_id": "P00128",
+        "similarity_score": 0.6629,
+        "neighbor_ratio_reached": 0.007293
+      },
+      {
+        "neighbor_id": "P00071",
+        "similarity_score": 0.6043,
+        "neighbor_ratio_reached": 0.008813
+      },
+      {
+        "neighbor_id": "P00025",
+        "similarity_score": 0.5835,
+        "neighbor_ratio_reached": 0.010572
+      }
+    ]
+  },
+  {
+    "project_id": "P00195",
+    "neighbors": [
+      {
+        "neighbor_id": "P00021",
+        "similarity_score": 0.617,
+        "neighbor_ratio_reached": 0.020797
+      },
+      {
+        "neighbor_id": "P00167",
+        "similarity_score": 0.5776,
+        "neighbor_ratio_reached": 0.018509
+      },
+      {
+        "neighbor_id": "P00166",
+        "similarity_score": 0.5365,
+        "neighbor_ratio_reached": 0.011804
+      }
+    ]
+  },
+  {
+    "project_id": "P00196",
+    "neighbors": [
+      {
+        "neighbor_id": "P00168",
+        "similarity_score": 0.5554,
+        "neighbor_ratio_reached": 0.004718
+      },
+      {
+        "neighbor_id": "P00166",
+        "similarity_score": 0.5178,
+        "neighbor_ratio_reached": 0.011804
+      },
+      {
+        "neighbor_id": "P00062",
+        "similarity_score": 0.4866,
+        "neighbor_ratio_reached": 0.011389
+      }
+    ]
+  },
+  {
+    "project_id": "P00197",
+    "neighbors": [
+      {
+        "neighbor_id": "P00053",
+        "similarity_score": 0.7842,
+        "neighbor_ratio_reached": 0.002225
+      },
+      {
+        "neighbor_id": "P00056",
+        "similarity_score": 0.6675,
+        "neighbor_ratio_reached": 0.003612
+      },
+      {
+        "neighbor_id": "P00094",
+        "similarity_score": 0.5656,
+        "neighbor_ratio_reached": 0.001816
+      }
+    ]
+  },
+  {
+    "project_id": "P00198",
+    "neighbors": [
+      {
+        "neighbor_id": "P00048",
+        "similarity_score": 0.6426,
+        "neighbor_ratio_reached": 0.011581
+      },
+      {
+        "neighbor_id": "P00202",
+        "similarity_score": 0.6213,
+        "neighbor_ratio_reached": 0.009769
+      },
+      {
+        "neighbor_id": "P00113",
+        "similarity_score": 0.597,
+        "neighbor_ratio_reached": 0.021084
+      }
+    ]
+  },
+  {
+    "project_id": "P00199",
+    "neighbors": [
+      {
+        "neighbor_id": "P00047",
+        "similarity_score": 0.5119,
+        "neighbor_ratio_reached": 0.036072
+      },
+      {
+        "neighbor_id": "P00164",
+        "similarity_score": 0.46,
+        "neighbor_ratio_reached": 0.025784
+      },
+      {
+        "neighbor_id": "P00015",
+        "similarity_score": 0.4599,
+        "neighbor_ratio_reached": 0.016376
+      }
+    ]
+  },
+  {
+    "project_id": "P00200",
+    "neighbors": [
+      {
+        "neighbor_id": "P00106",
+        "similarity_score": 0.5467,
+        "neighbor_ratio_reached": 0.001127
+      },
+      {
+        "neighbor_id": "P00016",
+        "similarity_score": 0.4714,
+        "neighbor_ratio_reached": 0.001135
+      },
+      {
+        "neighbor_id": "P00165",
+        "similarity_score": 0.4699,
+        "neighbor_ratio_reached": 0.000787
+      }
+    ]
+  },
+  {
+    "project_id": "P00201",
+    "neighbors": [
+      {
+        "neighbor_id": "P00114",
+        "similarity_score": 0.6378,
+        "neighbor_ratio_reached": 0.009287
+      },
+      {
+        "neighbor_id": "P00083",
+        "similarity_score": 0.5764,
+        "neighbor_ratio_reached": 0.008887
+      },
+      {
+        "neighbor_id": "P00113",
+        "similarity_score": 0.5554,
+        "neighbor_ratio_reached": 0.021084
+      }
+    ]
+  },
+  {
+    "project_id": "P00202",
+    "neighbors": [
+      {
+        "neighbor_id": "P00048",
+        "similarity_score": 0.8711,
+        "neighbor_ratio_reached": 0.011581
+      },
+      {
+        "neighbor_id": "P00144",
+        "similarity_score": 0.6559,
+        "neighbor_ratio_reached": 0.009872
+      },
+      {
+        "neighbor_id": "P00198",
+        "similarity_score": 0.6213,
+        "neighbor_ratio_reached": 0.013033
+      }
+    ]
+  },
+  {
+    "project_id": "P00203",
+    "neighbors": [
+      {
+        "neighbor_id": "P00096",
+        "similarity_score": 0.5722,
+        "neighbor_ratio_reached": 0.006204
+      },
+      {
+        "neighbor_id": "P00011",
+        "similarity_score": 0.4865,
+        "neighbor_ratio_reached": 0.016549
+      },
+      {
+        "neighbor_id": "P00058",
+        "similarity_score": 0.4529,
+        "neighbor_ratio_reached": 0.004593
+      }
+    ]
+  },
+  {
+    "project_id": "P00204",
+    "neighbors": [
+      {
+        "neighbor_id": "P00157",
+        "similarity_score": 0.7162,
+        "neighbor_ratio_reached": 0.009352
+      },
+      {
+        "neighbor_id": "P00012",
+        "similarity_score": 0.6422,
+        "neighbor_ratio_reached": 0.006984
+      },
+      {
+        "neighbor_id": "P00140",
+        "similarity_score": 0.5921,
+        "neighbor_ratio_reached": 0.004309
+      }
+    ]
+  }
+]
