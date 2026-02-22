@@ -84,6 +84,42 @@ export interface MemoPayload {
   simulation: SimulationResult;
   scenario?: ScenarioPayload;
   twin?: TwinResult;
+  aftershock?: AftershockResult;
+}
+
+// --- Aftershock types (match backend AftershockResult) ---
+
+export interface AftershockRequest {
+  epicenter: string; // ISO3 code, e.g. "BFA"
+  delta_funding_pct: number; // decimal: -0.2 .. +0.2
+  horizon_steps: number; // backend "years" or steps (1-2)
+}
+
+export interface AffectedCountryImpact {
+  country: string;
+  delta_severity: number;
+  delta_displaced: number;
+  extra_cost_usd: number;
+  prob_underfunded_next: number;
+  explanation?: string;
+}
+
+export interface TotalsImpact {
+  total_delta_displaced: number;
+  total_extra_cost_usd: number;
+  affected_countries: number;
+  max_delta_severity: number;
+}
+
+export interface AftershockResult {
+  baseline_year: number;
+  epicenter: string;
+  delta_funding_pct: number;
+  horizon_steps: number;
+  affected: AffectedCountryImpact[];
+  totals: TotalsImpact;
+  graph_edges_used?: unknown[];
+  notes: string[];
 }
 
 // --- API functions ---
@@ -108,4 +144,69 @@ export async function createMemo(payload: MemoPayload): Promise<MemoResponse> {
     method: "POST",
     body: JSON.stringify(payload),
   });
+}
+
+/** User-friendly message when aftershock API fails. */
+export const AFTERSHOCK_ERROR_MESSAGE =
+  "Aftershock simulation failed. Please try a different scenario.";
+
+/**
+ * Parse FastAPI-style error response: { detail: string } or { detail: string[] }.
+ * Returns a short user-friendly message or null to fall back to generic.
+ */
+function parseAftershockErrorResponse(text: string): string | null {
+  try {
+    const json = JSON.parse(text) as { detail?: string | string[] };
+    const d = json?.detail;
+    if (typeof d === "string") return d.length > 120 ? null : d;
+    if (Array.isArray(d)) return d[0] && typeof d[0] === "string" ? d[0].slice(0, 120) : null;
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Aftershock spillover simulation. Calls POST /simulate/aftershock.
+ * UI: funding -20..+20 (%) → backend -0.2..+0.2 decimal.
+ * UI: 0-12 months → backend 1-2 years (0-6m→1, 7-12m→2).
+ *
+ * Uses custom fetch instead of fetchJson to parse FastAPI error bodies
+ * ({ detail: string | string[] }) for user-friendly messages. Still conforms to the
+ * app's global error contract: always throws Error with a human-readable .message.
+ */
+export async function simulateAftershock(
+  epicenter: string,
+  deltaFundingPercent: number,
+  horizonMonths: number
+): Promise<AftershockResult> {
+  const clampedFunding = Math.max(-20, Math.min(20, deltaFundingPercent));
+  const clampedMonths = Math.max(0, Math.min(12, horizonMonths));
+  const delta_funding_pct = clampedFunding / 100;
+  // Frontend slider is in months, backend uses discrete year-steps; mapped 0-6→1, 7-12→2 for now.
+  const horizon_steps = clampedMonths <= 6 ? 1 : 2;
+
+  const body: AftershockRequest = {
+    epicenter,
+    delta_funding_pct,
+    horizon_steps,
+  };
+
+  const url = getUrl("/simulate/aftershock");
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+
+  if (!res.ok) {
+    const text = await res.text().catch(() => "");
+    console.error(`Aftershock API error ${res.status}: ${text}`);
+    const parsed = parseAftershockErrorResponse(text);
+    // Always throw Error with human-readable message (matches fetchJson convention).
+    throw new Error(parsed ?? AFTERSHOCK_ERROR_MESSAGE);
+  }
+
+  const data = await res.json();
+  return data as AftershockResult;
 }

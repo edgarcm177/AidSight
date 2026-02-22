@@ -95,6 +95,9 @@ export function DecisionSandbox({
             <span>6m</span>
             <span>12m</span>
           </div>
+          <p className="text-xs text-gray-500 mt-1">
+            {timeHorizon <= 6 ? "Short-term impact (≈1 year)" : "Medium-term impact (≈2 years)"}
+          </p>
         </div>
       </section>
 

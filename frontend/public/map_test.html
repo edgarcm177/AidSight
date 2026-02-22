@@ -109,6 +109,47 @@
                     maxBounds: [[-90, -180], [90, 180]]
                 }).setView([20, 0], 2); 
 
+                // GeoJSON loading order: AFTERSHOCK_AFFECTED can arrive before geojsonLayer exists.
+                // Queue messages until ready, then drain. Avoids silent failure when message arrives early.
+                var geojsonLayerRef = { current: null };
+                var geojsonReady = false;
+                var pendingAftershockMessages = [];
+
+                function applyAftershockStyling(layer, data) {
+                    if (!layer) return;
+                    var affected = data.affected || [];
+                    var epicenterIso = (data.epicenter || '').toUpperCase();
+                    var impacts = affected.map(function(a) { return Math.abs(a.impact || 0); });
+                    var maxImpact = Math.max(1, Math.max.apply(null, impacts));
+                    // Bucket: low / medium / high for stroke weight and fill opacity
+                    function bucket(impact) {
+                        var r = impact / maxImpact;
+                        if (r <= 0.33) return { weight: 2, opacity: 0.4 };
+                        if (r <= 0.66) return { weight: 3, opacity: 0.6 };
+                        return { weight: 4, opacity: 0.85 };
+                    }
+                    layer.eachLayer(function(l) {
+                        var iso = (l.feature.properties.ISO_A3 || l.feature.properties.ADM0_A3 || '').toString().toUpperCase();
+                        var hit = affected.find(function(a) { return (a.country || '').toUpperCase() === iso; });
+                        var isEpicenter = iso.indexOf(epicenterIso) !== -1 || epicenterIso.indexOf(iso) !== -1;
+                        if (hit && (hit.impact || 0) > 0) {
+                            var absImpact = Math.abs(hit.impact);
+                            var b = bucket(absImpact);
+                            l.setStyle({ 
+                                weight: isEpicenter ? 5 : b.weight, 
+                                color: isEpicenter ? '#dc2626' : '#ef4444', 
+                                fillColor: '#7f1d1d', 
+                                fillOpacity: b.opacity 
+                            });
+                            l.bringToFront();
+                        } else if (isEpicenter && epicenterIso) {
+                            // Epicenter not in affected (e.g. source of shock) – still highlight
+                            l.setStyle({ weight: 5, color: '#dc2626', fillColor: '#8B0000', fillOpacity: 0.9 });
+                            l.bringToFront();
+                        }
+                    });
+                }
+
                 // --- ADD DARK MODE LEGEND ---
                 const legend = L.control({ position: 'bottomright' });
                 legend.onAdd = function () {
@@ -155,6 +196,75 @@
                 const displacementEdges = [['MLI', 'BFA'], ['MLI', 'NER'], ['BFA', 'NER'], ['NER', 'TCD']];
 
                 const activeAnimations = L.layerGroup().addTo(map);
+
+                // Message listener registered early so AFTERSHOCK_AFFECTED can be queued if GeoJSON not ready
+                window.addEventListener('message', function eventHandler(event) {
+                    var gl = geojsonLayerRef.current;
+
+                    if (event.data.type === 'AFTERSHOCK_AFFECTED') {
+                        if (!geojsonReady || !gl) {
+                            pendingAftershockMessages.push(event.data);
+                            return;
+                        }
+                        applyAftershockStyling(gl, event.data);
+                        return;
+                    }
+
+                    if (event.data.type === 'FOCUS_COUNTRY') {
+                        if (!gl) return;
+                        var iso = event.data.iso;
+                        var coords = sahelCentroids[iso];
+                        if (coords) {
+                            map.flyTo(coords, 5, { duration: 1.0 });
+                            gl.eachLayer(function(layer) {
+                                var lIso = (layer.feature.properties.ISO_A3 || layer.feature.properties.ADM0_A3 || '').toString().toUpperCase();
+                                if (lIso.indexOf(iso) !== -1) {
+                                    layer.setStyle({ weight: 4, color: '#facc15' });
+                                    layer.bringToFront();
+                                    setTimeout(function() { layer.setStyle({ weight: 0.8, color: '#444' }); }, 2000);
+                                }
+                            });
+                        }
+                        return;
+                    }
+
+                    if (event.data.type === 'RUN_SHOCKWAVE') {
+                        if (!gl) return;
+                        var epicenterIso = event.data.epicenter;
+                        activeAnimations.clearLayers();
+                        map.flyToBounds([[4.0, -17.0], [25.0, 25.0]], { padding: [20, 20], duration: 1.5 });
+                        var coords = sahelCentroids[epicenterIso];
+                        if (!coords) return;
+                        var pulseIcon = L.divIcon({ className: '', html: '<div class="radial-ring"></div>', iconSize: [0, 0] });
+                        var pulseMarker = L.marker(coords, { icon: pulseIcon }).addTo(activeAnimations);
+                        var neighbors = [];
+                        displacementEdges.forEach(function(pair) {
+                            var origin, target;
+                            if (pair[0] === epicenterIso) { origin = pair[0]; target = pair[1]; }
+                            else if (pair[1] === epicenterIso) { origin = pair[1]; target = pair[0]; }
+                            if (origin && target) {
+                                neighbors.push(target);
+                                L.polyline([sahelCentroids[origin], sahelCentroids[target]], {
+                                    color: '#ef4444', weight: 4, opacity: 1, className: 'shooting-beam'
+                                }).addTo(activeAnimations);
+                            }
+                        });
+                        setTimeout(function() {
+                            gl.eachLayer(function(layer) {
+                                var iso = layer.feature.properties.ISO_A3 || layer.feature.properties.ADM0_A3 || layer.feature.properties.iso_a3;
+                                if (iso) iso = iso.toString().toUpperCase();
+                                if (neighbors.indexOf(iso) !== -1) {
+                                    layer.setStyle({ fillColor: '#ef4444', fillOpacity: 0.9 });
+                                    setTimeout(function() { layer.setStyle({ fillColor: '#006837', fillOpacity: 0.7 }); }, 250);
+                                    setTimeout(function() { layer.setStyle({ fillColor: '#ef4444', fillOpacity: 0.9 }); }, 500);
+                                    setTimeout(function() { layer.setStyle({ fillColor: '#006837', fillOpacity: 0.7 }); }, 750);
+                                    setTimeout(function() { layer.setStyle({ fillColor: '#7f1d1d', fillOpacity: 0.85 }); }, 1000);
+                                }
+                            });
+                        }, 900);
+                        setTimeout(function() { activeAnimations.removeLayer(pulseMarker); }, 1900);
+                    }
+                });
 
                 fetch('https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson?v=2')
                 .then(r => r.json())
@@ -226,85 +336,12 @@
                         }
                     }).addTo(map);
 
-                    // --- THE MASTER ANIMATION SEQUENCE ---
-                    window.addEventListener('message', function(event) {
-                        // NEW: Listen for Sidebar Clicks to zoom in!
-                        if (event.data.type === 'FOCUS_COUNTRY') {
-                            const iso = event.data.iso;
-                            const coords = sahelCentroids[iso];
-                            if (coords) {
-                                // Zoom to the country
-                                map.flyTo(coords, 5, { duration: 1.0 });
-                                
-                                // Flash its border bright yellow for 2 seconds
-                                geojsonLayer.eachLayer(layer => {
-                                    let lIso = (layer.feature.properties.ISO_A3 || layer.feature.properties.ADM0_A3 || '').toString().toUpperCase();
-                                    if (lIso.includes(iso)) {
-                                        layer.setStyle({ weight: 4, color: '#facc15' }); // Yellow border
-                                        layer.bringToFront();
-                                        setTimeout(() => layer.setStyle({ weight: 0.8, color: '#444' }), 2000);
-                                    }
-                                });
-                            }
-                        }
-
-
-
-                        if (event.data.type === 'RUN_SHOCKWAVE') {
-                            const epicenterIso = event.data.epicenter;
-                            activeAnimations.clearLayers(); 
-
-                            map.flyToBounds([[4.0, -17.0], [25.0, 25.0]], { padding: [20, 20], duration: 1.5 });
-
-                            const coords = sahelCentroids[epicenterIso];
-                            if (!coords) return;
-
-                            // 1. Epicenter starts pulsing
-                            const pulseIcon = L.divIcon({ className: '', html: '<div class="radial-ring"></div>', iconSize: [0, 0] });
-                            const pulseMarker = L.marker(coords, { icon: pulseIcon }).addTo(activeAnimations);
-
-                            // 2. Beams shoot FROM epicenter TO neighbors
-                            let neighbors = [];
-                            displacementEdges.forEach(pair => {
-                                let origin, target;
-                                // Determine line direction so it shoots away from the center
-                                if (pair[0] === epicenterIso) { origin = pair[0]; target = pair[1]; }
-                                else if (pair[1] === epicenterIso) { origin = pair[1]; target = pair[0]; }
-
-                                if (origin && target) {
-                                    neighbors.push(target);
-                                    L.polyline([sahelCentroids[origin], sahelCentroids[target]], {
-                                        color: '#ef4444', weight: 4, opacity: 1, className: 'shooting-beam'
-                                    }).addTo(activeAnimations);
-                                }
-                            });
-
-                            // 3. Beams hit at 900ms -> Neighbors start strobing
-                            setTimeout(() => {
-                                geojsonLayer.eachLayer(layer => {
-                                    let iso = layer.feature.properties.ISO_A3 || layer.feature.properties.ADM0_A3 || layer.feature.properties.iso_a3;
-                                    if (iso) iso = iso.toUpperCase();
-
-                                    if (neighbors.includes(iso)) {
-                                        // Strobe Effect
-                                        layer.setStyle({ fillColor: '#ef4444', fillOpacity: 0.9 });
-                                        setTimeout(() => layer.setStyle({ fillColor: '#006837', fillOpacity: 0.7 }), 250);
-                                        setTimeout(() => layer.setStyle({ fillColor: '#ef4444', fillOpacity: 0.9 }), 500);
-                                        setTimeout(() => layer.setStyle({ fillColor: '#006837', fillOpacity: 0.7 }), 750);
-                                        
-                                        // 4. Lock to permanent dark red at 1000ms (1.9s total)
-                                        setTimeout(() => layer.setStyle({ fillColor: '#7f1d1d', fillOpacity: 0.85 }), 1000);
-                                    }
-                                });
-                            }, 900); 
-
-                            // 5. Sequence finishes at 1.9s -> Stop pulse, show tooltips
-                            setTimeout(() => {
-                                activeAnimations.removeLayer(pulseMarker); // Turns off the epicenter pulse
-                                
-                            }, 1900);
-                        }
-                    });
+                    geojsonLayerRef.current = geojsonLayer;
+                    geojsonReady = true;
+                    while (pendingAftershockMessages.length > 0) {
+                        var msg = pendingAftershockMessages.shift();
+                        applyAftershockStyling(geojsonLayer, msg);
+                    }
                 }).catch(err => console.error(err));
             }
         })();

@@ -4,11 +4,12 @@ import { ImpactPanel } from './components/ImpactPanel';
 import { SuccessTwinPanel } from './components/SuccessTwinPanel';
 import {
   fetchCrises,
-  simulate,
+  simulateAftershock,
+  AFTERSHOCK_ERROR_MESSAGE,
   fetchTwin,
   createMemo,
   type Crisis,
-  type SimulationResult,
+  type AftershockResult,
   type TwinResult,
   type MemoResponse,
 } from '../lib/api';
@@ -27,7 +28,7 @@ export default function App() {
   const [whatIfText, setWhatIfText] = useState('');
   const [timeHorizon, setTimeHorizon] = useState(12);
 
-  const [simulationResult, setSimulationResult] = useState<SimulationResult | null>(null);
+  const [simulationResult, setSimulationResult] = useState<AftershockResult | null>(null);
   const [simulationLoading, setSimulationLoading] = useState(false);
   const [simulationError, setSimulationError] = useState<string | null>(null);
 
@@ -62,23 +63,26 @@ export default function App() {
   const selectedCrisis = crises.find((c) => c.id === selectedCrisisId);
 
   const handleRunScenario = async () => {
-    // 1. Trigger the loading state (This fires the map animation!)
     setSimulationLoading(true);
     setSimulationError(null);
-    
+
     try {
-      // 2. Simulate the scenario (Replace with real API call when backend is ready)
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      
-      // 3. Set a fake successful result (Replace with real API call when backend is ready)
-      setSimulationResult({ status: 'success' } as any);
-      
-    } catch (err) {
-      setSimulationError('Simulation failed');
+      const result = await simulateAftershock(
+        epicenter,
+        fundingAdjustment,
+        timeHorizon
+      );
+      console.debug('Aftershock result:', result);
+      setSimulationResult(result);
+    } catch (err: unknown) {
+      const message =
+        err instanceof Error && err.message
+          ? err.message
+          : AFTERSHOCK_ERROR_MESSAGE;
+      console.error('Aftershock simulation failed:', err);
+      setSimulationError(message);
       setSimulationResult(null);
     } finally {
-      // 4. Turn off loading state
       setSimulationLoading(false);
     }
   };
@@ -102,17 +106,28 @@ export default function App() {
     setMemoLoading(true);
     setMemoError(null);
     try {
-      // Temporarily cast payload to any until backend types are updated for Aftershock
-      const payload: any = {
+      // Backend requires simulation; we pass minimal TTC/equity placeholders when using aftershock-only flow
+      const payload = {
         crisis_id: selectedCrisisId,
-        simulation: simulationResult,
+        simulation: {
+          crisis_id: selectedCrisisId,
+          metrics: {
+            baseline_ttc_days: 0,
+            scenario_ttc_days: 0,
+            baseline_equity_shift_pct: 0,
+            scenario_equity_shift_pct: 0,
+            at_risk_population: 0,
+          },
+          impacted_regions: [],
+        },
         scenario: {
           crisis_id: selectedCrisisId,
-          epicenter: epicenter,
-          delta_funding_pct: fundingAdjustment / 100,
+          funding_changes: [],
+          shock: { inflation_pct: 0, drought: false, conflict_intensity: 0 },
           what_if_text: whatIfText || undefined,
         },
         twin: twinResult || undefined,
+        aftershock: simulationResult,
       };
       const result = await createMemo(payload);
       setMemoResult(result);
@@ -164,6 +179,7 @@ export default function App() {
             selectedCrisis={selectedCrisis}
             simulationResult={simulationResult}
             simulationLoading={simulationLoading}
+            simulationError={simulationError}
             epicenter={epicenter}
             timeHorizon={timeHorizon}
           />
