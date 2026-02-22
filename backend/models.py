@@ -68,6 +68,7 @@ class TwinResult(BaseModel):
     twin_project_id: str
     similarity_score: float
     bullets: List[str]
+    twin_name: Optional[str] = None  # Human-readable label, e.g. "Health project AFG 2022"
 
     @computed_field
     @property
@@ -145,6 +146,8 @@ class AffectedCountryImpact(BaseModel):
     extra_cost_usd: float
     prob_underfunded_next: float
     explanation: Optional[str] = None
+    projected_severity: Optional[float] = None  # 0-1 scale for X/10 display
+    projected_coverage: Optional[float] = None  # 0-1; epicenter = baseline + funding change
 
 
 class TotalsImpact(BaseModel):

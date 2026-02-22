@@ -75,6 +75,53 @@ Verifies GET /crises/, POST /simulate/, GET /twins/PRJ001, POST /memos/. Exits 0
 
 ---
 
+## Similar Projects (VectorAI)
+
+The **“Similar Projects (VectorAI)”** feature uses the [Actian VectorAI DB beta](https://github.com/hackmamba-io/actian-vectorAI-db-beta) for nearest-neighbor search over project embeddings. Without it, the backend falls back to in-memory search from parquet.
+
+### 1. Run VectorAI DB
+
+Clone and start the Actian VectorAI DB (gRPC default `localhost:50051`):
+
+```bash
+git clone https://github.com/hackmamba-io/actian-vectorAI-db-beta
+cd actian-vectorAI-db-beta && docker compose up -d
+```
+
+### 2. Install Python client
+
+Install the `actiancortex` wheel from the Actian repo (see that repo’s README for the latest install steps). Example:
+
+```bash
+pip install path/to/actian-vectorAI-db-beta/wheels/actiancortex-*.whl
+```
+
+### 3. Environment
+
+Set in `.env` or `.env.local` (or export before running backend/ingestion):
+
+| Variable | Example | Description |
+|----------|---------|-------------|
+| `ACTIAN_VECTORAI_CONNECTION_STRING` | `localhost:50051` | VectorAI gRPC host:port |
+| `ACTIAN_PROJECTS_COLLECTION` | `projects` | Collection name for project embeddings |
+| `ACTIAN_PROJECTS_DIMENSION` | `5` | (Optional) Embedding dimension; default 5 to match DataML |
+
+### 4. Build embeddings and ingest
+
+Ensure project embeddings exist, then run the ingestion script (from repo root):
+
+```bash
+# Build project embeddings (if not already done)
+python -m dataml.src.embeddings   # or your DataML pipeline
+
+# Ingest into VectorAI DB
+python -m backend.scripts.ingest_vectorai_projects
+```
+
+This reads `dataml/data/processed/project_embeddings.parquet` and batch-upserts into the Actian collection. Then “Find similar projects” in the app uses the real vector DB.
+
+---
+
 ## Demo flow (3–5 min)
 
 1. **Start** – Open the app. Left panel: “Configure Scenario.”

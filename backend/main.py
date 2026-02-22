@@ -1,3 +1,11 @@
+from pathlib import Path
+
+from dotenv import load_dotenv
+
+env_file = Path(__file__).resolve().parents[1] / ".env.local"
+if env_file.exists():
+    load_dotenv(env_file, override=True)
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 

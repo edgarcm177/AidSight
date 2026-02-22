@@ -117,15 +117,22 @@ def simulate_aftershock(
 
         p_row = panel[country]
         funding_proxy = p_row.get("funding_usd", 1e8) / 1e8
+        cov_proxy = p_row.get("coverage_proxy", 0.5)
         sev = p_row.get("severity", 0.5) + ds
+        sev = max(0.0, sev)  # allow >1 for comparative severity (e.g. 2.0 → 20/10)
         # prob_underfunded_next = sigmoid(a*severity - b*funding_proxy)
         prob = _sigmoid(3.0 * sev - 2.0 * funding_proxy)
         prob = _clamp(prob, 0.0, 1.0)
+        # Projected coverage: epicenter = baseline + funding change; allow >1 (e.g. 1.5 = 150% = overfunded)
+        proj_cov = cov_proxy + (delta_funding_pct if country == epicenter else 0.0)
+        proj_cov = _clamp(proj_cov, 0.0, 3.0)  # 0–300% so overfunded (double spend, etc.) is visible
 
         expl = f"Spillover from epicenter" if country != epicenter else "Direct funding impact"
         affected.append({
             "country": country,
             "delta_severity": round(ds, 4),
+            "projected_severity": round(sev, 4),  # 0-1 scale for X/10 display
+            "projected_coverage": round(proj_cov, 4),  # 0-1; epicenter adjusted by funding change
             "delta_displaced": round(dd, 2),
             "extra_cost_usd": round(extra_cost, 2),
             "prob_underfunded_next": round(prob, 4),

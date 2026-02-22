@@ -5,8 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AidSight Heat Map</title>
     <style>
-        body { margin: 0; padding: 0; }
-        #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+        body { margin: 0; padding: 0; background: #0a0e1a; }
+        #map { position: absolute; top: 0; bottom: 0; width: 100%; background: #0a0e1a; }
+        .leaflet-container,
+        .leaflet-map-pane,
+        .leaflet-tile-pane,
+        .leaflet-tile-pane .leaflet-tile {
+            background: #1e3a5f !important;
+        }
+        .leaflet-tile-pane {
+            filter: brightness(0.55) saturate(1.2) contrast(1.05);
+        }
         
         .mapboxgl-popup-content { background: rgba(0, 0, 0, 0.8); color: white; font-family: Arial, sans-serif; border-radius: 4px; padding: 10px; }
         
@@ -55,10 +64,15 @@
         }
         @keyframes fade-in { to { opacity: 1; } }
 
-        /* 4. Dark Mode Leaflet Popups */
-        .leaflet-popup-content-wrapper, .leaflet-popup-tip {
-            background: #0f1421;
+        /* 4. Dark Mode Leaflet Popups - whole popup dark */
+        .leaflet-popup,
+        .leaflet-popup-content-wrapper,
+        .leaflet-popup-content,
+        .leaflet-popup-tip {
+            background: #0f1421 !important;
             color: #e5e7eb;
+        }
+        .leaflet-popup-content-wrapper {
             border: 1px solid #374151;
             box-shadow: 0 4px 6px rgba(0,0,0,0.5);
         }
@@ -67,13 +81,47 @@
             font-family: ui-sans-serif, system-ui, sans-serif;
             font-size: 13px;
         }
+        .leaflet-popup-close-button {
+            color: #9ca3af !important;
+        }
+        .popup-card {
+            min-width: 180px;
+        }
         .popup-title {
             font-weight: bold;
             font-size: 15px;
-            color: #fff;
-            margin-bottom: 6px;
+            color: #f3f4f6;
+            margin-bottom: 8px;
             border-bottom: 1px solid #374151;
-            padding-bottom: 4px;
+            padding-bottom: 6px;
+        }
+        .popup-line {
+            font-size: 13px;
+            color: #d1d5db;
+            margin-bottom: 4px;
+        }
+        .popup-metric {
+            font-family: ui-monospace, monospace;
+            color: #fca5a5;
+        }
+        .popup-tag {
+            margin-top: 8px;
+            font-size: 11px;
+            color: #fbbf24;
+            background: rgba(251, 191, 36, 0.15);
+            padding: 2px 6px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        /* Hover tooltip: country name only, no frame */
+        .leaflet-tooltip.country-tooltip {
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            color: #e5e7eb;
+            font-size: 13px;
+            font-weight: 500;
+            padding: 2px 4px;
         }
     </style>
 </head>
@@ -106,7 +154,8 @@
             function init() {
                 const map = L.map('map', { 
                     zoomControl: true, minZoom: 2, 
-                    maxBounds: [[-90, -180], [90, 180]]
+                    maxBounds: [[-90, -180], [90, 180]],
+                    attributionControl: false
                 }).setView([20, 0], 2); 
 
                 // GeoJSON loading order: AFTERSHOCK_AFFECTED can arrive before geojsonLayer exists.
@@ -114,14 +163,21 @@
                 var geojsonLayerRef = { current: null };
                 var geojsonReady = false;
                 var pendingAftershockMessages = [];
+                var lastAftershockData = { epicenter: '', affected: [] };
+
+                var darkBaselineStyle = { fillColor: '#1e293b', weight: 0.8, opacity: 1, color: '#334155', fillOpacity: 0.7 };
 
                 function applyAftershockStyling(layer, data) {
                     if (!layer) return;
                     var affected = data.affected || [];
                     var epicenterIso = (data.epicenter || '').toUpperCase();
-                    var impacts = affected.map(function(a) { return Math.abs(a.impact || 0); });
+                    // 1. Reset ALL layers to dark baseline
+                    layer.eachLayer(function(l) {
+                        l.setStyle(darkBaselineStyle);
+                    });
+                    if (!epicenterIso && affected.length === 0) return;
+                    var impacts = affected.map(function(a) { return Math.abs(a.delta_displaced ?? a.impact ?? 0); });
                     var maxImpact = Math.max(1, Math.max.apply(null, impacts));
-                    // Bucket: low / medium / high for stroke weight and fill opacity
                     function bucket(impact) {
                         var r = impact / maxImpact;
                         if (r <= 0.33) return { weight: 2, opacity: 0.4 };
@@ -129,11 +185,12 @@
                         return { weight: 4, opacity: 0.85 };
                     }
                     layer.eachLayer(function(l) {
-                        var iso = (l.feature.properties.ISO_A3 || l.feature.properties.ADM0_A3 || '').toString().toUpperCase();
+                        var p = l.feature.properties || {};
+                        var iso = (p['ISO3166-1-Alpha-3'] || p.ISO_A3 || p.ADM0_A3 || p.iso_a3 || '').toString().toUpperCase();
                         var hit = affected.find(function(a) { return (a.country || '').toUpperCase() === iso; });
-                        var isEpicenter = iso.indexOf(epicenterIso) !== -1 || epicenterIso.indexOf(iso) !== -1;
-                        if (hit && (hit.impact || 0) > 0) {
-                            var absImpact = Math.abs(hit.impact);
+                        var isEpicenter = iso && epicenterIso && (iso.indexOf(epicenterIso) !== -1 || epicenterIso.indexOf(iso) !== -1);
+                        if (hit && ((hit.delta_displaced ?? hit.impact) || 0) > 0) {
+                            var absImpact = Math.abs(hit.delta_displaced ?? hit.impact ?? 0);
                             var b = bucket(absImpact);
                             l.setStyle({ 
                                 weight: isEpicenter ? 5 : b.weight, 
@@ -143,7 +200,6 @@
                             });
                             l.bringToFront();
                         } else if (isEpicenter && epicenterIso) {
-                            // Epicenter not in affected (e.g. source of shock) – still highlight
                             l.setStyle({ weight: 5, color: '#dc2626', fillColor: '#8B0000', fillOpacity: 0.9 });
                             l.bringToFront();
                         }
@@ -193,7 +249,50 @@
                     'MLI': [17.5707, -3.9962], 'BFA': [12.2383, -1.5616],
                     'NER': [17.6078, 8.0817], 'TCD': [15.4542, 18.7322]
                 };
-                const displacementEdges = [['MLI', 'BFA'], ['MLI', 'NER'], ['BFA', 'NER'], ['NER', 'TCD']];
+
+                function getCentroidForIso(layer, iso) {
+                    var target = (iso || '').toUpperCase();
+                    var found = null;
+                    layer.eachLayer(function(l) {
+                        if (found) return;
+                        var p = l.feature.properties || {};
+                        var lIso = (p['ISO3166-1-Alpha-3'] || p.ISO_A3 || p.ADM0_A3 || '').toString().toUpperCase();
+                        if (lIso === target) found = l.getBounds().getCenter();
+                    });
+                    return found;
+                }
+
+                function runSpreadAnimation(gl, epicenterIso, affected) {
+                    var epicenterCoords = sahelCentroids[epicenterIso] || getCentroidForIso(gl, epicenterIso);
+                    if (!epicenterCoords) return;
+                    activeAnimations.clearLayers();
+                    var pulseIcon = L.divIcon({ className: '', html: '<div class="radial-ring"></div>', iconSize: [0, 0] });
+                    var pulseMarker = L.marker(epicenterCoords, { icon: pulseIcon }).addTo(activeAnimations);
+                    affected.forEach(function(a) {
+                        var iso = (a.country || '').toUpperCase();
+                        var targetCoords = sahelCentroids[iso] || getCentroidForIso(gl, iso);
+                        if (targetCoords) {
+                            L.polyline([epicenterCoords, targetCoords], {
+                                color: '#ef4444', weight: 4, opacity: 1, className: 'shooting-beam'
+                            }).addTo(activeAnimations);
+                        }
+                    });
+                    setTimeout(function() {
+                        var affectedIsos = affected.map(function(a) { return (a.country || '').toUpperCase(); });
+                        gl.eachLayer(function(layer) {
+                            var lp = layer.feature.properties || {};
+                            var iso = (lp['ISO3166-1-Alpha-3'] || lp.ISO_A3 || lp.ADM0_A3 || lp.iso_a3 || '').toString().toUpperCase();
+                            if (affectedIsos.indexOf(iso) !== -1) {
+                                layer.setStyle({ fillColor: '#ef4444', fillOpacity: 0.9 });
+                                setTimeout(function() { layer.setStyle({ fillColor: '#006837', fillOpacity: 0.7 }); }, 250);
+                                setTimeout(function() { layer.setStyle({ fillColor: '#ef4444', fillOpacity: 0.9 }); }, 500);
+                                setTimeout(function() { layer.setStyle({ fillColor: '#006837', fillOpacity: 0.7 }); }, 750);
+                                setTimeout(function() { layer.setStyle({ fillColor: '#7f1d1d', fillOpacity: 0.85 }); }, 1000);
+                            }
+                        });
+                    }, 900);
+                    setTimeout(function() { activeAnimations.removeLayer(pulseMarker); }, 1900);
+                }
 
                 const activeAnimations = L.layerGroup().addTo(map);
 
@@ -202,11 +301,23 @@
                     var gl = geojsonLayerRef.current;
 
                     if (event.data.type === 'AFTERSHOCK_AFFECTED') {
+                        console.log('[AidSight Map] Received AFTERSHOCK_AFFECTED:', { epicenter: event.data.epicenter, affected: event.data.affected });
                         if (!geojsonReady || !gl) {
                             pendingAftershockMessages.push(event.data);
                             return;
                         }
                         applyAftershockStyling(gl, event.data);
+                        var data = event.data;
+                        lastAftershockData = { epicenter: (data.epicenter || '').toUpperCase(), affected: data.affected || [] };
+                        var epicenterIso = (data.epicenter || '').toUpperCase();
+                        var affected = data.affected || [];
+                        // Only zoom on dropdown selection (no affected yet), not when aftershock result arrives
+                        if (affected.length === 0) {
+                            var coords = sahelCentroids[epicenterIso] || getCentroidForIso(gl, epicenterIso);
+                            if (coords) map.flyTo(coords, 5, { duration: 1.0 });
+                        }
+                        // When we have affected data, run spread animation (includes Nigeria and all actual affected)
+                        if (affected.length > 0) runSpreadAnimation(gl, epicenterIso, affected);
                         return;
                     }
 
@@ -217,7 +328,8 @@
                         if (coords) {
                             map.flyTo(coords, 5, { duration: 1.0 });
                             gl.eachLayer(function(layer) {
-                                var lIso = (layer.feature.properties.ISO_A3 || layer.feature.properties.ADM0_A3 || '').toString().toUpperCase();
+                                var lp = layer.feature.properties || {};
+                        var lIso = (lp['ISO3166-1-Alpha-3'] || lp.ISO_A3 || lp.ADM0_A3 || '').toString().toUpperCase();
                                 if (lIso.indexOf(iso) !== -1) {
                                     layer.setStyle({ weight: 4, color: '#facc15' });
                                     layer.bringToFront();
@@ -228,109 +340,61 @@
                         return;
                     }
 
-                    if (event.data.type === 'RUN_SHOCKWAVE') {
-                        if (!gl) return;
-                        var epicenterIso = event.data.epicenter;
-                        activeAnimations.clearLayers();
-                        map.flyToBounds([[4.0, -17.0], [25.0, 25.0]], { padding: [20, 20], duration: 1.5 });
-                        var coords = sahelCentroids[epicenterIso];
-                        if (!coords) return;
-                        var pulseIcon = L.divIcon({ className: '', html: '<div class="radial-ring"></div>', iconSize: [0, 0] });
-                        var pulseMarker = L.marker(coords, { icon: pulseIcon }).addTo(activeAnimations);
-                        var neighbors = [];
-                        displacementEdges.forEach(function(pair) {
-                            var origin, target;
-                            if (pair[0] === epicenterIso) { origin = pair[0]; target = pair[1]; }
-                            else if (pair[1] === epicenterIso) { origin = pair[1]; target = pair[0]; }
-                            if (origin && target) {
-                                neighbors.push(target);
-                                L.polyline([sahelCentroids[origin], sahelCentroids[target]], {
-                                    color: '#ef4444', weight: 4, opacity: 1, className: 'shooting-beam'
-                                }).addTo(activeAnimations);
-                            }
-                        });
-                        setTimeout(function() {
-                            gl.eachLayer(function(layer) {
-                                var iso = layer.feature.properties.ISO_A3 || layer.feature.properties.ADM0_A3 || layer.feature.properties.iso_a3;
-                                if (iso) iso = iso.toString().toUpperCase();
-                                if (neighbors.indexOf(iso) !== -1) {
-                                    layer.setStyle({ fillColor: '#ef4444', fillOpacity: 0.9 });
-                                    setTimeout(function() { layer.setStyle({ fillColor: '#006837', fillOpacity: 0.7 }); }, 250);
-                                    setTimeout(function() { layer.setStyle({ fillColor: '#ef4444', fillOpacity: 0.9 }); }, 500);
-                                    setTimeout(function() { layer.setStyle({ fillColor: '#006837', fillOpacity: 0.7 }); }, 750);
-                                    setTimeout(function() { layer.setStyle({ fillColor: '#7f1d1d', fillOpacity: 0.85 }); }, 1000);
-                                }
-                            });
-                        }, 900);
-                        setTimeout(function() { activeAnimations.removeLayer(pulseMarker); }, 1900);
-                    }
                 });
 
                 fetch('https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson?v=2')
                 .then(r => r.json())
                 .then(geojson => {
                     const geojsonLayer = L.geoJson(geojson, {
-                        style: function(feature) {
-                            // BRUTE FORCE: Grab literally any property that might be the name or ID
-                            let p = feature.properties;
-                            let id = (p.ISO_A3 || p.ADM0_A3 || p.ADMIN || p.NAME || p.name || '').toString().toUpperCase();
-                            
-                            let fillColor = '#eeffe6'; // Light green for the rest of the world
-                            
-                            // Unstoppable Sahel Checks
-                            if (id.includes('MLI') || id === 'MALI') {
-                                fillColor = '#8B0000'; // Mali starts Red
-                            } else if (
-                                id.includes('BFA') || id.includes('BURKINA') || 
-                                id.includes('NER') || id.includes('NIGER') || 
-                                id.includes('TCD') || id.includes('CHAD')
-                            ) {
-                                fillColor = '#006837'; // Neighbors start Green
-                            }
-                            return { fillColor: fillColor, weight: 0.8, opacity: 1, color: '#444', fillOpacity: 0.7 };
+                        style: function() {
+                            return { fillColor: '#1e293b', weight: 0.8, opacity: 1, color: '#334155', fillOpacity: 0.7 };
                         },
                         onEachFeature: (feature, layer) => {
                             let p = feature.properties;
-                            let iso = (p.ISO_A3 || p.ADM0_A3 || p.ADMIN || '').toString().toUpperCase();
-                            let countryName = p.NAME || p.ADMIN || 'Unknown Region';
-                            
-                            // 1. ATTACH THE POPUP DATA
-                            let popupHtml = `<div class="popup-title">${countryName}</div>`;
-                            
-                            if (iso.includes('MLI') || iso === 'MALI') {
-                                popupHtml += `<span style="color:#ef4444; font-weight:bold;">Status: Critical Crisis</span><br/>Funding Gap: -$43/capita<br/>Risk: Epicenter`;
-                            } else if (iso.includes('NER') || iso.includes('NIGER')) {
-                                popupHtml += `<span style="color:#10b981; font-weight:bold;">Status: Adequately Funded</span><br/>Vulnerability: High<br/>Spillover Risk: +45,000 IDPs`;
-                            } else if (iso.includes('BFA') || iso.includes('BURKINA')) {
-                                popupHtml += `<span style="color:#10b981; font-weight:bold;">Status: Adequately Funded</span><br/>Vulnerability: Medium<br/>Spillover Risk: +37,000 IDPs`;
-                            } else if (iso.includes('TCD') || iso.includes('CHAD')) {
-                                popupHtml += `<span style="color:#10b981; font-weight:bold;">Status: Adequately Funded</span><br/>Vulnerability: Medium<br/>Spillover Risk: +30,000 IDPs`;
-                            } else {
-                                popupHtml += `Standard baseline metrics.`;
-                            }
+                            let iso = (p['ISO3166-1-Alpha-3'] || p.ISO_A3 || p.ADM0_A3 || p.ADMIN || '').toString().toUpperCase();
+                            let countryName = p.name || p.NAME || p.ADMIN || 'Unknown Region';
 
-                            // Bind it so it opens on click!
-                            layer.bindPopup(popupHtml);
-                            
-                            // 2. CONTINENT CLICK -> ZOOM (Your existing logic)
-                            layer.on('click', () => {
-                                let isAfrica = false;
-                                africaISOs.forEach(aIso => { if (iso.includes(aIso)) isAfrica = true; });
+                            layer.bindTooltip(countryName, {
+                                permanent: false,
+                                direction: 'top',
+                                className: 'country-tooltip',
+                                opacity: 1
+                            });
 
-                                if (isAfrica) {
-                                    map.flyToBounds([[4.0, -17.0], [25.0, 25.0]], { padding: [20, 20], duration: 1.5 });
-                                    geojsonLayer.eachLayer(l => {
-                                        let lIso = (l.feature.properties.ISO_A3 || l.feature.properties.ADMIN || '').toString().toUpperCase();
-                                        
-                                        let isSahel = lIso.includes('MLI') || lIso.includes('MALI') || lIso.includes('BFA') || lIso.includes('BURKINA') || lIso.includes('NER') || lIso.includes('NIGER') || lIso.includes('TCD') || lIso.includes('CHAD');
-
-                                        if (isSahel) {
-                                            l.setStyle({ weight: 3, color: '#0d9488', opacity: 1 });
-                                            l.bringToFront();
-                                        } else {
-                                            l.setStyle({ fillOpacity: 0.3, weight: 0.5, color: '#444' });
+                            layer.bindPopup(function() {
+                                var d = lastAftershockData;
+                                var lines = [];
+                                if (d.epicenter && iso === d.epicenter) {
+                                    lines.push('<div class="popup-title">' + countryName + ', 2024 Sahel crisis</div>');
+                                    lines.push('<div class="popup-line">Epicenter of current scenario</div>');
+                                } else {
+                                    var hit = d.affected && d.affected.find(function(a) { return (a.country || '').toUpperCase() === iso; });
+                                    if (hit) {
+                                        var n = Math.abs(hit.delta_displaced ?? hit.impact ?? 0);
+                                        var disp = n >= 1e6 ? (n/1e6).toFixed(1) + 'M' : n >= 1e3 ? (n/1e3).toFixed(1) + 'K' : n.toLocaleString();
+                                        var cost = hit.extra_cost_usd;
+                                        var costStr = cost >= 1e6 ? '$' + (cost/1e6).toFixed(1) + 'M' : cost >= 1e3 ? '$' + (cost/1e3).toFixed(1) + 'K' : '$' + cost.toLocaleString();
+                                        lines.push('<div class="popup-title">' + countryName + ', 2024 Sahel crisis</div>');
+                                        lines.push('<div class="popup-line popup-metric">+' + disp + ' displaced</div>');
+                                        lines.push('<div class="popup-line popup-metric">+' + costStr + ' USD response cost</div>');
+                                        var prob = hit.prob_underfunded_next;
+                                        if (typeof prob === 'number' && prob > 0.5) {
+                                            lines.push('<div class="popup-tag">High aftershock risk</div>');
                                         }
-                                    });
+                                    }
+                                }
+                                if (lines.length === 0) {
+                                    lines.push('<div class="popup-title">' + countryName + '</div>');
+                                    lines.push('<div class="popup-line">Run Aftershock to see impact.</div>');
+                                }
+                                return '<div class="popup-card">' + lines.join('') + '</div>';
+                            });
+
+                            // Zoom to clicked country only; do not re-style layers (preserves aftershock state)
+                            layer.on('click', () => {
+                                var bounds = layer.getBounds();
+                                if (bounds.isValid()) {
+                                    map.flyToBounds(bounds, { padding: [40, 40], duration: 0.8, maxZoom: 7 });
                                 }
                             });
                         }
@@ -340,7 +404,15 @@
                     geojsonReady = true;
                     while (pendingAftershockMessages.length > 0) {
                         var msg = pendingAftershockMessages.shift();
+                        lastAftershockData = { epicenter: (msg.epicenter || '').toUpperCase(), affected: msg.affected || [] };
                         applyAftershockStyling(geojsonLayer, msg);
+                        var epicenterIso = (msg.epicenter || '').toUpperCase();
+                        var affected = msg.affected || [];
+                        if (affected.length === 0) {
+                            var coords = sahelCentroids[epicenterIso] || getCentroidForIso(geojsonLayer, epicenterIso);
+                            if (coords) map.flyTo(coords, 5, { duration: 1.0 });
+                        }
+                        if (affected.length > 0) runSpreadAnimation(geojsonLayer, epicenterIso, affected);
                     }
                 }).catch(err => console.error(err));
             }

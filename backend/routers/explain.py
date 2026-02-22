@@ -1,42 +1,53 @@
-"""Explain crisis endpoint: Sphinx reasoning copilot."""
+"""Explain crisis endpoint: Gemini LLM with Sphinx prompt."""
 
+from pathlib import Path
+
+from dotenv import load_dotenv
 from fastapi import APIRouter
 from pydantic import BaseModel
-from typing import Any, Optional
+from typing import Any
 
 router = APIRouter()
 
+# Ensure .env.local is loaded in this process (helps with uvicorn workers / reload)
+_env_local = Path(__file__).resolve().parents[2] / ".env.local"
+if _env_local.exists():
+    load_dotenv(_env_local, override=True)
+
 
 class ExplainRequest(BaseModel):
-    crisis_id: str
-    metrics: dict[str, Any] = {}
-    aftershock_totals: Optional[dict[str, Any]] = None
+    query: str
+    context: dict[str, Any] = {}
 
 
 class ExplainResponse(BaseModel):
-    explanation: str
+    answer: str
 
 
 @router.post("/crisis", response_model=ExplainResponse)
-def explain_crisis_endpoint(payload: ExplainRequest) -> ExplainResponse:
+def explain_crisis_endpoint(body: ExplainRequest) -> ExplainResponse:
     """
-    Explain why this crisis may be overlooked vs neighbors.
-    Uses Sphinx if configured; otherwise returns clearly marked fallback stub.
+    Explain crisis via Gemini using Sphinx prompt.
+    Expects body.query and body.context with crisis and aftershock_totals.
+    Frontend and API contract unchanged.
     """
-    from ..clients.sphinx_client import SphinxDisabled, explain_crisis
+    from ..clients.gemini_client import (
+        GeminiDisabled,
+        GeminiError,
+        explain_crisis_via_gemini,
+    )
+
+    crisis = body.context.get("crisis", {})
+    totals = body.context.get("aftershock_totals", {})
 
     try:
-        text = explain_crisis(
-            payload.crisis_id,
-            payload.metrics,
-            payload.aftershock_totals,
-        )
-        return ExplainResponse(explanation=text)
-    except SphinxDisabled:
+        answer = explain_crisis_via_gemini(body.query, crisis, totals)
+        return ExplainResponse(answer=answer)
+    except GeminiDisabled:
         return ExplainResponse(
-            explanation="Sphinx is not configured; here is a basic explanation based on local metrics: "
-            "The crisis may be overlooked due to lower visibility compared to larger neighboring crises. "
-            "Set SPHINX_BASE_URL to enable AI reasoning."
+            answer="Gemini is not configured. Set GEMINI_API_KEY to enable AI reasoning."
         )
+    except GeminiError as e:
+        return ExplainResponse(answer=str(e))
     except Exception as e:
-        return ExplainResponse(explanation=f"[Fallback] Could not get explanation: {e}")
+        return ExplainResponse(answer=f"[Fallback] Could not get explanation: {e}")

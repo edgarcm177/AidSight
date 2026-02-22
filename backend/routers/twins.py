@@ -14,5 +14,8 @@ def get_success_twin(project_id: str):
     if project_id not in _projects_df["id"].values:
         raise HTTPException(status_code=404, detail="Project not found")
 
-    twin = find_success_twin(_projects_df, project_id)
+    try:
+        twin = find_success_twin(_projects_df, project_id)
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
     return twin

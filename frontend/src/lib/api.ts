@@ -5,7 +5,7 @@
 
 const API_BASE =
   (typeof import.meta !== "undefined" && (import.meta as { env?: Record<string, string> }).env?.VITE_API_BASE_URL) ||
-  "http://localhost:8000";
+  "http://127.0.0.1:8000";
 
 function getUrl(path: string): string {
   const base = API_BASE.replace(/\/$/, "");
@@ -64,6 +64,7 @@ export interface TwinResult {
   twin_project_id: string;
   similarity_score: number;
   bullets: string[];
+  twin_name?: string;
 }
 
 export interface MemoResponse {
@@ -102,6 +103,10 @@ export interface AffectedCountryImpact {
   extra_cost_usd: number;
   prob_underfunded_next: number;
   explanation?: string;
+  /** Simulation: severity 0–1 for X/10 display. */
+  projected_severity?: number;
+  /** Simulation: coverage 0–1 (epicenter = baseline + funding change). Single source for Coverage % and Status. */
+  projected_coverage?: number;
 }
 
 export interface TotalsImpact {
@@ -168,45 +173,114 @@ function parseAftershockErrorResponse(text: string): string | null {
 
 /**
  * Aftershock spillover simulation. Calls POST /simulate/aftershock.
- * UI: funding -20..+20 (%) → backend -0.2..+0.2 decimal.
- * UI: 0-12 months → backend 1-2 years (0-6m→1, 7-12m→2).
- *
- * Uses custom fetch instead of fetchJson to parse FastAPI error bodies
- * ({ detail: string | string[] }) for user-friendly messages. Still conforms to the
- * app's global error contract: always throws Error with a human-readable .message.
  */
-export async function simulateAftershock(
-  epicenter: string,
-  deltaFundingPercent: number,
-  horizonMonths: number
-): Promise<AftershockResult> {
-  const clampedFunding = Math.max(-20, Math.min(20, deltaFundingPercent));
-  const clampedMonths = Math.max(0, Math.min(12, horizonMonths));
-  const delta_funding_pct = clampedFunding / 100;
-  // Frontend slider is in months, backend uses discrete year-steps; mapped 0-6→1, 7-12→2 for now.
-  const horizon_steps = clampedMonths <= 6 ? 1 : 2;
-
-  const body: AftershockRequest = {
-    epicenter,
-    delta_funding_pct,
-    horizon_steps,
-  };
-
+export async function simulateAftershock(params: {
+  epicenter: string;
+  delta_funding_pct: number;
+  horizon_steps: number;
+}): Promise<AftershockResult> {
+  console.log("[AidSight] simulateAftershock request:", JSON.stringify(params));
   const url = getUrl("/simulate/aftershock");
   const res = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
+    body: JSON.stringify(params),
+    cache: "no-store",
   });
 
   if (!res.ok) {
     const text = await res.text().catch(() => "");
     console.error(`Aftershock API error ${res.status}: ${text}`);
     const parsed = parseAftershockErrorResponse(text);
-    // Always throw Error with human-readable message (matches fetchJson convention).
     throw new Error(parsed ?? AFTERSHOCK_ERROR_MESSAGE);
   }
 
   const data = await res.json();
+  console.log("[AidSight] simulateAftershock response:", {
+    epicenter: data.epicenter,
+    delta_funding_pct: data.delta_funding_pct,
+    horizon_steps: data.horizon_steps,
+    total_displaced: data.totals?.total_delta_displaced,
+    affected: data.affected?.map((a: { country: string }) => a.country),
+  });
   return data as AftershockResult;
+}
+
+// --- Explain (Sphinx) ---
+
+export interface ExplainResponse {
+  answer: string;
+}
+
+export async function explainCrisis(payload: {
+  query: string;
+  context: { crisis?: Record<string, string | number>; aftershock_totals?: Record<string, number> };
+}): Promise<ExplainResponse> {
+  const res = await fetch(getUrl("/explain/crisis"), {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) throw new Error("Failed to explain crisis");
+  return res.json() as Promise<ExplainResponse>;
+}
+
+// --- Vector neighbors (VectorAI) ---
+
+export interface VectorNeighbor {
+  project_id?: string;
+  id?: string;
+  similarity_score?: number;
+  country?: string;
+  cluster?: string;
+  ratio?: number;
+  [key: string]: unknown;
+}
+
+export interface VectorNeighborsResponse {
+  project_id: string;
+  neighbors: VectorNeighbor[];
+}
+
+export interface ProjectListItem {
+  id: string;
+  name?: string;
+  sector?: string;
+  country?: string;
+  year?: number;
+  region?: string;
+  description?: string;
+}
+
+/** Response from GET /projects/for_crisis; may be a fallback when no project in selected country/year. */
+export interface CrisisProjectResponse extends ProjectListItem {
+  fallback?: boolean;
+  fallback_reason?: string; // e.g. "same_region", "nearest_year", "no_project_in_country"
+  region?: string;
+}
+
+export async function fetchProjects(): Promise<ProjectListItem[]> {
+  const res = await fetch(getUrl("/projects/"));
+  if (!res.ok) throw new Error("Failed to fetch projects");
+  return res.json() as Promise<ProjectListItem[]>;
+}
+
+/** Project for the selected crisis (epicenter). Uses nearest country/year fallback when no exact match. */
+export async function fetchProjectForCrisis(
+  country: string,
+  year?: number
+): Promise<CrisisProjectResponse | null> {
+  if (!country?.trim()) return null;
+  const params = new URLSearchParams({ country: country.trim().toUpperCase() });
+  if (year != null) params.set("year", String(year));
+  const res = await fetch(getUrl(`/projects/for_crisis?${params}`));
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error("Failed to fetch project for crisis");
+  return res.json() as Promise<CrisisProjectResponse>;
+}
+
+export async function getVectorNeighbors(projectId: string, topK = 5): Promise<VectorNeighborsResponse> {
+  const res = await fetch(getUrl(`/projects/${encodeURIComponent(projectId)}/vector_neighbors?top_k=${topK}`));
+  if (!res.ok) throw new Error("Failed to fetch neighbors");
+  return res.json() as Promise<VectorNeighborsResponse>;
 }

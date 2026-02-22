@@ -30,9 +30,8 @@ CONFIG_PATH = MODELS_DIR / "model_config.json"
 
 # Cost proxy for extra humanitarian need (USD per displaced person). Used in notes and for extra_cost_usd.
 COST_PER_PERSON_USD = 100
-# Plausible caps for MVP: totals in tens of thousands displaced, millions USD (scale raw model output if needed).
-MAX_TOTAL_EXTRA_DISPLACED = 200_000
-TARGET_TOTAL_EXTRA_DISPLACED = 100_000
+# Only cap if raw output is unrealistically large (e.g. model bug).
+MAX_TOTAL_EXTRA_DISPLACED = 1_000_000_000
 
 
 def _load_panel_and_graph() -> tuple:
@@ -375,9 +374,9 @@ def simulate_aftershock(
     total_extra_displaced = sum(a["delta_displaced"] for a in affected)
     total_extra_cost_usd = sum(a["extra_cost_usd"] for a in affected)
 
-    # Plausible magnitudes: scale down if model outputs are unrealistically large (tens of thousands / millions)
+    # Cap only if raw output is unrealistically huge (sanity check)
     if total_extra_displaced > MAX_TOTAL_EXTRA_DISPLACED and total_extra_displaced > 0:
-        scale = TARGET_TOTAL_EXTRA_DISPLACED / total_extra_displaced
+        scale = MAX_TOTAL_EXTRA_DISPLACED / total_extra_displaced
         for a in affected:
             a["delta_displaced"] = int(round(a["delta_displaced"] * scale))
             a["extra_cost_usd"] = a["delta_displaced"] * COST_PER_PERSON_USD

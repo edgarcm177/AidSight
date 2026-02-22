@@ -4,6 +4,7 @@ import { ImpactPanel } from './components/ImpactPanel';
 import { SuccessTwinPanel } from './components/SuccessTwinPanel';
 import {
   fetchCrises,
+  fetchProjectForCrisis,
   simulateAftershock,
   AFTERSHOCK_ERROR_MESSAGE,
   fetchTwin,
@@ -12,18 +13,23 @@ import {
   type AftershockResult,
   type TwinResult,
   type MemoResponse,
+  type CrisisProjectResponse,
 } from '../lib/api';
+import { reportDiagnostics } from '../lib/diagnostics';
 
-const DEFAULT_PROJECT_ID = 'PRJ001';
+const CRISIS_YEAR = 2024; // Epicenter dropdown options are e.g. "Mali (2024)"
 
 export default function App() {
   const [crises, setCrises] = useState<Crisis[]>([]);
   const [crisesLoading, setCrisesLoading] = useState(true);
   const [crisesError, setCrisesError] = useState<string | null>(null);
   const [selectedCrisisId, setSelectedCrisisId] = useState<string | null>(null);
-  
+
+  /** Project for selected epicenter (exact or nearest fallback). Null only when no projects in dataset. */
+  const [crisisProject, setCrisisProject] = useState<CrisisProjectResponse | null>(null);
+
   // --- AFTERSHOCK STATE ---
-  const [epicenter, setEpicenter] = useState('MLI');
+  const [epicenter, setEpicenter] = useState('');
   const [fundingAdjustment, setFundingAdjustment] = useState(-20);
   const [whatIfText, setWhatIfText] = useState('');
   const [timeHorizon, setTimeHorizon] = useState(12);
@@ -60,19 +66,84 @@ export default function App() {
     loadCrises();
   }, []);
 
-  const selectedCrisis = crises.find((c) => c.id === selectedCrisisId);
+  useEffect(() => {
+    if (!epicenter?.trim()) {
+      setCrisisProject(null);
+      return;
+    }
+    fetchProjectForCrisis(epicenter, CRISIS_YEAR)
+      .then(setCrisisProject)
+      .catch(() => setCrisisProject(null));
+  }, [epicenter]);
+
+  const handleEpicenterChange = (value: string) => {
+    setEpicenter(value);
+    setSimulationResult(null);
+    setSimulationError(null);
+    setTwinResult(null);
+    setTwinError(null);
+    setMemoResult(null);
+    setMemoError(null);
+  };
+
+  // When funding or time horizon changes, clear simulation so user must run again for new metrics
+  useEffect(() => {
+    setSimulationResult(null);
+    setSimulationError(null);
+    setTwinResult(null);
+    setTwinError(null);
+    setMemoResult(null);
+    setMemoError(null);
+  }, [fundingAdjustment, timeHorizon]);
+
+  useEffect(() => {
+    reportDiagnostics({
+      impactCards: {
+        source: simulationResult ? 'LIVE' : 'PLACEHOLDER',
+        simulationResult: !!simulationResult,
+        epicenter: simulationResult?.epicenter,
+        totalDisplaced: simulationResult?.totals.total_delta_displaced,
+        totalCost: simulationResult?.totals.total_extra_cost_usd,
+        affectedCount: simulationResult?.totals.affected_countries,
+      },
+      affectedCountries: {
+        source: simulationResult?.affected?.length ? 'LIVE' : 'PLACEHOLDER',
+        count: simulationResult?.affected?.length ?? 0,
+        countries: simulationResult?.affected?.map((a) => a.country),
+      },
+      aiSummary: {
+        source: simulationResult?.totals ? 'LIVE' : 'PLACEHOLDER',
+      },
+      map: {
+        status: simulationResult?.affected?.length ? 'LIVE' : 'PLACEHOLDER',
+        epicenterSent: simulationResult?.epicenter,
+        affectedSent: simulationResult?.affected?.map((a) => a.country),
+        message: simulationResult?.affected?.length
+          ? `epicenter=${simulationResult.epicenter}, affected=${simulationResult.affected.map((a) => a.country).join(', ')}`
+          : 'No AFTERSHOCK_AFFECTED sent yet',
+      },
+      successTwin: {
+        source: twinResult ? 'LIVE' : 'PLACEHOLDER',
+        projectId: twinResult?.twin_project_id,
+      },
+      vectorNeighbors: { source: 'API_PENDING', count: 0 },
+      memo: {
+        source: memoResult ? 'LIVE' : 'PLACEHOLDER',
+      },
+      sphinx: { source: 'API_PENDING' },
+    });
+  }, [simulationResult, twinResult, memoResult]);
 
   const handleRunScenario = async () => {
     setSimulationLoading(true);
     setSimulationError(null);
 
     try {
-      const result = await simulateAftershock(
+      const result = await simulateAftershock({
         epicenter,
-        fundingAdjustment,
-        timeHorizon
-      );
-      console.debug('Aftershock result:', result);
+        delta_funding_pct: fundingAdjustment / 100,
+        horizon_steps: timeHorizon <= 6 ? 1 : 2,
+      });
       setSimulationResult(result);
     } catch (err: unknown) {
       const message =
@@ -91,7 +162,8 @@ export default function App() {
     setTwinLoading(true);
     setTwinError(null);
     try {
-      const result = await fetchTwin(DEFAULT_PROJECT_ID);
+      if (!crisisProject?.id) return;
+      const result = await fetchTwin(crisisProject.id);
       setTwinResult(result);
     } catch (err) {
       setTwinError(err instanceof Error ? err.message : 'Failed to find twin');
@@ -102,15 +174,16 @@ export default function App() {
   };
 
   const handleGenerateMemo = async () => {
-    if (!selectedCrisisId || !simulationResult) return;
+    if (!simulationResult) return;
+    const crisisId = selectedCrisisId ?? `${simulationResult.epicenter}${simulationResult.baseline_year}`;
     setMemoLoading(true);
     setMemoError(null);
     try {
       // Backend requires simulation; we pass minimal TTC/equity placeholders when using aftershock-only flow
       const payload = {
-        crisis_id: selectedCrisisId,
+        crisis_id: crisisId,
         simulation: {
-          crisis_id: selectedCrisisId,
+          crisis_id: crisisId,
           metrics: {
             baseline_ttc_days: 0,
             scenario_ttc_days: 0,
@@ -121,7 +194,7 @@ export default function App() {
           impacted_regions: [],
         },
         scenario: {
-          crisis_id: selectedCrisisId,
+          crisis_id: crisisId,
           funding_changes: [],
           shock: { inflation_pct: 0, drought: false, conflict_intensity: 0 },
           what_if_text: whatIfText || undefined,
@@ -157,7 +230,7 @@ export default function App() {
           <div className="flex-1 overflow-y-auto">
           <DecisionSandbox
             epicenter={epicenter}
-            setEpicenter={setEpicenter}
+            setEpicenter={handleEpicenterChange}
             fundingAdjustment={fundingAdjustment}
             setFundingAdjustment={setFundingAdjustment}
             timeHorizon={timeHorizon}
@@ -176,12 +249,10 @@ export default function App() {
           </div>
           <div className="flex-1 overflow-y-auto">
           <ImpactPanel
-            selectedCrisis={selectedCrisis}
             simulationResult={simulationResult}
+            epicenter={epicenter}
             simulationLoading={simulationLoading}
             simulationError={simulationError}
-            epicenter={epicenter}
-            timeHorizon={timeHorizon}
           />
           </div>
         </div>
@@ -190,6 +261,10 @@ export default function App() {
         <div className="w-[30%] bg-[#0f1421] border-l border-gray-800 overflow-y-auto shrink-0 flex flex-col">
           <div className="flex-1 overflow-y-auto min-h-0">
           <SuccessTwinPanel
+            key={epicenter}
+            crises={crises}
+            epicenter={epicenter}
+            crisisProject={crisisProject}
             twinResult={twinResult}
             twinLoading={twinLoading}
             twinError={twinError}

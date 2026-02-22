@@ -1,11 +1,19 @@
-# virtual environments
+# --------------------
+# Virtual environments
+# --------------------
 .venv/
 venv/
 env/
+
+# Local env / secrets (do NOT commit)
+.env
 .env.local
 .env.*.local
+*.env
 
-# python
+# --------------------
+# Python
+# --------------------
 __pycache__/
 *.py[cod]
 *$py.class
@@ -19,7 +27,14 @@ dist/
 build/
 *.egg
 
-# node
+# Poetry / pip-tools
+.poetry/
+poetry.lock
+pip-wheel-metadata/
+
+# --------------------
+# Node / frontend
+# --------------------
 node_modules/
 .npm
 .yarn/cache
@@ -32,35 +47,72 @@ out/
 .vite/
 *.tsbuildinfo
 
-# IDE
+# Frontend build artifacts
+frontend/dist/
+frontend/.next/
+frontend/.turbo/
+
+# --------------------
+# IDE / editor
+# --------------------
 .vscode/
 .idea/
 .cursor/
+*.code-workspace
 
+# --------------------
 # OS
+# --------------------
 .DS_Store
 Thumbs.db
 Desktop.ini
 
-# models / large data
+# --------------------
+# Models / large data
+# --------------------
 *.pt
 *.pkl
 *.parquet
 *.h5
 *.hdf5
+*.onnx
+*.joblib
 
-# logs and temp
+# Local data artifacts (keep raw sources elsewhere)
+data/**/*.parquet
+data/**/*.csv
+dataml/data/processed/
+dataml/data/interim/
+
+# --------------------
+# Logs and temp
+# --------------------
 *.log
 *.tmp
 *.temp
 .cache/
+tmp/
+temp/
 
+# --------------------
 # Jupyter
+# --------------------
 .ipynb_checkpoints/
 *.ipynb_checkpoints
 
-# coverage and tests
+# --------------------
+# Coverage and tests
+# --------------------
 coverage/
 htmlcov/
 .coverage
+.coverage.*
 .tox/
+.nox/
+pytest-debug.log
+
+# --------------------
+# Misc
+# --------------------
+*.swp
+*.swo

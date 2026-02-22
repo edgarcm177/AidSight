@@ -1,24 +1,21 @@
 import { useRef, useEffect } from 'react';
-// @ts-ignore
 import csvDataUrl from '../../../../dataml/data/raw/misfit_final_analysis.csv';
-import type { Crisis, AftershockResult, AffectedCountryImpact } from '../../lib/api';
+import type { AftershockResult, AffectedCountryImpact } from '../../lib/api';
 
 /** Only count nodes with prob_underfunded_next above this threshold. */
 const UNDERFUNDED_THRESHOLD = 0.5;
 
 function countUnderfundedCrises(affected: AffectedCountryImpact[]): number {
   return affected.filter(
-    (a) => typeof a.prob_underfunded_next === "number" && a.prob_underfunded_next > UNDERFUNDED_THRESHOLD
+    (a) => typeof a.prob_underfunded_next === 'number' && a.prob_underfunded_next > UNDERFUNDED_THRESHOLD
   ).length;
 }
 
 interface ImpactPanelProps {
-  selectedCrisis: Crisis | undefined;
   simulationResult: AftershockResult | null;
+  epicenter: string;
   simulationLoading: boolean;
   simulationError: string | null;
-  epicenter: string;
-  timeHorizon: number;
 }
 
 function formatDisplaced(n: number): string {
@@ -34,49 +31,38 @@ function formatCostUsd(n: number): string {
 }
 
 export function ImpactPanel({
-  selectedCrisis,
   simulationResult,
+  epicenter,
   simulationLoading,
   simulationError,
-  epicenter,
-  timeHorizon,
 }: ImpactPanelProps) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const hasScenario = !!simulationResult;
 
-  // Handles the Run Aftershock animation
   useEffect(() => {
-    if (simulationLoading && iframeRef.current) {
-      iframeRef.current.contentWindow?.postMessage({
-        type: 'RUN_SHOCKWAVE',
-        epicenter: epicenter
-      }, '*');
-    }
-  }, [simulationLoading, epicenter]);
+    if (!iframeRef.current) return;
+    const epicenterToShow = simulationResult?.epicenter ?? epicenter;
+    const affectedToShow = simulationResult?.affected?.map((a) => ({
+      country: a.country,
+      delta_displaced: a.delta_displaced ?? 0,
+      extra_cost_usd: a.extra_cost_usd ?? 0,
+      prob_underfunded_next: a.prob_underfunded_next,
+    })) ?? [];
+    iframeRef.current.contentWindow?.postMessage({
+      type: 'AFTERSHOCK_AFFECTED',
+      epicenter: epicenterToShow,
+      affected: affectedToShow,
+    }, '*');
+  }, [epicenter, simulationResult?.epicenter, simulationResult?.affected]);
 
-  // Pass aftershock affected data to map for impact visualization
-  useEffect(() => {
-    if (simulationResult?.affected && iframeRef.current) {
-      iframeRef.current.contentWindow?.postMessage({
-        type: 'AFTERSHOCK_AFFECTED',
-        epicenter: simulationResult.epicenter,
-        affected: simulationResult.affected.map((a) => ({
-          country: a.country,
-          impact: a.delta_displaced, // use delta_displaced as impact score
-        })),
-      }, '*');
-    }
-  }, [simulationResult?.epicenter, simulationResult?.affected]);
-
-  // NEW: Listens for clicks from the Right Sidebar list!
   useEffect(() => {
     const handleFocus = (e: Event) => {
       const customEvent = e as CustomEvent;
       if (iframeRef.current) {
-        iframeRef.current.contentWindow?.postMessage({
-          type: 'FOCUS_COUNTRY',
-          iso: customEvent.detail
-        }, '*');
+        iframeRef.current.contentWindow?.postMessage(
+          { type: 'FOCUS_COUNTRY', iso: customEvent.detail },
+          '*'
+        );
       }
     };
     window.addEventListener('FOCUS_MAP_COUNTRY', handleFocus);
@@ -86,9 +72,9 @@ export function ImpactPanel({
   return (
     <div className="p-6">
       <div className="bg-[#0f1421] border border-gray-800 rounded-lg mb-6 h-[400px] relative overflow-hidden">
-        <iframe 
-          ref={iframeRef} 
-          src={`/map_test.html?data=${encodeURIComponent(csvDataUrl)}`} 
+        <iframe
+          ref={iframeRef}
+          src={`/map_test.html?data=${encodeURIComponent(csvDataUrl)}`}
           title="Fragility & Funding Map"
           className="absolute top-0 left-0 w-full h-full border-none"
         />
@@ -105,38 +91,86 @@ export function ImpactPanel({
           <p className="text-xs text-gray-600 mt-2">Adjust funding and click Run Aftershock.</p>
         </div>
       ) : (
-      <div className="grid grid-cols-3 gap-4 mb-6">
-        <div className="bg-[#0f1421] border border-gray-800 rounded-lg p-4 border-t-2 border-t-red-500">
-          <div className="text-xs text-gray-500 mb-2 uppercase tracking-wider">Extra displaced (region)</div>
-          <div className="text-2xl text-red-400 font-mono">
-            {simulationLoading ? '...' : `+${formatDisplaced(simulationResult?.totals.total_delta_displaced ?? 0)}`}
-          </div>
-          <div className="text-xs text-gray-600 mt-1">
-            across {simulationResult?.totals.affected_countries ?? 0} neighboring countries at T+{timeHorizon}m
-          </div>
-        </div>
+        <>
+          <div className="grid grid-cols-3 gap-4 mb-6">
+            <div className="bg-[#0f1421] border border-gray-800 rounded-lg p-4 border-t-2 border-t-red-500">
+              <div className="text-xs text-gray-500 mb-2 uppercase tracking-wider">Extra displaced (region)</div>
+              <div className="text-2xl text-red-400 font-mono">
+                {simulationLoading ? '...' : `+${formatDisplaced(simulationResult?.totals.total_delta_displaced ?? 0)}`}
+              </div>
+              <div className="text-xs text-gray-600 mt-1">
+                across {simulationResult?.totals.affected_countries ?? 0} neighboring countries
+              </div>
+            </div>
 
-        <div className="bg-[#0f1421] border border-gray-800 rounded-lg p-4 border-t-2 border-t-amber-500">
-          <div className="text-xs text-gray-500 mb-2 uppercase tracking-wider">Extra response cost</div>
-          <div className="text-2xl text-amber-400 font-mono">
-            {simulationLoading ? '...' : `+${formatCostUsd(simulationResult?.totals.total_extra_cost_usd ?? 0)}`}
-          </div>
-          <div className="text-xs text-gray-600 mt-1">projected additional funding needed</div>
-        </div>
+            <div className="bg-[#0f1421] border border-gray-800 rounded-lg p-4 border-t-2 border-t-amber-500">
+              <div className="text-xs text-gray-500 mb-2 uppercase tracking-wider">Extra response cost</div>
+              <div className="text-2xl text-amber-400 font-mono">
+                {simulationLoading ? '...' : `+${formatCostUsd(simulationResult?.totals.total_extra_cost_usd ?? 0)}`}
+              </div>
+              <div className="text-xs text-gray-600 mt-1">projected additional funding needed</div>
+            </div>
 
-        <div className="bg-[#0f1421] border border-gray-800 rounded-lg p-4 border-t-2 border-t-teal-500">
-          <div className="text-xs text-gray-500 mb-2 uppercase tracking-wider">New underfunded crises</div>
-          <div className="text-2xl text-gray-100 font-mono">
-            {simulationLoading ? '...' : (
-              simulationResult
-                ? `+${countUnderfundedCrises(simulationResult.affected)}`
-                : '0'
+            <div className="bg-[#0f1421] border border-gray-800 rounded-lg p-4 border-t-2 border-t-teal-500">
+              <div className="text-xs text-gray-500 mb-2 uppercase tracking-wider">New underfunded crises</div>
+              <div className="text-2xl text-gray-100 font-mono">
+                {simulationLoading
+                  ? '...'
+                  : simulationResult
+                    ? `+${countUnderfundedCrises(simulationResult.affected)}`
+                    : '0'}
+              </div>
+              <div className="text-xs text-gray-600 mt-1">countries crossing underfunded threshold</div>
+              <p className="text-[10px] text-gray-600 mt-0.5">
+                Threshold: P(underfunded next year) &gt; {UNDERFUNDED_THRESHOLD}
+              </p>
+            </div>
+          </div>
+
+          <section className="mt-6">
+            <h3 className="text-xs uppercase tracking-wider text-gray-500 mb-4">Affected Countries</h3>
+            {simulationLoading ? (
+              <p className="text-sm text-gray-500">Loading...</p>
+            ) : !simulationResult?.affected?.length ? (
+              <p className="text-sm text-gray-500">Run a scenario to see spillover impacts.</p>
+            ) : (
+              <div className="space-y-3">
+                {[...simulationResult.affected]
+                  .sort((a, b) => (b.delta_displaced ?? 0) - (a.delta_displaced ?? 0))
+                  .map((c, idx) => (
+                    <div
+                      key={c.country}
+                      onClick={() => window.dispatchEvent(new CustomEvent('FOCUS_MAP_COUNTRY', { detail: c.country }))}
+                      className="bg-[#1a1f2e] border border-gray-800 rounded p-3 cursor-pointer hover:border-gray-500 transition-colors"
+                    >
+                      <div className="flex justify-between items-center mb-1">
+                        <span className="font-medium text-gray-200">
+                          {idx + 1}. {c.country}
+                        </span>
+                        <span className="text-red-400 text-sm font-mono">
+                          +{formatDisplaced(c.delta_displaced ?? 0)} displaced
+                        </span>
+                      </div>
+                      <div className="text-xs text-amber-400 font-mono">
+                        +{formatCostUsd(c.extra_cost_usd ?? 0)} response cost
+                      </div>
+                    </div>
+                  ))}
+              </div>
             )}
-          </div>
-          <div className="text-xs text-gray-600 mt-1">countries crossing underfunded threshold</div>
-          <p className="text-[10px] text-gray-600 mt-0.5">Threshold: P(underfunded next year) &gt; {UNDERFUNDED_THRESHOLD}</p>
-        </div>
-      </div>
+          </section>
+
+          {simulationResult?.totals && (
+            <section className="mt-6 bg-[#0a0e1a] border border-gray-800 rounded-lg p-4">
+              <h3 className="text-xs uppercase tracking-wider text-teal-600 mb-2">AI Summary</h3>
+              <p className="text-sm text-gray-400 leading-relaxed">
+                {simulationResult.delta_funding_pct < 0
+                  ? `Cutting ${Math.round(-simulationResult.delta_funding_pct * 100)}% from ${simulationResult.epicenter}'s crisis is projected to add ${formatDisplaced(simulationResult.totals.total_delta_displaced)} displaced and ${formatCostUsd(simulationResult.totals.total_extra_cost_usd)} in extra response costs.`
+                  : `Increasing funding by ${Math.round(simulationResult.delta_funding_pct * 100)}% for ${simulationResult.epicenter} may reduce spillover; current projection: ${formatDisplaced(simulationResult.totals.total_delta_displaced)} displaced, ${formatCostUsd(simulationResult.totals.total_extra_cost_usd)} response cost.`}
+              </p>
+            </section>
+          )}
+        </>
       )}
     </div>
   );

@@ -107,18 +107,27 @@ def find_success_twin(
     target_emb = _project_embeddings[target_idx : target_idx + 1]
     sims = cosine_similarity(target_emb, _project_embeddings)[0]
 
-    # Exclude target; pick best other
+    # Exclude target; pick best other (never return self as twin)
     sims[target_idx] = -1.0
     best_idx = int(np.argmax(sims))
     twin_id = _project_ids[best_idx]
+    if str(twin_id) == str(target_project_id):
+        raise ValueError(
+            "No other project available to match as twin (only one project in the set, or twin would be self)"
+        )
     score = float(np.clip(sims[best_idx], 0.0, 1.0))
 
     row = _project_rows[twin_id]
     bullets = _build_bullets_from_row(row)
+    twin_name = str(row.get("name", "")) if pd.notna(row.get("name")) else ""
+    if not twin_name and (row.get("sector") or row.get("country") or row.get("year")):
+        parts = [str(row.get("sector", "")), str(row.get("country", "")), str(int(row.get("year", 0)))]
+        twin_name = " ".join(p for p in parts if p).strip() or str(twin_id)
 
     return {
         "target_project_id": str(target_project_id),
         "twin_project_id": str(twin_id),
         "similarity_score": round(score, 3),
         "bullets": bullets,
+        "twin_name": twin_name or str(twin_id),
     }

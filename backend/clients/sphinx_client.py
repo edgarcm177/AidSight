@@ -1,74 +1,42 @@
 """
-Sphinx reasoning client for crisis explanation.
-Enabled if and only if SPHINX_BASE_URL is set (no API key required).
-Posts query + context JSON; expects {answer}, {explanation}, {text}, or {response}.
-All HTTP client exceptions are caught, logged, and re-raised as SphinxDisabled
-so /explain/crisis never crashes.
+Sphinx prompt for crisis + aftershock explanation.
+Used by the explain flow (e.g. Gemini client) to build the LLM prompt.
 """
 
-import json
-import logging
-import os
+SPHINX_PROMPT_TEMPLATE = """You are Sphinx, an AI analyst explaining humanitarian crises to UN planners.
 
-SphinxDisabled = type("SphinxDisabled", (Exception,), {})
+The user sees a "Spillover Metrics" panel with exactly these values. Use the SAME numbers in your explanation:
+- Severity: {severity_score} / 10
+- Funding coverage: {coverage_pct}% funded
+- Underfunded status: {underfunded_status}
+- This scenario adds: {delta_displaced} extra displaced people, {delta_cost_usd} USD extra response cost
 
-logger = logging.getLogger(__name__)
+How these are produced (use this rationale in your explanation):
+- Severity is on a comparable 0–10 scale (normalized across crises). The simulation propagates stress over the time horizon: longer horizon means more spillover, so severity can worsen in the epicenter and surrounding areas over time.
+- Coverage is the share of assessed need that is funded (funding_received / funding_required). Funding change is applied with diminishing returns (each extra % of funding has a smaller effect). Time horizon adds a drift: if underfunded (<50%), coverage tends to worsen over time; if well-funded, the situation can settle (coverage drifts up).
+- Status is derived from coverage only: <50% Underfunded vs peers, 50–99% Adequately funded, ≥100% Overfunded.
+
+Your job: explain what these numbers mean in context and WHY this crisis is risky or overlooked. Weave in the rationale above (time horizon, settling vs worsening, diminishing returns) where relevant. Use the exact values the user sees; then explain cause and effect and why planners should care.
+
+User question: "{query}"
+
+Answer in 3–5 short sentences. Use the exact values and the rationale above."""
 
 
-def _is_configured() -> bool:
-    """Sphinx is enabled when SPHINX_BASE_URL is set (no API key required)."""
-    url = os.environ.get("SPHINX_BASE_URL", "").strip()
-    return bool(url)
-
-
-def explain_crisis(crisis_id: str, metrics: dict, aftershock: dict | None) -> str:
-    """
-    POST to SPHINX_BASE_URL with query + context.
-    Returns 2–3 sentence explanation. Raises SphinxDisabled on failure.
-    """
-    if not _is_configured():
-        raise SphinxDisabled("SPHINX_BASE_URL not set")
-
-    url = os.environ["SPHINX_BASE_URL"].strip().rstrip("/")
-
-    payload = {
-        "query": (
-            f"Explain why crisis {crisis_id} appears overlooked compared to similar crises, "
-            f"using severity, funding, underfunding_score, pooled_fund_coverage, and any "
-            f"aftershock spillover metrics if provided."
-        ),
-        "context": {
-            "crisis": metrics,
-            "aftershock_totals": aftershock or None,
-        },
-    }
-
-    headers = {"Content-Type": "application/json"}
-    if os.environ.get("SPHINX_API_KEY", "").strip():
-        headers["Authorization"] = f"Bearer {os.environ['SPHINX_API_KEY'].strip()}"
-
-    try:
-        import requests
-
-        r = requests.post(url, headers=headers, json=payload, timeout=30)
-        if r.status_code != 200:
-            logger.warning("Sphinx API %s: %s", r.status_code, r.text[:200])
-            raise SphinxDisabled(f"Sphinx API error: {r.status_code}")
-
-        data = r.json()
-        # Sphinx may return {"answer": "..."} or {"explanation": "..."} or {"text": "..."}
-        text = (
-            data.get("answer")
-            or data.get("explanation")
-            or data.get("text")
-            or data.get("response")
-        )
-        if isinstance(text, str):
-            logger.info("Sphinx explanation generated for crisis_id=%s", crisis_id)
-            return text.strip()
-        raise SphinxDisabled("Sphinx response missing answer/explanation field")
-    except SphinxDisabled:
-        raise
-    except Exception as e:
-        logger.warning("Sphinx request failed: %s", e)
-        raise SphinxDisabled(f"Sphinx request failed: {e}") from e
+def build_sphinx_prompt(query: str, crisis: dict, aftershock_totals: dict) -> str:
+    """Fill the Sphinx prompt template. Uses same values as the Spillover impact panel."""
+    crisis = crisis or {}
+    at = aftershock_totals or {}
+    severity = crisis.get("severity_score", "—")
+    if isinstance(severity, (int, float)):
+        severity = f"{float(severity) * 10:.1f}" if severity is not None else "—"
+    return SPHINX_PROMPT_TEMPLATE.format(
+        country=crisis.get("country", "—"),
+        year=crisis.get("year", "—"),
+        severity_score=severity,
+        coverage_pct=crisis.get("coverage_pct", "—"),
+        underfunded_status=crisis.get("underfunded_status", "—"),
+        delta_displaced=at.get("total_delta_displaced", at.get("delta_displaced", "—")),
+        delta_cost_usd=at.get("total_extra_cost_usd", at.get("delta_cost_usd", "—")),
+        query=query or "Explain what these numbers mean in context and why this crisis is risky or overlooked.",
+    )

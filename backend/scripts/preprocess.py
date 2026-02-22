@@ -23,15 +23,56 @@ import pandas as pd
 # Paths relative to repo root (parent.parent.parent from backend/scripts/)
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 RAW_DIR = REPO_ROOT / "backend" / "data" / "raw"
+DATAML_RAW = REPO_ROOT / "dataml" / "data" / "raw"
 DATA_DIR = REPO_ROOT / "backend" / "data"
 
 RAW_DIR.mkdir(parents=True, exist_ok=True)
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 
+
+def _resolve_raw(path_in_backend: Path, filename: str) -> Path:
+    """Use file from backend/data/raw if present, else from dataml/data/raw (so one copy of data is enough)."""
+    p = path_in_backend / filename
+    if p.exists():
+        return p
+    fallback = DATAML_RAW / filename
+    if fallback.exists():
+        return fallback
+    return p  # return original so error message shows expected path
+
 YEAR_MIN, YEAR_MAX = 2020, 2024
 
-MISFIT_CSV = RAW_DIR / "misfit_final_analysis.csv"
-PROJECTS_SAMPLE_CSV = RAW_DIR / "projects_sample.csv"
+# Map country ISO3 to humanitarian region (for crises and projects; used in for_crisis fallback).
+COUNTRY_TO_REGION = {
+    "MLI": "Sahel",
+    "BFA": "Sahel",
+    "NER": "Sahel",
+    "TCD": "Sahel",
+    "NGA": "Sahel",
+    "CMR": "Central Africa",
+    "CAF": "Central Africa",
+    "COD": "Central Africa",
+    "SSD": "East Africa",
+    "SDN": "East Africa",
+    "ETH": "East Africa",
+    "SOM": "East Africa",
+    "UGA": "East Africa",
+    "KEN": "East Africa",
+    "SYR": "Middle East",
+    "YEM": "Middle East",
+    "IRQ": "Middle East",
+    "AFG": "Asia",
+    "MMR": "Asia",
+    "PAK": "Asia",
+    "UKR": "Europe",
+    "HTI": "Latin America",
+    "COL": "Latin America",
+    "VEN": "Latin America",
+}
+
+MISFIT_CSV = _resolve_raw(RAW_DIR, "misfit_final_analysis.csv")
+PROJECTS_SAMPLE_CSV = _resolve_raw(RAW_DIR, "projects_sample.csv")
+CBPF_PROJECTS_CSV = _resolve_raw(DATAML_RAW, "cbpf_projects.csv")  # optional: country-year allocations as projects
 CRISES_PARQUET = DATA_DIR / "crises.parquet"
 PROJECTS_PARQUET = DATA_DIR / "projects.parquet"
 
@@ -58,7 +99,9 @@ def build_crises() -> pd.DataFrame:
       - country/region: "Unknown" if missing (keep ISO3 when available)
     """
     if not MISFIT_CSV.exists():
-        raise FileNotFoundError(f"Raw CSV not found: {MISFIT_CSV}")
+        raise FileNotFoundError(
+            f"Raw crisis CSV not found. Place misfit_final_analysis.csv in backend/data/raw/ or dataml/data/raw/. See docs/DATA_SOURCES.md."
+        )
 
     df = pd.read_csv(
         MISFIT_CSV,
@@ -131,9 +174,9 @@ def build_crises() -> pd.DataFrame:
         df["severity"] = 3.0
     df["severity"] = df["severity"].clip(1.0, 5.0)
 
-    # region: ISO3 or "Unknown"
+    # country and region (region from map so we have Sahel, East Africa, etc.)
     df["country"] = df["_country_raw"].fillna("Unknown").replace("", "Unknown")
-    df["region"] = df["country"]
+    df["region"] = df["country"].str.upper().map(COUNTRY_TO_REGION).fillna(df["country"])
 
     # name: non-empty; construct "Crisis {id} {year}" if missing
     desc = df["Description"].fillna("").astype(str).str.strip()
@@ -170,7 +213,7 @@ def build_crises() -> pd.DataFrame:
 
 
 def build_projects() -> pd.DataFrame:
-    """Build projects table. Uses projects_sample.csv if present, else synthetic data."""
+    """Build projects table. Precedence: projects_sample.csv > cbpf_projects.csv (dataml) > synthetic."""
     if PROJECTS_SAMPLE_CSV.exists():
         df = pd.read_csv(PROJECTS_SAMPLE_CSV, na_values=["null", "NULL", ""])
         if (
@@ -184,9 +227,50 @@ def build_projects() -> pd.DataFrame:
                 else float("nan"),
                 axis=1,
             )
+        if "region" not in df.columns and "country" in df.columns:
+            df["region"] = df["country"].astype(str).str.upper().str.strip().map(
+                lambda c: COUNTRY_TO_REGION.get(c, c)
+            )
         return df
 
-    countries = ["AFG", "SYR", "YEM", "SSD", "COD", "SDN", "UKR", "ETH", "SOM", "HTI", "COL", "VEN", "MMR", "NGA"]
+    # Optional: use CBPF country-year allocations as projects (more countries/years)
+    if CBPF_PROJECTS_CSV.exists():
+        log.info("Using CBPF projects: %s", CBPF_PROJECTS_CSV)
+        df = pd.read_csv(CBPF_PROJECTS_CSV, na_values=["null", "NULL", ""])
+        col_map = {
+            "ProjectCode": "id",
+            "CountryISO3": "country",
+            "AllocationYear": "year",
+            "Cluster": "sector",
+            "Budget": "budget",
+            "PeopleTargeted": "beneficiaries",
+        }
+        rename = {k: v for k, v in col_map.items() if k in df.columns}
+        df = df.rename(columns=rename)
+        if "country" not in df.columns and "CountryISO3" in df.columns:
+            df["country"] = df["CountryISO3"]
+        if "year" not in df.columns and "AllocationYear" in df.columns:
+            df["year"] = df["AllocationYear"]
+        df["country"] = df["country"].astype(str).str.upper().str.strip()
+        df["year"] = pd.to_numeric(df["year"], errors="coerce").fillna(0).astype("int64")
+        df["sector"] = df.get("sector", pd.Series([""] * len(df))).fillna("").astype(str).replace("", "Humanitarian")
+        df["budget"] = pd.to_numeric(df.get("budget", 0), errors="coerce").fillna(0)
+        df["beneficiaries"] = pd.to_numeric(df.get("beneficiaries", 0), errors="coerce").fillna(0).astype("int64")
+        df["cost_per_beneficiary"] = df.apply(
+            lambda r: r["budget"] / r["beneficiaries"] if r["beneficiaries"] and r["beneficiaries"] > 0 else float("nan"),
+            axis=1,
+        )
+        df["name"] = df.get("id", pd.Series([""] * len(df))).astype(str) + " " + df["country"] + " " + df["year"].astype(str)
+        df["description"] = "CBPF allocation " + df["country"] + " " + df["year"].astype(str) + ", " + df["sector"]
+        df["region"] = df["country"].map(COUNTRY_TO_REGION).fillna(df["country"])
+        df["robust_under_shock"] = False
+        df = df[(df["year"] >= YEAR_MIN) & (df["year"] <= YEAR_MAX)]
+        out_cols = ["id", "name", "country", "year", "region", "sector", "description", "budget", "beneficiaries", "cost_per_beneficiary", "robust_under_shock"]
+        return df[[c for c in out_cols if c in df.columns]]
+
+    # Epicenter countries (DecisionSandbox): multiple projects each, year 2024. Then other countries by region.
+    epicenter_countries = ["MLI", "BFA", "NER", "TCD"]
+    other_countries = ["AFG", "SYR", "YEM", "SSD", "COD", "SDN", "UKR", "ETH", "SOM", "HTI", "COL", "VEN", "MMR", "NGA"]
     sectors = [
         "Health", "WASH", "Protection", "Food Security",
         "Shelter", "Education", "Nutrition", "Logistics",
@@ -203,26 +287,57 @@ def build_projects() -> pd.DataFrame:
     ]
 
     rows = []
-    for i, (desc, sector) in enumerate(templates * 2):
-        if i >= 25:
+    idx = 0
+    # 3 projects per epicenter country (2024) so we have real coverage for MLI, BFA, NER, TCD
+    for c in epicenter_countries:
+        region = COUNTRY_TO_REGION.get(c, c)
+        for k, (desc, sector) in enumerate(templates[:4]):  # 4 sectors per country
+            if k >= 3:
+                break
+            budget = 500_000 + (idx * 120_000) % 3_000_000
+            beneficiaries = 5_000 + (idx * 800) % 50_000
+            cost_pb = budget / beneficiaries if beneficiaries > 0 else float("nan")
+            rows.append({
+                "id": f"PRJ{idx+1:03d}",
+                "name": f"{sector} project {c} 2024",
+                "country": c,
+                "year": 2024,
+                "region": region,
+                "sector": sector,
+                "description": desc,
+                "budget": float(budget),
+                "beneficiaries": int(beneficiaries),
+                "cost_per_beneficiary": cost_pb,
+                "robust_under_shock": idx % 5 == 0,
+            })
+            idx += 1
+
+    # Remaining countries: 1–2 projects each, mixed years (2022–2024)
+    all_other = other_countries * 2  # 2 per country
+    for i, c in enumerate(all_other):
+        if idx >= 80:
             break
-        c = countries[i % len(countries)]
-        y = 2022 + (i % 3) - 1
-        budget = 500_000 + (i * 120_000) % 3_000_000
-        beneficiaries = 5_000 + (i * 800) % 50_000
+        region = COUNTRY_TO_REGION.get(c, c)
+        desc, sector = templates[i % len(templates)]
+        y = 2022 + (i % 3)
+        budget = 500_000 + (idx * 120_000) % 3_000_000
+        beneficiaries = 5_000 + (idx * 800) % 50_000
         cost_pb = budget / beneficiaries if beneficiaries > 0 else float("nan")
         rows.append({
-            "id": f"PRJ{i+1:03d}",
+            "id": f"PRJ{idx+1:03d}",
             "name": f"{sector} project {c} {y}",
             "country": c,
             "year": y,
+            "region": region,
             "sector": sector,
             "description": desc,
             "budget": float(budget),
             "beneficiaries": int(beneficiaries),
             "cost_per_beneficiary": cost_pb,
-            "robust_under_shock": i % 5 == 0,
+            "robust_under_shock": idx % 5 == 0,
         })
+        idx += 1
+
     return pd.DataFrame(rows)
 
 

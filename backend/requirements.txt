@@ -1,4 +1,5 @@
 # AidSight backend dependencies
+python-dotenv>=1.0.0
 openpyxl>=3.1.0
 fastapi>=0.100.0
 uvicorn[standard]>=0.22.0
@@ -10,3 +11,7 @@ numpy>=1.24.0
 # Success Twin embeddings
 sentence-transformers>=2.2.0
 scikit-learn>=1.3.0
+
+# Actian VectorAI DB (optional – for Similar Projects vector search)
+# Install from GitHub wheel if not on PyPI:
+#   pip install "https://github.com/hackmamba-io/actian-vectorAI-db-beta/raw/main/actiancortex-0.1.0b1-py3-none-any.whl"

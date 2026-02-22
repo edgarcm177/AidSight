@@ -35,6 +35,7 @@ export function DecisionSandbox({
             onChange={(e) => setEpicenter(e.target.value)}
             className="w-full bg-[#1a1f2e] border border-gray-700 rounded px-3 py-3 text-sm text-gray-200 appearance-none cursor-pointer hover:border-gray-600 transition-colors focus:outline-none focus:ring-2 focus:ring-teal-500"
           >
+            <option value="">Select epicenter…</option>
             <option value="MLI">Mali (2024)</option>
             <option value="BFA">Burkina Faso (2024)</option>
             <option value="NER">Niger (2024)</option>
@@ -104,10 +105,10 @@ export function DecisionSandbox({
       {/* Run Button */}
       <button
         onClick={onRunScenario}
-        disabled={simulationLoading}
+        disabled={simulationLoading || !epicenter}
         className="w-full bg-teal-600 hover:bg-teal-500 disabled:opacity-50 disabled:cursor-not-allowed text-white py-3.5 rounded text-sm font-semibold tracking-wide transition-colors focus:outline-none focus:ring-2 focus:ring-teal-500"
       >
-        {simulationLoading ? 'RUNNING...' : 'RUN AFTERSHOCK'}
+        {simulationLoading ? 'Running…' : 'Run Aftershock'}
       </button>
 
       {/* Custom Slider CSS directly injected */}
