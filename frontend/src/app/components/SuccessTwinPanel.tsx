@@ -6,7 +6,6 @@ import type {
   AftershockResult,
   VectorNeighbor,
   ProjectListItem,
-  CrisisProjectResponse,
 } from '../../lib/api';
 import { explainCrisis, getVectorNeighbors } from '../../lib/api';
 
@@ -14,8 +13,9 @@ interface SuccessTwinPanelProps {
   crises: Crisis[];
   epicenter: string;
   simulationResult: AftershockResult | null;
-  /** Project for the selected epicenter (exact or nearest fallback). Null only when no projects in dataset. */
-  crisisProject: CrisisProjectResponse | null;
+  projects: ProjectListItem[];
+  selectedProjectId: string;
+  onProjectChange: (projectId: string) => void;
   twinResult: TwinResult | null;
   twinLoading: boolean;
   twinError: string | null;
@@ -94,7 +94,9 @@ export function SuccessTwinPanel({
   crises,
   epicenter,
   simulationResult,
-  crisisProject,
+  projects,
+  selectedProjectId,
+  onProjectChange,
   twinResult,
   twinLoading,
   twinError,
@@ -174,11 +176,10 @@ export function SuccessTwinPanel({
   };
 
   const handleFetchNeighbors = async () => {
-    if (!crisisProject?.id) return;
     setNeighborsLoading(true);
     setNeighbors(null);
     try {
-      const res = await getVectorNeighbors(crisisProject.id);
+      const res = await getVectorNeighbors(selectedProjectId);
       setNeighbors(res.neighbors || []);
     } catch {
       setNeighbors([]);
@@ -334,48 +335,42 @@ export function SuccessTwinPanel({
             <section>
               <h3 className="text-xs uppercase tracking-wider text-gray-500 mb-4">Success Twin</h3>
               <div className="bg-[#1a1f2e] border border-gray-800 rounded-lg p-4 space-y-3">
-                {!epicenter ? (
-                  <p className="text-sm text-gray-500">Select an epicenter crisis (left) to find a Success Twin for a project in that crisis.</p>
-                ) : !crisisProject ? (
-                  <p className="text-sm text-gray-500">No project data available. Run preprocess to generate projects.</p>
-                ) : (
-                  <>
-                    {crisisProject.fallback ? (
-                      <p className="text-xs text-amber-400/90">
-                        No project in {epicenter} 2024; using {crisisProject.fallback_reason === 'same_region' && crisisProject.region ? `same region (${crisisProject.region}): ` : 'nearest context: '}
-                        <span className="text-teal-400">{crisisProject.name || crisisProject.id}</span>
-                        {crisisProject.country != null || crisisProject.year != null ? (
-                          <span className="text-gray-500 ml-1">({crisisProject.country} {crisisProject.year})</span>
-                        ) : null}
-                        {crisisProject.id && <span className="text-gray-500 ml-1">— {crisisProject.id}</span>}
-                      </p>
-                    ) : (
-                      <p className="text-xs text-gray-500">
-                        Project in this crisis: <span className="text-teal-400">{crisisProject.name || crisisProject.id}</span>
-                        {crisisProject.id && <span className="text-gray-500 ml-1">({crisisProject.id})</span>}
-                      </p>
+                <div>
+                  <label className="block text-xs text-gray-500 mb-1">Project to match</label>
+                  <select
+                    value={selectedProjectId}
+                    onChange={(e) => onProjectChange(e.target.value)}
+                    className="w-full bg-[#0f1421] border border-gray-700 rounded px-3 py-2 text-sm text-gray-200 focus:border-teal-500 focus:ring-1 focus:ring-teal-500"
+                  >
+                    {projects.length === 0 && <option value={selectedProjectId}>{selectedProjectId}</option>}
+                    {projects.map((p) => {
+                      const label = p.name || [p.sector, p.country, p.year].filter(Boolean).join(', ') || p.id;
+                      return (
+                        <option key={p.id} value={p.id}>
+                          {p.id} — {label}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </div>
+                <button onClick={onFindTwin} disabled={twinLoading} className="text-teal-400 hover:text-teal-300 text-sm font-medium transition-colors">
+                  {twinLoading ? 'Searching...' : 'Find Success Twin ↗'}
+                </button>
+                {twinResult && (
+                  <div className="pt-3 border-t border-gray-800 text-sm text-gray-300 space-y-2">
+                    <div>
+                      <span className="text-gray-500">Twin: </span>
+                      <span className="font-medium text-teal-400">{twinResult.twin_name ?? twinResult.twin_project_id}</span>
+                      <span className="text-gray-500 ml-1">({twinResult.twin_project_id})</span>
+                    </div>
+                    {twinResult.bullets?.length > 0 && (
+                      <ul className="list-disc list-inside text-gray-400 text-xs space-y-1">
+                        {twinResult.bullets.map((b, i) => (
+                          <li key={i}>{b}</li>
+                        ))}
+                      </ul>
                     )}
-                    <button onClick={onFindTwin} disabled={twinLoading} className="text-teal-400 hover:text-teal-300 text-sm font-medium transition-colors disabled:opacity-50">
-                      {twinLoading ? 'Searching...' : 'Find Success Twin ↗'}
-                    </button>
-                    {twinError && <p className="text-xs text-red-400">{twinError}</p>}
-                    {twinResult && (
-                      <div className="pt-3 border-t border-gray-800 text-sm text-gray-300 space-y-2">
-                        <div>
-                          <span className="text-gray-500">Twin: </span>
-                          <span className="font-medium text-teal-400">{twinResult.twin_name ?? twinResult.twin_project_id}</span>
-                          <span className="text-gray-500 ml-1">({twinResult.twin_project_id})</span>
-                        </div>
-                        {twinResult.bullets?.length > 0 && (
-                          <ul className="list-disc list-inside text-gray-400 text-xs space-y-1">
-                            {twinResult.bullets.map((b, i) => (
-                              <li key={i}>{b}</li>
-                            ))}
-                          </ul>
-                        )}
-                      </div>
-                    )}
-                  </>
+                  </div>
                 )}
               </div>
             </section>
@@ -383,45 +378,41 @@ export function SuccessTwinPanel({
             <section>
               <h3 className="text-xs uppercase tracking-wider text-gray-500 mb-4">Similar projects (VectorAI)</h3>
               <div className="bg-[#1a1f2e] border border-gray-800 rounded-lg p-4">
-                {crisisProject ? (
-                  <>
-                    <p className="text-xs text-gray-500 mb-2">
-                      {crisisProject.fallback ? 'Similar to nearest context project: ' : 'Similar to project in this crisis: '}
-                      <span className="text-teal-400">{crisisProject.name ?? crisisProject.id}</span>
-                      <span className="text-gray-500 ml-1">({crisisProject.id})</span>
-                    </p>
-                    <button
-                      onClick={handleFetchNeighbors}
-                      disabled={neighborsLoading}
-                      className="text-teal-400 hover:text-teal-300 text-sm font-medium transition-colors disabled:opacity-50"
-                    >
-                      {neighborsLoading ? 'Loading…' : 'Find similar projects'}
-                    </button>
-                    {neighbors !== null && (neighbors.length === 0 ? (
-                      <p className="text-sm text-gray-500 mt-3">No similar projects available yet.</p>
-                    ) : (
-                      <ul className="mt-3 space-y-2 text-sm text-gray-300">
-                        {neighbors?.map((n, idx) => {
-                          const id = n.project_id ?? n.id ?? '—';
-                          const meta = [n.country, n.cluster].filter(Boolean).join(' · ');
-                          const ratioPct = typeof n.ratio === 'number' ? `${Math.round(n.ratio * 100)}% funded` : '';
-                          const extra = [meta, ratioPct].filter(Boolean).join(' · ');
-                          return (
-                            <li key={String(id) + idx}>
-                              <span className="font-mono text-teal-400">{id}</span>
-                              {extra && <span className="text-gray-500 ml-2">{extra}</span>}
-                              {typeof n.similarity_score === 'number' && (
-                                <span className="text-gray-500 ml-2">({(n.similarity_score * 100).toFixed(0)}% similar)</span>
-                              )}
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    ))}
-                  </>
+                <p className="text-xs text-gray-500 mb-2">
+                  Similar to{' '}
+                  <span className="text-teal-400">
+                    {projects.find((p) => p.id === selectedProjectId)?.name ?? selectedProjectId}
+                  </span>
+                  {selectedProjectId && <span className="text-gray-500 ml-1">({selectedProjectId})</span>}
+                </p>
+                <button
+                  onClick={handleFetchNeighbors}
+                  disabled={neighborsLoading}
+                  className="text-teal-400 hover:text-teal-300 text-sm font-medium transition-colors disabled:opacity-50"
+                >
+                  {neighborsLoading ? 'Loading…' : 'Find similar projects'}
+                </button>
+                {neighbors !== null && (neighbors.length === 0 ? (
+                  <p className="text-sm text-gray-500 mt-3">No similar projects available yet.</p>
                 ) : (
-                  <p className="text-sm text-gray-500">Select an epicenter with a linked project to find similar projects.</p>
-                )}
+                  <ul className="mt-3 space-y-2 text-sm text-gray-300">
+                    {neighbors?.map((n, idx) => {
+                      const id = n.project_id ?? n.id ?? '—';
+                      const meta = [n.country, n.cluster].filter(Boolean).join(' · ');
+                      const ratioPct = typeof n.ratio === 'number' ? `${Math.round(n.ratio * 100)}% funded` : '';
+                      const extra = [meta, ratioPct].filter(Boolean).join(' · ');
+                      return (
+                        <li key={String(id) + idx}>
+                          <span className="font-mono text-teal-400">{id}</span>
+                          {extra && <span className="text-gray-500 ml-2">{extra}</span>}
+                          {typeof n.similarity_score === 'number' && (
+                            <span className="text-gray-500 ml-2">({(n.similarity_score * 100).toFixed(0)}% similar)</span>
+                          )}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                ))}
               </div>
             </section>
 

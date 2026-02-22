@@ -248,35 +248,13 @@ export interface ProjectListItem {
   sector?: string;
   country?: string;
   year?: number;
-  region?: string;
   description?: string;
-}
-
-/** Response from GET /projects/for_crisis; may be a fallback when no project in selected country/year. */
-export interface CrisisProjectResponse extends ProjectListItem {
-  fallback?: boolean;
-  fallback_reason?: string; // e.g. "same_region", "nearest_year", "no_project_in_country"
-  region?: string;
 }
 
 export async function fetchProjects(): Promise<ProjectListItem[]> {
   const res = await fetch(getUrl("/projects/"));
   if (!res.ok) throw new Error("Failed to fetch projects");
   return res.json() as Promise<ProjectListItem[]>;
-}
-
-/** Project for the selected crisis (epicenter). Uses nearest country/year fallback when no exact match. */
-export async function fetchProjectForCrisis(
-  country: string,
-  year?: number
-): Promise<CrisisProjectResponse | null> {
-  if (!country?.trim()) return null;
-  const params = new URLSearchParams({ country: country.trim().toUpperCase() });
-  if (year != null) params.set("year", String(year));
-  const res = await fetch(getUrl(`/projects/for_crisis?${params}`));
-  if (res.status === 404) return null;
-  if (!res.ok) throw new Error("Failed to fetch project for crisis");
-  return res.json() as Promise<CrisisProjectResponse>;
 }
 
 export async function getVectorNeighbors(projectId: string, topK = 5): Promise<VectorNeighborsResponse> {

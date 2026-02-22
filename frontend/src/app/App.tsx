@@ -4,7 +4,7 @@ import { ImpactPanel } from './components/ImpactPanel';
 import { SuccessTwinPanel } from './components/SuccessTwinPanel';
 import {
   fetchCrises,
-  fetchProjectForCrisis,
+  fetchProjects,
   simulateAftershock,
   AFTERSHOCK_ERROR_MESSAGE,
   fetchTwin,
@@ -13,11 +13,11 @@ import {
   type AftershockResult,
   type TwinResult,
   type MemoResponse,
-  type CrisisProjectResponse,
+  type ProjectListItem,
 } from '../lib/api';
 import { reportDiagnostics } from '../lib/diagnostics';
 
-const CRISIS_YEAR = 2024; // Epicenter dropdown options are e.g. "Mali (2024)"
+const DEFAULT_PROJECT_ID = 'PRJ001';
 
 export default function App() {
   const [crises, setCrises] = useState<Crisis[]>([]);
@@ -25,9 +25,9 @@ export default function App() {
   const [crisesError, setCrisesError] = useState<string | null>(null);
   const [selectedCrisisId, setSelectedCrisisId] = useState<string | null>(null);
 
-  /** Project for selected epicenter (exact or nearest fallback). Null only when no projects in dataset. */
-  const [crisisProject, setCrisisProject] = useState<CrisisProjectResponse | null>(null);
-
+  const [projects, setProjects] = useState<ProjectListItem[]>([]);
+  const [selectedProjectId, setSelectedProjectId] = useState(DEFAULT_PROJECT_ID);
+  
   // --- AFTERSHOCK STATE ---
   const [epicenter, setEpicenter] = useState('');
   const [fundingAdjustment, setFundingAdjustment] = useState(-20);
@@ -67,14 +67,10 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (!epicenter?.trim()) {
-      setCrisisProject(null);
-      return;
-    }
-    fetchProjectForCrisis(epicenter, CRISIS_YEAR)
-      .then(setCrisisProject)
-      .catch(() => setCrisisProject(null));
-  }, [epicenter]);
+    fetchProjects()
+      .then(setProjects)
+      .catch(() => setProjects([]));
+  }, []);
 
   const handleEpicenterChange = (value: string) => {
     setEpicenter(value);
@@ -162,8 +158,7 @@ export default function App() {
     setTwinLoading(true);
     setTwinError(null);
     try {
-      if (!crisisProject?.id) return;
-      const result = await fetchTwin(crisisProject.id);
+      const result = await fetchTwin(selectedProjectId);
       setTwinResult(result);
     } catch (err) {
       setTwinError(err instanceof Error ? err.message : 'Failed to find twin');
@@ -264,7 +259,10 @@ export default function App() {
             key={epicenter}
             crises={crises}
             epicenter={epicenter}
-            crisisProject={crisisProject}
+            simulationResult={simulationResult}
+            projects={projects}
+            selectedProjectId={selectedProjectId}
+            onProjectChange={setSelectedProjectId}
             twinResult={twinResult}
             twinLoading={twinLoading}
             twinError={twinError}
