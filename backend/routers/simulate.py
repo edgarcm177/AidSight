@@ -3,6 +3,8 @@ from fastapi import APIRouter, HTTPException
 from ..models import (
     ScenarioInput,
     SimulationResult,
+    SimulateRequest,
+    SimulateResponse,
     AftershockParams,
     AftershockResult,
     AffectedCountryImpact,
@@ -16,6 +18,25 @@ from ..services.dataml_client import run_simulate_aftershock
 router = APIRouter()
 
 _crises_df = data_loader.load_crises()
+
+
+@router.post("/shock", response_model=SimulateResponse)
+def simulate_shock(request: SimulateRequest):
+    """
+    Aftershock simulation via DataML. Direct pass-through to simulate_aftershock.
+    Matches DataML contract: node_iso3, delta_funding_pct, horizon_years.
+    """
+    try:
+        from dataml.src.simulate_aftershock import simulate_aftershock
+
+        out = simulate_aftershock(
+            node_iso3=request.country.upper(),
+            delta_funding_pct=request.delta_funding_pct,
+            horizon_years=request.horizon_steps,
+        )
+        return SimulateResponse.model_validate(out)
+    except Exception as e:
+        raise HTTPException(status_code=503, detail=f"DataML simulate_aftershock failed: {e}")
 
 
 @router.post("/", response_model=SimulationResult)

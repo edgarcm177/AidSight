@@ -84,7 +84,37 @@ class MemoResponse(BaseModel):
     key_risks: List[str]
 
 
-# --- Aftershock Simulation (Aftershock pivot) ---
+# --- Aftershock Simulation (DataML contract) ---
+
+
+class SimulateRequest(BaseModel):
+    """Request for DataML simulate_aftershock. Matches dataml contract."""
+    country: str  # ISO3, e.g., "BFA"
+    delta_funding_pct: float  # e.g., -0.2 for -20%
+    horizon_steps: int = 2
+
+
+class AffectedCountry(BaseModel):
+    """Per-country impact from DataML simulate_aftershock."""
+    country: str
+    delta_severity: float
+    delta_displaced: float  # numerical impact; can have decimal places
+    extra_cost_usd: float
+    prob_underfunded_next: float
+
+
+class SimulateResponse(BaseModel):
+    """Response from DataML simulate_aftershock. Pass-through schema."""
+    baseline_year: int
+    epicenter: str
+    delta_funding_pct: float
+    affected: list[AffectedCountry]
+    total_extra_displaced: float  # numerical impact; can have decimal places
+    total_extra_cost_usd: float
+    notes: list[str]
+
+
+# --- Aftershock (legacy/extended schema) ---
 
 
 class AftershockParams(BaseModel):
